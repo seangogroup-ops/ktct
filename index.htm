@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNG EDU - Ôn Tập Kinh Tế Chính Trị Mac-Lênin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --blue:       #1a4f9a;
+            --blue-dark:  #0d3270;
+            --blue-light: #e8f0fb;
+            --red:        #d63031;
+            --red-light:  #fff0f0;
+            --bg:         #f0f4fb;
+            --card:       #ffffff;
+            --text:       #1e293b;
+            --muted:      #64748b;
+            --border:     #dde4ef;
+            --accent:     #f59e0b;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 36px 16px 48px;
+        }
+
+        /* ── LOGO ─────────────────────────────── */
+        .logo-wrap {
+            position: fixed;
+            top: 20px; left: 20px;
+            z-index: 999;
+        }
+        .logo-box {
+            width: 52px; height: 52px;
+            background: var(--blue);
+            color: #fff;
+            font-size: 17px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 6px 18px rgba(26,79,154,.30);
+            transition: transform .2s, box-shadow .2s;
+        }
+        .logo-box:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(26,79,154,.38); }
+
+        /* ── WRAPPER ──────────────────────────── */
+        .wrap {
+            width: 100%;
+            max-width: 660px;
+        }
+
+        /* ── TOP BANNER ───────────────────────── */
+        .top-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blue-light);
+            border: 1.5px solid #c5d8f8;
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            transition: background .18s;
+        }
+        .top-banner:hover { background: #d6e6fd; }
+        .top-banner .icon { font-size: 16px; }
+        .top-banner span {
+            color: var(--blue-dark);
+            font-size: 13.5px;
+            font-weight: 800;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+        }
+
+        /* ── PROMO STRIP ──────────────────────── */
+        .promo {
+            text-align: center;
+            background: var(--red-light);
+            border: 1.5px dashed #f8b4b4;
+            border-radius: 10px;
+            padding: 9px 16px;
+            margin-bottom: 22px;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--red);
+            letter-spacing: .5px;
+            text-transform: uppercase;
+        }
+
+        /* ── MAIN CARD ────────────────────────── */
+        .main-card {
+            background: var(--card);
+            border-radius: 20px;
+            border: 1.5px solid #dde4ef;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(26,79,154,.07);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--blue) 0%, #1060b8 100%);
+            padding: 28px 28px 24px;
+            text-align: center;
+            position: relative;
+        }
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            height: 20px;
+            background: var(--card);
+            border-radius: 20px 20px 0 0;
+        }
+        .card-header h1 {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+        }
+        .card-header .subtitle {
+            margin-top: 6px;
+            color: rgba(255,255,255,.7);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-body {
+            padding: 8px 20px 24px;
+        }
+
+        /* ── SECTION LABEL ────────────────────── */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin: 20px 0 10px;
+        }
+        .section-label::before,
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── CHAPTER ITEMS ────────────────────── */
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chapter-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            background: #fff;
+            transition: all .18s ease;
+            cursor: pointer;
+        }
+        .chapter-item:hover {
+            border-color: var(--blue);
+            background: var(--blue-light);
+            transform: translateX(4px);
+            box-shadow: 0 4px 14px rgba(26,79,154,.10);
+        }
+
+        .ch-num {
+            width: 34px; height: 34px;
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--blue);
+            flex-shrink: 0;
+            transition: all .18s;
+        }
+        .chapter-item:hover .ch-num {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+        }
+
+        .ch-info { flex: 1; min-width: 0; }
+        .ch-name {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .chapter-item:hover .ch-name { color: var(--blue-dark); }
+
+        .ch-range {
+            font-size: 11.5px;
+            color: var(--muted);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .btn-mo-ngay {
+            background: var(--blue);
+            color: #fff;
+            font-size: 11.5px;
+            font-weight: 800;
+            padding: 7px 15px;
+            border-radius: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            transition: background .18s;
+        }
+        .chapter-item:hover .btn-mo-ngay { background: var(--blue-dark); }
+
+        /* ── SPECIAL (random) ─────────────────── */
+        .chapter-item.special {
+            border-color: #fde68a;
+            background: #fffbeb;
+        }
+        .chapter-item.special:hover {
+            border-color: var(--accent);
+            background: #fef3c7;
+        }
+        .chapter-item.special .ch-num {
+            background: #fef3c7;
+            border-color: #fde68a;
+            color: #92400e;
+        }
+        .chapter-item.special:hover .ch-num {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+        .chapter-item.special .btn-mo-ngay { background: var(--accent); color: #78350f; }
+        .chapter-item.special:hover .btn-mo-ngay { background: #d97706; color: #fff; }
+
+        /* ── FOOTER ───────────────────────────── */
+        footer {
+            margin-top: 24px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        footer a { color: var(--blue); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<a href="https://www.sngedu.site/" class="logo-box logo-wrap">SNG</a>
+
+<div class="wrap">
+
+    <a href="#" class="top-banner">
+        <span class="icon">📌</span>
+        <span>HDSD: Click xem hướng dẫn</span>
+    </a>
+
+    <p class="promo">🎁 Thêm trắc nghiệm miễn phí — không mua bán</p>
+
+    <div class="main-card">
+        <div class="card-header">
+            <h1>Ôn Tập Kinh Tế Chính Trị<br>Mac-Lênin</h1>
+            <p class="subtitle">Chọn chương để bắt đầu ôn tập</p>
+        </div>
+        <div class="card-body">
+            <div class="section-label">Nội dung chính</div>
+            <div class="chapter-list" id="mainList"></div>
+
+            <div class="section-label">Bổ sung</div>
+            <div class="chapter-list" id="boSungList"></div>
+
+            <div class="section-label">Đề thi thử</div>
+            <div class="chapter-list" id="deThiList"></div>
+        </div>
+    </div>
+
+</div>
+
+<footer>SNG &copy; <a href="https://www.sngedu.site/">H.N.TấnHải</a> &nbsp;·&nbsp; sngedu.site</footer>
+
+<script>
+    const main = [
+        { label: "Chương 1", sub: "Câu 1 – 60",   num: "C1",  file: "1-60" },
+        { label: "Chương 2 · P1", sub: "Câu 61 – 110",  num: "C2A", file: "61-110" },
+        { label: "Chương 2 · P2", sub: "Câu 111 – 160", num: "C2B", file: "111-160" },
+        { label: "Chương 3 · P1", sub: "Câu 161 – 200", num: "C3A", file: "161-200" },
+        { label: "Chương 3 · P2", sub: "Câu 201 – 240", num: "C3B", file: "201-240" },
+        { label: "Chương 3 · P3", sub: "Câu 241 – 280", num: "C3C", file: "241-280" },
+        { label: "Chương 4", sub: "Câu 281 – 340", num: "C4",  file: "281-340" },
+        { label: "Chương 5", sub: "Câu 341 – 370", num: "C5",  file: "341-370" },
+        { label: "Chương 6", sub: "Câu 371 – 400", num: "C6",  file: "371-400" },
+    ];
+    const bosung = [
+        { label: "Bổ sung 2022 – 2023", sub: "", num: "22", file: "bosung 2022-2023" },
+        { label: "Bổ sung 2023 – 2024", sub: "", num: "23", file: "bosung 2023-2024" },
+        { label: "Bổ sung 2024 – 2025", sub: "", num: "24", file: "bosung 2024-2025" },
+        { label: "Bổ sung 2025 – 2026", sub: "", num: "25", file: "bosung 2025-2026" },
+    ];
+    const dethi = [
+        { label: "Đề thi thử Tổng hợp", sub: "Random – Toàn bộ câu hỏi", num: "🎲", file: "DETHITHU radomDe", special: true },
+    ];
+
+    function buildList(containerId, items) {
+        const el = document.getElementById(containerId);
+        items.forEach(ch => {
+            const a = document.createElement('a');
+            a.className = 'chapter-item' + (ch.special ? ' special' : '');
+            a.href = 'ktct/' + ch.file + '.htm';
+            a.innerHTML = `
+                <div class="ch-num">${ch.num}</div>
+                <div class="ch-info">
+                    <div class="ch-name">${ch.label}</div>
+                    ${ch.sub ? `<div class="ch-range">${ch.sub}</div>` : ''}
+                </div>
+                <div class="btn-mo-ngay">Mở ngay</div>
+            `;
+            el.appendChild(a);
+        });
+    }
+
+    buildList('mainList', main);
+    buildList('boSungList', bosung);
+    buildList('deThiList', dethi);
+</script>
+</body>
+</html>
