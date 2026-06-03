@@ -3,112 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hệ Thống Trắc Nghiệm Random - SNG EDU</title>
-    
-    <!-- KaTeX Support -->
+    <title>Trắc Nghiệm Random - Kinh tế Chính trị</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         :root {
-            --bg-body: #f0f2f5; --white: #ffffff; --text-main: #333333;
-            --text-gray: #6b7280; --azota-blue: #3258db; --selected-bg: #eef2ff;
-            --selected-border: #6366f1; --correct-color: #22c55e; --wrong-color: #ef4444;
-            --explanation-bg: #f8fafc;
+            --bg-body:#f0f2f5;--white:#fff;--text-main:#333;--text-gray:#6b7280;
+            --blue:#3258db;--sel-bg:#eef2ff;--sel-bd:#6366f1;
+            --ok:#22c55e;--bad:#ef4444;--ex-bg:#f8fafc;
         }
+        *{box-sizing:border-box;margin:0;padding:0;font-family:'Roboto',sans-serif;-webkit-tap-highlight-color:transparent}
+        body{background:var(--bg-body);color:var(--text-main);line-height:1.6}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
+        header{background:var(--white);height:60px;display:flex;align-items:center;justify-content:space-between;
+            padding:0 20px;box-shadow:0 1px 3px rgba(0,0,0,.1);position:fixed;top:0;width:100%;z-index:1000}
+        .h-left{display:flex;align-items:center;gap:10px}
+        .h-title{font-weight:700;color:var(--blue);font-size:1rem}
+        .btn-new{background:#f3f4f6;color:var(--text-gray);border:1px solid #e5e7eb;padding:7px 14px;
+            border-radius:6px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;font-size:.9rem}
+        .btn-new:hover{background:#e5e7eb}
+        .h-right{display:flex;align-items:center;gap:15px}
+        .timer{font-weight:700;color:var(--blue);font-size:1.1rem}
+        .timer.warn{color:var(--bad);animation:blink 1s infinite}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+        .btn-submit{background:var(--blue);color:#fff;border:none;padding:8px 20px;border-radius:6px;
+            font-weight:500;cursor:pointer;display:flex;align-items:center;gap:8px}
+        .btn-submit:hover{background:#2347c5}
 
-        header {
-            background-color: var(--white); height: 60px; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position: fixed; top: 0; width: 100%; z-index: 1000;
-        }
-        .header-left { display: flex; align-items: center; gap: 8px; color: var(--text-gray); cursor: pointer; font-weight: 500; }
-        .header-right { display: flex; align-items: center; gap: 15px; }
-        .timer { font-weight: 700; color: var(--azota-blue); font-size: 1.1rem; }
-        .btn-submit { background-color: var(--azota-blue); color: white; border: none; padding: 8px 20px; border-radius: 6px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 9999; position: relative; pointer-events: auto; }
+        .settings-bar{max-width:1200px;margin:70px auto 0;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+        .sg{display:flex;align-items:center;gap:8px;background:#fff;padding:8px 14px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+        .sg label{font-size:.85rem;color:var(--text-gray);font-weight:500;white-space:nowrap}
+        .sg select,.sg input[type=number]{border:1px solid #e5e7eb;border-radius:6px;padding:5px 8px;font-size:.9rem;color:var(--text-main);background:#fff}
+        .sg input[type=number]{width:65px}
+        .stat-badge{background:#eef2ff;color:var(--blue);padding:4px 12px;border-radius:20px;font-size:.85rem;font-weight:600}
 
-        .layout { display: flex; max-width: 1200px; margin: 80px auto 40px; padding: 0 20px; gap: 25px; }
-        .questions-col { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-        .q-card { background: var(--white); border-radius: 12px; padding: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .q-title { font-weight: 700; color: var(--azota-blue); margin-bottom: 8px; }
-        .options-wrapper { display: flex; flex-direction: column; gap: 10px; }
-        .option-item { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .option-item input { display: none; }
-        .opt-letter { width: 36px; height: 36px; border: 1px solid #d1d5db; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 500; flex-shrink: 0; }
-        .opt-text { border: 1px solid #d1d5db; padding: 12px 15px; border-radius: 10px; flex: 1; transition: 0.2s; }
+        .layout{display:flex;max-width:1200px;margin:10px auto 40px;padding:0 20px;gap:25px}
+        .q-col{flex:1;display:flex;flex-direction:column;gap:20px}
+        .q-card{background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
+        .q-num{font-weight:700;color:var(--blue);margin-bottom:4px;font-size:.95rem}
+        .q-src{font-size:.72rem;color:#9ca3af;margin-bottom:10px}
+        .opts{display:flex;flex-direction:column;gap:10px;margin-top:15px}
+        .opt{display:flex;align-items:center;gap:12px;cursor:pointer}
+        .opt input{display:none}
+        .opt-l{width:36px;height:36px;border:1px solid #d1d5db;border-radius:50%;display:flex;align-items:center;
+            justify-content:center;font-weight:500;flex-shrink:0;transition:.2s}
+        .opt-t{border:1px solid #d1d5db;padding:12px 15px;border-radius:10px;flex:1;transition:.2s}
+        .opt input:checked~.opt-l{background:var(--blue);color:#fff;border-color:var(--blue)}
+        .opt input:checked~.opt-t{border-color:var(--sel-bd);background:var(--sel-bg)}
+        .opt.ok .opt-l{background:var(--ok)!important;color:#fff!important;border-color:var(--ok)!important}
+        .opt.ok .opt-t{border-color:var(--ok)!important;background:#f0fdf4!important}
+        .opt.bad .opt-l{background:var(--bad)!important;color:#fff!important;border-color:var(--bad)!important}
+        .opt.bad .opt-t{border-color:var(--bad)!important;background:#fef2f2!important}
+        .ex-box{margin-top:15px;padding:15px;background:var(--ex-bg);border-left:4px solid var(--blue);
+            border-radius:4px;display:none;font-size:.9rem;line-height:1.6}
+        .ex-box.show{display:block}
 
-        .option-item input:checked ~ .opt-letter { background: var(--azota-blue); color: white; border-color: var(--azota-blue); }
-        .option-item input:checked ~ .opt-text { border-color: var(--selected-border); background-color: var(--selected-bg); }
+        .sb-col{width:300px;position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;display:flex;flex-direction:column;gap:15px}
+        .sb-box{background:#fff;padding:18px;border-radius:12px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
+        .sb-title{font-weight:700;color:var(--text-gray);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+        .nav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+        .nav-btn{aspect-ratio:1;border:1px solid #e5e7eb;border-radius:8px;display:flex;align-items:center;
+            justify-content:center;cursor:pointer;font-size:.8rem;transition:.15s;background:#fff}
+        .nav-btn:hover{background:#f3f4f6}
+        .nav-btn.answered{background:#eef2ff;color:var(--blue);border-color:var(--blue);font-weight:600}
+        .nav-btn.correct{background:var(--ok);color:#fff;border-color:var(--ok)}
+        .nav-btn.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
+        .prog-wrap{background:#f3f4f6;border-radius:10px;height:8px;overflow:hidden;margin-top:8px}
+        .prog-bar{background:var(--blue);height:100%;border-radius:10px;transition:width .3s;width:0}
 
-        .option-item.is-correct .opt-text { border-color: var(--correct-color) !important; background: #f0fdf4 !important; }
-        .option-item.is-wrong .opt-text { border-color: var(--wrong-color) !important; background: #fef2f2 !important; }
+        .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);
+            display:none;align-items:center;justify-content:center;z-index:2000}
+        .modal.open{display:flex}
+        .modal-box{background:#fff;padding:35px;border-radius:20px;text-align:center;width:380px;max-width:90vw}
+        .score-ring{width:120px;height:120px;border-radius:50%;
+            background:conic-gradient(var(--blue) 0%,#e5e7eb 0%);
+            display:flex;align-items:center;justify-content:center;margin:0 auto 15px}
+        .score-inner{width:88px;height:88px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center}
+        .score-num{font-size:2rem;font-weight:800;color:var(--blue)}
+        .r-stats{display:flex;gap:12px;justify-content:center;margin:15px 0}
+        .r-stat{background:#f8fafc;padding:10px 14px;border-radius:10px;text-align:center}
+        .r-stat-n{font-size:1.3rem;font-weight:700}
+        .r-stat-l{font-size:.73rem;color:var(--text-gray)}
+        .modal-btns{display:flex;gap:10px;margin-top:5px}
 
-        .explanation-box { margin-top: 15px; padding: 15px; background: var(--explanation-bg); border-left: 4px solid var(--azota-blue); border-radius: 4px; display: none; font-size: 0.95rem; }
-        .explanation-box.show { display: block; }
-
-        .sidebar-col { width: 320px; position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; }
-        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 15px; }
-        .nav-btn { aspect-ratio: 1; border: 1px solid #e5e7eb; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
-        .nav-btn.answered { background: #eef2ff; color: var(--azota-blue); border-color: var(--azota-blue); }
-        .nav-btn.correct { background: var(--correct-color); color: white; border-color: var(--correct-color); }
-        .nav-btn.wrong { background: var(--wrong-color); color: white; border-color: var(--wrong-color); }
-
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 2000; }
-        .modal-content { background: white; padding: 30px; border-radius: 16px; text-align: center; width: 350px; }
-
-        @media (max-width: 900px) {
-            .layout { flex-direction: column; }
-            .sidebar-col { width: 100%; position: static; }
-            .nav-grid { grid-template-columns: repeat(8, 1fr); }
-        }
+        @media(max-width:900px){.layout{flex-direction:column}.sb-col{width:100%;position:static}.nav-grid{grid-template-columns:repeat(8,1fr)}}
+        @media(max-width:500px){.nav-grid{grid-template-columns:repeat(10,1fr)}.h-title{display:none}}
     </style>
 </head>
 <body>
-
 <header>
-    <div class="header-left" onclick="location.reload()">
-        <i class="fa-solid fa-sync"></i> <span>Đổi đề mới</span>
+    <div class="h-left">
+        <span class="h-title"><i class="fa-solid fa-graduation-cap"></i> Kinh tế Chính trị</span>
+        <button class="btn-new" onclick="reloadExam()"><i class="fa-solid fa-shuffle"></i> Đề mới</button>
     </div>
-    <div class="header-right">
-        <div class="timer"><i class="fa-regular fa-clock"></i> <span id="timer-display">60:00</span></div>
+    <div class="h-right">
+        <div class="timer" id="timer-wrap"><i class="fa-regular fa-clock"></i> <span id="timer-disp">60:00</span></div>
         <button class="btn-submit" onclick="submitExam()"><i class="fa-solid fa-paper-plane"></i> Nộp bài</button>
     </div>
 </header>
 
+<div class="settings-bar">
+    <div class="sg">
+        <label><i class="fa-solid fa-list-check"></i> Số câu:</label>
+        <select id="sel-num">
+            <option value="40">40 câu</option>
+            <option value="60" selected>60 câu</option>
+            <option value="80">80 câu</option>
+            <option value="100">100 câu</option>
+            <option value="9999">Tất cả</option>
+        </select>
+    </div>
+    <div class="sg">
+        <label><i class="fa-regular fa-clock"></i> Thời gian:</label>
+        <input type="number" id="sel-time" value="60" min="5" max="300"> phút
+    </div>
+    <div class="sg">
+        <label><i class="fa-solid fa-database"></i> Nguồn:</label>
+        <select id="sel-src">
+            <option value="all">Tất cả (560 câu)</option>
+            <option value="0">Câu 1-60</option>
+            <option value="1">Câu 61-110</option>
+            <option value="2">Câu 111-160</option>
+            <option value="3">Câu 161-200</option>
+            <option value="4">Câu 201-240</option>
+            <option value="5">Câu 241-280</option>
+            <option value="6">Câu 281-340</option>
+            <option value="7">Câu 341-370</option>
+            <option value="8">Câu 371-400</option>
+            <option value="9">Bổ sung 2022-2023</option>
+            <option value="10">Bổ sung 2023-2024</option>
+            <option value="11">Bổ sung 2024-2025</option>
+            <option value="12">Bổ sung 2025-2026</option>
+        </select>
+    </div>
+    <div class="stat-badge" id="stat-badge">560 câu trong NHCH</div>
+</div>
+
 <div class="layout">
-    <div class="questions-col" id="questions-container"></div>
-    <div class="sidebar-col">
-        <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-            <div style="font-weight:700; color: var(--text-gray); font-size: 0.85rem; text-transform: uppercase;">Tiến trình làm bài</div>
+    <div class="q-col" id="q-container"></div>
+    <div class="sb-col">
+        <div class="sb-box">
+            <div class="sb-title">Tiến trình</div>
+            <div id="prog-text" style="font-size:.85rem;color:var(--text-gray);margin-bottom:6px">0 / 60 câu đã trả lời</div>
+            <div class="prog-wrap"><div class="prog-bar" id="prog-bar"></div></div>
+        </div>
+        <div class="sb-box">
+            <div class="sb-title">Bảng câu hỏi</div>
             <div class="nav-grid" id="nav-grid"></div>
         </div>
     </div>
 </div>
 
-<div class="modal" id="resultModal">
-    <div class="modal-content">
-        <h2>Kết Quả</h2>
-        <div style="font-size: 3.5rem; color: var(--azota-blue); font-weight: 800; margin: 10px 0;" id="final-score">0.0</div>
-        <p id="correct-count-text" style="color: var(--text-gray); margin-bottom: 25px;"></p>
-        <button class="btn-submit" style="width:100%; justify-content:center; padding:12px;" onclick="closeModal()">Xem lời giải</button>
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <h2 style="margin-bottom:15px">Kết Quả Bài Thi</h2>
+        <div class="score-ring" id="score-ring">
+            <div class="score-inner"><div class="score-num" id="final-score">0.0</div></div>
+        </div>
+        <div class="r-stats">
+            <div class="r-stat"><div class="r-stat-n" id="r-ok" style="color:var(--ok)">0</div><div class="r-stat-l">Đúng</div></div>
+            <div class="r-stat"><div class="r-stat-n" id="r-bad" style="color:var(--bad)">0</div><div class="r-stat-l">Sai</div></div>
+            <div class="r-stat"><div class="r-stat-n" id="r-skip" style="color:var(--text-gray)">0</div><div class="r-stat-l">Bỏ qua</div></div>
+        </div>
+        <p id="r-text" style="color:var(--text-gray);margin-bottom:20px;font-size:.9rem"></p>
+        <div class="modal-btns">
+            <button class="btn-new" style="flex:1;justify-content:center;padding:11px" onclick="reloadExam()"><i class="fa-solid fa-shuffle"></i> Đề mới</button>
+            <button class="btn-submit" style="flex:1;justify-content:center;padding:11px" onclick="closeModal()"><i class="fa-solid fa-eye"></i> Xem đáp án</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // Cấu trúc dữ liệu: Phân theo chương/phần
-        const database = [
+const database = [
         {
             name: "Câu 1-60",
             content: `
-
-
-
 Câu 1: Thuật ngữ Kinh tế chính trị xuất hiện lần đầu tiên vào năm nào sau đây?
 A. 1605
 *B. 1615
@@ -474,7 +546,6 @@ Gt: Đây là biểu hiện cốt lõi của chức năng phương pháp luận 
         {
             name: "Câu 61-110",
             content: `
-
 Câu 1: Khi tiền thực hiện chức năng thước đo giá trị thì được ngầm hiểu đó là:
 A. bitcoin.
 *B. tiền vàng.
@@ -1194,10 +1265,10 @@ C. khối lượng lợi nhuận.
 D. khối lượng giá trị thặng dư.
 Gt: Tỷ suất giá trị thặng dư ($m'$) là tỷ lệ phần trăm giữa giá trị thặng dư ($m$) và tư bản khả biến ($v$) để sản xuất ra giá trị thặng dư đó (Xem trang 100, giáo trình Kinh tế chính trị Mác – Lênin, 2021).
 Câu 19: Công thức tính khối lượng giá trị thặng dư là:
-A. $M = m \cdot V$
-B. $M = m'$
-*C. $M = m' \cdot V$
-D. $M = m \cdot C$
+A. $M = m . V$
+B. $M = m'. C$
+*C. $M = m' . V$
+D. $M = m . C$
 Gt: Công thức tính khối lượng giá trị thặng dư là $M = m' \cdot V$ ($M$ là khối lượng $m$, $m'$ là tỷ suất $m$, $V$ là tổng tư bản khả biến) (Xem trang 100, giáo trình Kinh tế chính trị Mác – Lênin, 2021).
 Câu 20: Hàng hóa sức lao động có các thuộc tính là:
 A. giá trị và giá trị trao đổi.
@@ -1614,9 +1685,6 @@ Gt: Lợi tức là một phần lợi nhuận bình quân mà người vay tr�
         {
             name: "Câu 241-280",
             content: `
-
-
-
 Câu 1: Xí nghiệp A có lượng tư bản đầu tư lần thứ nhất 200.000.000 đồng, cấu tạo hữu cơ của tư bản 4/1, tỷ suất giá trị thặng dư 100%, giá trị thặng dư được tư bản hóa 50%. Vậy lượng tư bản đầu tư lần thứ hai là bao nhiêu?
 *A. 220.000.000 đồng.
 B. 225.000.000 đồng.
@@ -1901,576 +1969,371 @@ Gt: v mỗi người = 5tr. m mỗi người = 50% * 5tr = 2,5tr. Giá trị m�
         {
             name: "Câu 281-340",
             content: `
-
-Câu 1: Ngày làm việc 8 giờ thì tỷ suất giá trị thặng dư 100%. Sau đó nhà tư bản kéo dài ngày làm việc đến 10 giờ. Vậy tỷ suất giá trị thặng dư thay đổi như thế nào nếu giá trị sức lao động không đổi và nhà tư bản sử dụng phương pháp sản xuất giá trị thặng dư nào?
-*A. 150%, sản xuất giá trị thặng dư tuyệt đối.
-B. 300%, sản xuất giá trị thặng dư tương đối.
-C. 300%, sản xuất giá trị thặng dư tuyệt đối.
-D. 150%, sản xuất giá trị thặng dư tương đối.
-Gt: Thời gian lao động tất yếu không đổi (t = 4 giờ), thời gian lao động thặng dư mới là 10 - 4 = 6 giờ. m' = (6/4) x 100% = 150%. Do kéo dài ngày lao động nên là phương pháp tuyệt đối (Trang 101).
-
-Câu 2: Nâng cao tỷ suất giá trị thặng dư, nâng cao năng suất lao động, sử dụng hiệu quả máy móc, đại lượng tư bản ứng trước là những nhân tố ảnh hưởng:
-*A. quy mô tích lũy tư bản.
-B. thời gian chu chuyển tư bản.
-C. quy mô tiết kiệm tư bản.
-D. tốc độ chu chuyển tư bản.
-Gt: Đây là các nhân tố chính ảnh hưởng tới quy mô tích lũy tư bản (Trang 106, 107).
-
-Câu 3: Tích tụ tư bản là kết quả trực tiếp của:
-*A. tích lũy tư bản.
-B. phát triển tư bản.
-C. tập trung tư bản.
-D. tiết kiệm tư bản.
-Gt: Tích tụ tư bản là kết quả trực tiếp của tích lũy tư bản (Trang 108).
-
-Câu 4: Cấu tạo giá trị của tư bản phản ánh mối quan hệ tỷ lệ giữa tư bản bất biến và:
-*A. tư bản khả biến.
-B. tư bản tiền tệ.
-C. tư bản sản xuất.
-D. tư bản lưu động.
-Gt: Cấu tạo giá trị phản ánh tỷ lệ giữa tư bản bất biến (c) với tư bản khả biến (v) (Trang 107).
-
-Câu 5: Để tái sản xuất sức lao động cần tiêu dùng: ăn uống 50.000 đồng/ngày, đồ gia dụng 29.200.000 đồng/năm, nhu cầu văn hóa 900.000 đồng/tháng. Vậy giá trị sức lao động trong ngày là bao nhiêu?
-A. 180.000 đồng.
-B. 200.000 đồng.
-C. 170.000 đồng.
-*D. 160.000 đồng.
-Gt: Tổng chi phí/ngày = 50.000 + (29.200.000/365) + (900.000/30) = 50.000 + 80.000 + 30.000 = 160.000 đồng.
-
-Câu 6: Tăng cấu tạo hữu cơ tư bản là một trong những hệ quả của:
-A. chu chuyển tư bản.
-*B. tích lũy tư bản.
-C. tuần hoàn tư bản.
-D. tiết kiệm tư bản.
-Gt: Tích lũy tư bản làm tăng cấu tạo hữu cơ của tư bản (Trang 107, 108).
-
-Câu 7: Xí nghiệp A có lượng tư bản đầu tư 200.000.000 đồng, c/v = 4/1, m' = 100%, m được tư bản hóa 50%. Nếu m' tăng lên 150% thì lượng m tư bản hóa tăng lên so với trước là bao nhiêu?
-A. 35.000.000 đồng.
-*B. 10.000.000 đồng.
-C. 20.000.000 đồng.
-D. 30.000.000 đồng.
-Gt: Lúc đầu tích lũy 20 triệu. Khi m' = 150%, m = 60 triệu, tích lũy 30 triệu. Tăng thêm 30 - 20 = 10 triệu đồng.
-
-Câu 8: Trong tái sản xuất giản đơn, toàn bộ giá trị thặng dư đã được nhà tư bản tiêu dùng cho:
-A. sản xuất.
-B. tư bản khả biến.
-C. tư bản bất biến.
-*D. cá nhân.
-Gt: Trong tái sản xuất giản đơn, toàn bộ m được tiêu dùng cho cá nhân (Trang 105).
-
-Câu 9: Tích tụ tư bản và tập trung tư bản giống nhau ở điểm nào sau đây?
-A. Làm tăng quy mô tư bản xã hội.
-B. Có chung hình thức biểu hiện.
-C. Có chung nguồn gốc tích lũy.
-*D. Làm tăng quy mô tư bản cá biệt.
-Gt: Cả hai đều làm tăng quy mô tư bản cá biệt (Trang 108).
-
-Câu 10: Cấu tạo kỹ thuật của tư bản phản ánh mối quan hệ tỷ lệ giữa số lượng tư liệu sản xuất và số lượng:
-A. quan hệ sản xuất.
-B. lao động.
-C. lực lượng sản xuất.
-*D. sức lao động.
-Gt: Cấu tạo kỹ thuật phản ánh tỷ lệ giữa số lượng tư liệu sản xuất và số lượng sức lao động (Trang 107).
-
-Câu 11: Tăng chênh lệch giữa thu nhập của nhà tư bản với thu nhập của người lao động làm thuê là hệ quả của:
-A. chu chuyển tư bản.
-*B. tích lũy tư bản.
-C. tiết kiệm tư bản.
-D. tuần hoàn tư bản.
-Gt: Đây là một trong các hệ quả của tích lũy tư bản (Trang 107, 108).
-
-Câu 12: Tích tụ tư bản là sự tăng thêm quy mô tư bản cá biệt bằng cách tư bản hóa:
-A. giá trị cá biệt.
-B. giá trị xã hội.
-C. giá trị sử dụng.
-*D. giá trị thặng dư.
-Gt: Tích tụ tư bản là sự tư bản hóa giá trị thặng dư (Trang 108).
-
-Câu 13: Tập trung tư bản có thể được thực hiện thông qua sáp nhập các:
-A. tư bản cho vay với nhau.
-B. tư bản thương nghiệp với nhau.
-*C. tư bản cá biệt với nhau.
-D. tư bản công nghiệp với nhau.
-Gt: Tập trung tư bản thực hiện qua hợp nhất các tư bản cá biệt (Trang 108).
-
-Câu 14: Sự tăng thêm quy mô của tư bản cá biệt bằng cách tư bản hóa giá trị thặng dư là:
-*A. tích tụ tư bản.
-B. phát triển tư bản.
-C. đầu tư tư bản.
-D. tập trung tư bản.
-Gt: Định nghĩa tích tụ tư bản (Trang 108).
-
-Câu 15: Xí nghiệp A có lượng tư bản đầu tư lần thứ nhất 200 triệu đồng, c/v = 4/1, m' = 100%, m được tư bản hóa 50%. Vậy lượng tư bản đầu tư lần thứ hai là bao nhiêu?
-A. 225.000.000 đồng.
-B. 235.000.000 đồng.
-*C. 220.000.000 đồng.
-D. 230.000.000 đồng.
-Gt: m = 40 triệu, phần tích lũy là 20 triệu. Tư bản lần hai = 200 + 20 = 220 triệu đồng.
-
-Câu 16: Xí nghiệp A đầu tư 10 tỷ đồng, c = 4v, m' = 50%, chu chuyển 6 tháng/vòng. Khối lượng m thu được trong năm là bao nhiêu?
-A. 1 tỷ đồng.
-B. 900.000.000 đồng.
-C. 500.000.000 đồng.
-*D. 2 tỷ đồng.
-Gt: v = 2 tỷ, M một vòng = 1 tỷ. Một năm 2 vòng nên M = 2 tỷ đồng.
-
-Câu 17: Công ty A có 10 lao động, lương 5 triệu/người/tháng, sản xuất 1000 hàng hóa, chi phí c một tháng 90 triệu, m' = 50%. Giá trị một đơn vị hàng hóa là:
-A. 185.000 đồng.
-*B. 165.000 đồng.
-C. 195.000 đồng.
-D. 190.000 đồng.
-Gt: v = 50 triệu, m = 25 triệu. Tổng giá trị = 90 + 50 + 25 = 165 triệu. Đơn giá = 165.000 đồng.
-
-Câu 18: Xí nghiệp A đầu tư 100 triệu, c/v=4/1, m'=100%, m tư bản hóa 50%, quy mô sau tích lũy là 110 triệu. Nếu đầu tư 200 triệu thì quy mô sau tích lũy là:
-A. 300.000.000 đồng.
-B. 200.000.000 đồng.
-C. 250.000.000 đồng.
-*D. 220.000.000 đồng.
-Gt: Khi tư bản đầu tư ban đầu gấp đôi, phần tích lũy cũng gấp đôi, tổng là 220 triệu đồng.
-
-Câu 19: Sự hợp nhất các tư bản cá biệt vào một chỉnh thể tạo thành một tư bản cá biệt lớn hơn là:
-A. tích tụ tư bản.
-B. phát triển tư bản.
-*C. tập trung tư bản.
-D. tích lũy tư bản.
-Gt: Định nghĩa tập trung tư bản (Trang 108).
-
-Câu 20: C. Mác ký hiệu cấu tạo hữu cơ của tư bản là:
-A. v/c.
-B. v/m.
-C. m/v.
-*D. c/v.
-Gt: Ký hiệu cấu tạo hữu cơ là c/v (Trang 107).
-
-Câu 21: Công ty A có 10 lao động, lương 5 triệu/tháng, c = 90 triệu, m' = 50%. Tổng giá trị hàng hóa là:
-A. 195.000.000 đồng.
-B. 185.000.000 đồng.
-C. 190.000.000 đồng.
-*D. 165.000.000 đồng.
-Gt: Tổng G = c + v + m = 90 + 50 + 25 = 165 triệu đồng.
-
-Câu 22: Xí nghiệp A có chi phí tư bản 100 triệu, c/v = 3/2. Chi phí tư bản khả biến là:
-A. 20.000.000 đồng.
-*B. 40.000.000 đồng.
-C. 30.000.000 đồng.
-D. 10.000.000 đồng.
-Gt: c = 1,5v. Ta có 1,5v + v = 100 => 2,5v = 100 => v = 40 triệu.
-
-Câu 23: Xí nghiệp A đầu tư 200 triệu, c/v = 4/1, m' = 100%, tỷ suất tích lũy 80%. Khối lượng m tư bản hóa là:
-*A. 32.000.000 đồng.
-B. 20.000.000 đồng.
-C. 30.000.000 đồng.
-D. 35.000.000 đồng.
-Gt: v = 40 triệu, m = 40 triệu. Phần tích lũy = 80% x 40 = 32 triệu đồng.
-
-Câu 24: Một trong những hệ quả của tích lũy tư bản là:
-A. tăng chi phí sản xuất.
-B. giảm cấu tạo hữu cơ tư bản.
-C. giảm tích tụ và tập trung tư bản.
-*D. tăng cấu tạo hữu cơ tư bản.
-Gt: Tích lũy tư bản làm tăng cấu tạo hữu cơ (Trang 107, 108).
-
-Câu 25: Xí nghiệp A đầu tư 10 tỷ đồng, c = 4v, m' = 50%. Khối lượng giá trị thặng dư là:
-A. 500.000.000 đồng.
-*B. 1.000.000.000 đồng.
-C. 700.000.000 đồng.
-D. 900.000.000 đồng.
-Gt: 5v = 10 tỷ => v = 2 tỷ. M = 50% x 2 tỷ = 1 tỷ đồng.
-
-Câu 26: Công ty A có 10 lao động, lương 5 triệu/tháng, m' = 50%. Giá trị mới của mỗi người lao động là bao nhiêu?
-A. 750.000 đồng.
-B. 850.000 đồng.
-*C. 7.500.000 đồng.
-D. 8.500.000 đồng.
-Gt: Giá trị mới = v + m = 5 triệu + 2,5 triệu = 7,5 triệu đồng/người.
-
-Câu 27: Ngày làm việc 8 giờ, lao động thặng dư 4 giờ. Do năng suất lao động tăng làm giá trị hàng hóa giảm 2 lần. Tỷ suất thặng dư thay đổi thế nào và thuộc phương pháp nào?
-A. 200%, sản xuất giá trị thặng dư tương đối.
-B. 300%, sản xuất giá trị thặng dư tuyệt đối.
-C. 300%, sản xuất giá trị thặng dư siêu ngạch.
-*D. 300%, sản xuất giá trị thặng dư tương đối.
-Gt: t giảm 2 lần còn 2 giờ. t' = 8 - 2 = 6 giờ. m' = (6/2) x 100% = 300%. Đây là phương pháp tương đối.
-
-Câu 28: Nguồn gốc của tư bản tích lũy là:
-A. lợi nhuận bình quân.
+Câu 1: Một sự thỏa hiệp hoặc một bên phá sản là kết quả cạnh tranh giữa các tổ chức độc quyền
+A. tư nhân.
+*B. trong cùng một ngành.
+C. nhà nước.
+D. giữa các ngành khác nhau.
+Gt: Trong cạnh tranh giữa các tổ chức độc quyền trong cùng một ngành, kết thúc bằng một sự thoả hiệp hoặc bằng sự phá sản của một bên cạnh tranh.
+Câu 2: Xét về hình thức, xuất khẩu tư bản được thực hiện dưới hai hình thức chủ yếu là
+A. đầu tư theo hình thức góp vốn và đầu tư thông qua việc cho vay.
+*B. đầu tư trực tiếp và đầu tư gián tiếp.
+C. xuất khẩu tư bản tư nhân và xuất khẩu tư bản nhà nước.
+D. xuất khẩu hàng hóa hữu hình và xuất khẩu hàng hóa vô hình.
+Gt: Xuất khẩu tư bản có thể được thực hiện dưới hình thức đầu tư trực tiếp hoặc đầu tư gián tiếp.
+Câu 3: Nhà nước tư sản đứng ra đảm nhận phát triển các ngành
+*A. vốn đầu tư lớn, thu hồi vốn chậm và ít lợi nhuận.
+B. vốn đầu tư lớn, thu hồi vốn chậm và lợi nhuận cao.
+C. vốn đầu tư lớn, thu hồi vốn nhanh và ít lợi nhuận.
+D. vốn đầu tư nhỏ, thu hồi vốn nhanh và lợi nhuận cao.
+Gt: Các tổ chức độc quyền tư nhân không thể hoặc không muốn đầu tư do vốn lớn, thu hồi chậm, ít lợi nhuận nên nhà nước phải đứng ra đảm nhận.
+Câu 4: Hiện nay, sự phân chia thế giới về lãnh thổ giữa các cường quốc tư bản
+A. đã chấm dứt.
+B. đang dần mất đi.
+C. vẫn tiếp tục dưới những hình thức phân chia mới.
+*D. vẫn tiếp tục dưới những hình thức cạnh tranh và thống trị mới.
+Gt: Sự phân chia thế giới về lãnh thổ giữa các cường quốc tư bản vẫn tiếp tục dưới những hình thức cạnh tranh và thống trị mới.
+Câu 5: Độc quyền nhà nước trong chủ nghĩa tư bản là kiểu độc quyền trong đó nhà nước
+A. tách biệt với độc quyền tư nhân.
+B. chi phối độc quyền tư nhân.
+*C. nắm giữ vị thế độc quyền.
+D. cạnh tranh với độc quyền tư nhân trong các ngành thuộc kết cấu hạ tầng.
+Gt: Độc quyền nhà nước là kiểu độc quyền trong đó nhà nước nắm giữ vị thế độc quyền.
+Câu 6: Một trong những đặc điểm của độc quyền trong chủ nghĩa tư bản là
+A. sự điều tiết kinh tế của nhà nước tư sản.
+*B. các tổ chức độc quyền có quy mô tích tụ và tập trung tư bản lớn.
+C. sự hình thành, phát triển sở hữu nhà nước.
+D. sự kết hợp về nhân sự giữa tổ chức độc quyền và nhà nước.
+Gt: Một trong các đặc điểm của độc quyền trong chủ nghĩa tư bản là các tổ chức độc quyền có quy mô tích tụ và tập trung tư bản lớn.
+Câu 7: Ở các nước tư bản phát triển hiện nay, bên cạnh các tổ chức độc quyền lớn ngày càng xuất hiện nhiều doanh nghiệp
+*A. vừa và nhỏ
+B. nước ngoài.
+C. nhà nước.
+D. tư nhân.
+Gt: Ở các nước tư bản phát triển hiện nay, bên cạnh các tổ chức độc quyền lớn ngày càng xuất hiện nhiều doanh nghiệp vừa và nhỏ có vai trò quan trọng.
+Câu 8: Ngày nay, sự phân chia thị trường thế giới giữa các liên minh độc quyền có biểu hiện mới là xu hướng quốc tế hóa, toàn cầu hóa kinh tế ngày càng tăng bên cạnh xu hướng
+A. đa dạng hóa quan hệ kinh tế.
+*B. khu vực hóa nền kinh tế.
+C. hợp tác hóa kinh tế.
+D. đa phương hóa quan hệ kinh tế.
+Gt: Sự phân chia thị trường thế giới giữa các liên minh độc quyền ngày nay xuất hiện xu hướng quốc tế hóa, toàn cầu hóa bên cạnh xu hướng khu vực hóa.
+Câu 9: Sự xuất hiện của độc quyền sẽ làm cho cạnh tranh
+A. bị thủ tiêu.
+B. bị suy yếu.
+*C. trở nên đa dạng, gay gắt hơn.
+D. chuyển hướng tác động.
+Gt: Sự xuất hiện của độc quyền không thủ tiêu cạnh tranh mà trái lại làm cho cạnh tranh trở nên đa dạng, gay gắt hơn.
+Câu 10: Một trong những đặc điểm của độc quyền trong chủ nghĩa tư bản là
+A. sự hình thành, phát triển sở hữu nhà nước.
+*B. xuất khẩu tư bản trở thành phổ biến.
+C. sự kết hợp về nhân sự giữa tổ chức độc quyền và nhà nước.
+D. sự điều tiết kinh tế của nhà nước tư sản.
+Gt: Một trong các đặc điểm cốt lõi của độc quyền trong chủ nghĩa tư bản là xuất khẩu tư bản trở thành phổ biến.
+Câu 11: Độc quyền không có tác động nào sau đây đối với nền kinh tế?
+A. Nâng cao năng lực cạnh tranh của các tổ chức độc quyền.
+B. Thúc đẩy nền kinh tế phát triển theo hướng sản xuất lớn hiện đại.
+*C. Bảo vệ lợi ích người tiêu dùng.
+D. Tăng năng suất lao động.
+Gt: Độc quyền gây tác động tiêu cực, gây thiệt hại cho người tiêu dùng chứ không bảo vệ người tiêu dùng.
+Câu 12: Nguyên tắc nào sau đây được đề cao trong biểu hiện mới của xuất khẩu tư bản hiện nay?
+A. Hợp tác bình đẳng.
+*B. Cùng có lợi trong đầu tư.
+C. Hợp tác đa phương.
+D. Tôn trọng lẫn nhau.
+Gt: Trong các biểu hiện mới của xuất khẩu tư bản hiện nay, nguyên tắc cùng có lợi trong đầu tư được đề cao.
+Câu 13: Ngày nay, nhà nước tư sản không chỉ can thiệp vào nền sản xuất xã hội bằng thuế, luật pháp mà còn điều tiết bằng
+A. lực lượng quân sự.
+*B. các đòn bẩy kinh tế.
+C. cơ chế thị trường.
+D. hệ thống cơ quan hành chính nhà nước.
+Gt: Vai trò của nhà nước tư sản biến đổi, thực hiện điều tiết bằng các đòn bẩy kinh tế vào tất cả các khâu của quá trình tái sản xuất.
+Câu 14: Một trong những nguyên nhân hình thành độc quyền nhà nước trong nền kinh tế thị trường tư bản chủ nghĩa là
+*A. sự phát triển của phân công lao động xã hội.
+B. khủng hoảng kinh tế trong chủ nghĩa tư bản.
+C. sự phát triển của hệ thống tín dụng.
+D. sự cạnh tranh gay gắt.
+Gt: Phân công lao động xã hội phát triển làm xuất hiện một số ngành mới có vai trò quan trọng, tạo nguyên nhân hình thành độc quyền nhà nước.
+Câu 15: Đối với các tập đoàn độc quyền, thu được giá trị thặng dư và các nguồn lợi nhuận khác ở nước nhập khẩu tư bản là mục đích của
+A. nhập khẩu hàng hóa.
+*B. xuất khẩu tư bản.
+C. xuất khẩu hàng hóa.
+D. nhập khẩu tư bản.
+Gt: Xuất khẩu tư bản là đưa tư bản ra nước ngoài nhằm mục đích thu được giá trị thặng dư và các nguồn lợi nhuận khác ở nước nhập khẩu.
+Câu 16: Trong nền kinh tế thị trường, loại cạnh tranh nào sau đây không phải là cạnh tranh giữa các tổ chức độc quyền?
+A. Cạnh tranh giữa các tổ chức độc quyền với các doanh nghiệp ngoài độc quyền.
+*B. Cạnh tranh giữa các tổ chức độc quyền với các doanh nghiệp vừa và nhỏ.
+C. Cạnh tranh trong nội bộ các tổ chức độc quyền.
+D. Cạnh tranh giữa các tổ chức độc quyền với nhau.
+Gt: Cạnh tranh giữa các tổ chức độc quyền chỉ bao gồm cạnh tranh với doanh nghiệp ngoài độc quyền, cạnh tranh với nhau và cạnh tranh trong nội bộ.
+Câu 17: Sự hình thành độc quyền nhà nước trong chủ nghĩa tư bản nhằm mục đích phục vụ lợi ích của
+A. các tổ chức độc quyền nhà nước và tiếp tục duy trì, phát triển chủ nghĩa tư bản.
+B. nhà nước tư sản.
+*C. các tổ chức độc quyền tư nhân và tiếp tục duy trì, phát triển chủ nghĩa tư bản.
+D. chủ nghĩa tư bản.
+Gt: Độc quyền nhà nước hình thành nhằm phục vụ lợi ích của các tổ chức độc quyền tư nhân và duy trì, bảo vệ chế độ tư bản chủ nghĩa.
+Câu 18: Các tổ chức độc quyền trong nền kinh tế thị trường các nước tư bản chủ nghĩa xuất hiện vào khoảng thời gian nào sau đây?
+A. Những năm giữa thế kỷ XX.
+B. Cuối thế kỷ XVIII - đầu thế kỷ XIX.
+*C. Cuối thế kỷ XIX - đầu thế kỷ XX.
+D. Cuối thế kỷ XVII - đầu thế kỷ XVIII.
+Gt: Các tổ chức độc quyền hình thành và phát triển rõ nét vào giai đoạn cuối thế kỷ XIX - đầu thế kỷ XX.
+Câu 19: C. Mác dự báo tự do cạnh tranh sẽ dẫn đến
+*A. tập trung sản xuất.
+B. xuất hiện một giai cấp xã hội mới.
+C. mâu thuẫn giai cấp gay gắt hơn.
+D. sự ra đời của một phương thức sản xuất mới.
+Gt: C. Mác dự báo tự do cạnh tranh đẻ ra tập trung sản xuất, và tập trung sản xuất phát triển đến mức nhất định sẽ dẫn đến độc quyền.
+Câu 20: Để ứng dụng những tiến bộ kỹ thuật mới vào sản xuất kinh doanh, các doanh nghiệp phải đẩy nhanh quá trình tích tụ và tập trung sản xuất, hình thành các doanh nghiệp quy mô lớn là một trong những nguyên nhân hình thành
+A. lợi nhuận độc quyền.
+B. giá cả độc quyền.
+*C. độc quyền.
+D. độc quyền nhà nước.
+Gt: Do tác động của tiến bộ khoa học kỹ thuật đòi hỏi vốn lớn, các doanh nghiệp tích tụ tập trung sản xuất thành quy mô lớn, dẫn đến độc quyền.
+Câu 21: Đặc điểm của các xí nghiệp tư bản tham gia Cartel là
+A. phụ thuộc về sản xuất và lưu thông.
+B. độc lập về sản xuất và lưu thông.
+C. phụ thuộc về sản xuất, độc lập về lưu thông.
+*D. độc lập về sản xuất, phụ thuộc về lưu thông.
+Gt: Các xí nghiệp tham gia cartel (cácten) vẫn giữ sự độc lập cả về sản xuất lẫn lưu thông hàng hóa (hình thức sơ khai nhất).
+Câu 22: Đặc điểm của các xí nghiệp tư bản tham gia Syndicate là
+A. độc lập về sản xuất và lưu thông.
+B. phụ thuộc về sản xuất, độc lập về lưu thông.
+C. phụ thuộc về sản xuất và lưu thông.
+*D. độc lập về sản xuất, phụ thuộc về lưu thông.
+Gt: Khi tham gia tổ chức độc quyền Syndicate, các xí nghiệp độc lập về sản xuất nhưng mất tính độc lập về lưu thông (mọi việc mua bán do ban quản trị đảm nhiệm).
+Câu 23: Chiếm tỷ lệ cổ phần khống chế là mục đích cạnh tranh
+A. trong nội bộ ngành.
+*B. trong nội bộ các tổ chức độc quyền.
+C. giữa các nền kinh tế.
+D. giữa các ngành.
+Gt: Trong nội bộ tổ chức độc quyền, các thành viên cạnh tranh gay gắt nhằm chiếm tỷ lệ cổ phần khống chế để giành địa vị chi phối.
+Câu 24: Lôi kéo, thúc đẩy các chính phủ vào việc phân định khu vực lãnh thổ ảnh hưởng là cách thức
+A. thi hành chính sách thực dân mới.
+B. thi hành chính sách kinh tế mới.
+*C. để bảo vệ lợi ích độc quyền.
+D. để bảo vệ lợi ích nhà nước.
+Gt: Các tập đoàn lôi kéo chính phủ phân định khu vực ảnh hưởng là hình thức biểu hiện để bảo vệ lợi ích kinh tế độc quyền của mình.
+Câu 25: Theo dự báo của C. Mác, tập trung sản xuất phát triển đến một mức độ nhất định sẽ dẫn đến
+A. cạnh tranh tự do.
+B. sự ra đời của một phương thức sản xuất mới.
+C. xuất hiện một giai cấp xã hội mới.
+*D. độc quyền.
+Gt: C. Mác chỉ rõ tự do cạnh tranh dẫn đến tập trung sản xuất, và khi phát triển tới trình độ cao sẽ tất yếu dẫn tới độc quyền.
+Câu 26: Một trong những đặc điểm của độc quyền trong chủ nghĩa tư bản là
+*A. lôi kéo, thúc đẩy các chính phủ vào việc phân định khu vực lãnh thổ ảnh hưởng là cách thức để bảo vệ lợi ích độc quyền.
+B. sự điều tiết kinh tế của nhà nước tư sản.
+C. sự hình thành, phát triển sở hữu nhà nước.
+D. sự kết hợp về nhân sự giữa tổ chức độc quyền và nhà nước.
+Gt: Bảo vệ lợi ích độc quyền bằng cách lôi kéo chính phủ phân chia lãnh thổ ảnh hưởng là một đặc điểm của chủ nghĩa tư bản độc quyền.
+Câu 27: Sự kết hợp về nhân sự giữa tổ chức độc quyền và nhà nước là một trong những đặc trưng kinh tế chủ yếu của
+A. độc quyền trong chủ nghĩa tư bản.
+B. độc quyền tự nhiên.
+C. độc quyền doanh nghiệp.
+*D. độc quyền nhà nước trong chủ nghĩa tư bản.
+Gt: Độc quyền nhà nước trong chủ nghĩa tư bản có đặc trưng nổi bật là sự kết hợp về nhân sự giữa tổ chức độc quyền tư nhân và bộ máy nhà nước.
+Câu 28: Đặc điểm của các xí nghiệp tư bản tham gia Trust là
+A. phụ thuộc về sản xuất, độc lập về lưu thông.
+*B. phụ thuộc về sản xuất và lưu thông.
+C. độc lập về sản xuất, phụ thuộc về lưu thông.
+D. độc lập về sản xuất và lưu thông.
+Gt: Trong hình thức Trust (tơ-rớt), các xí nghiệp hoàn toàn mất độc lập cả về sản xuất lẫn lưu thông hàng hóa, giao cho ban quản trị chung thống nhất quản lý.
+Câu 29: Sự xuất hiện, phát triển của các tổ chức độc quyền trong ngân hàng đã làm thay đổi quan hệ giữa các ngân hàng và doanh nghiệp công nghiệp, làm cho ngân hàng có vai trò mới là
+A. xuất khẩu tư bản.
+B. thúc đẩy phát triển nền kinh tế.
+*C. khống chế mọi hoạt động của nền kinh tế - xã hội.
+D. trở thành trung tâm thanh toán và tín dụng.
+Gt: Ngân hàng từ chỗ chỉ làm trung gian thanh toán đã nắm hầu hết tiền tệ xã hội, trở thành thế lực "vạn năng" khống chế hoạt động kinh tế.
+Câu 30: Các tổ chức độc quyền của các quốc gia cạnh tranh trên thị trường quốc tế sẽ dẫn đến xu hướng
+A. đấu tranh không khoan nhượng.
+*B. thỏa hiệp với nhau hình thành các liên minh độc quyền quốc tế.
+C. một số tổ chức độc quyền bị phá sản.
+D. thôn tính nhau để hình thành các tổ chức độc quyền quốc tế.
+Gt: Cạnh tranh gay gắt quốc tế đưa tới xu hướng tất yếu là các khối độc quyền thỏa hiệp tạo nên liên minh độc quyền quốc tế.
+Câu 31: Độc quyền là sự liên minh giữa các doanh nghiệp lớn nắm trong tay phần lớn việc sản xuất và tiêu thụ một số loại hàng hóa, có khả năng định ra giá cả độc quyền, nhằm thu
+A. lợi nhuận siêu ngạch.
+B. lợi nhuận bình quân.
+*C. lợi nhuận độc quyền cao.
+D. lợi nhuận độc quyền tương đối.
+Gt: Mục đích tột cùng của việc hình thành liên minh độc quyền và áp đặt giá cả độc quyền là nhằm thu lợi nhuận độc quyền cao.
+Câu 32: Lao động không công của công nhân làm việc trong các xí nghiệp ngoài độc quyền là một trong những nguồn gốc của
+A. giá trị thặng dư.
+B. giá trị thặng dư siêu ngạch.
+*C. lợi nhuận độc quyền cao.
+D. lợi nhuận siêu ngạch.
+Gt: Nguồn gốc lợi nhuận độc quyền cao bao gồm lao động xí nghiệp độc quyền và một phần lao động không công của công nhân xí nghiệp ngoài độc quyền.
+Câu 33: Nhà kinh điển chủ nghĩa Mác Lênin nào sau đây đã khẳng định: "tự do cạnh tranh đẻ ra tập trung sản xuất và sự tập trung sản xuất này, khi phát triển tới một mức độ nhất định, lại dẫn đến độc quyền"?
+*A. V.I.Lênin.
+B. C. Mác và Ph. Ăngghen.
+C. C. Mác.
+D. Ph. Ăngghen.
+Gt: C. Mác đưa ra dự báo, còn V.I. Lênin là người trực tiếp tổng kết thực tiễn và khẳng định luận điểm lịch sử mang tính quy luật này.
+Câu 34: Một trong những nguyên nhân hình thành độc quyền nhà nước trong nền kinh tế thị trường tư bản chủ nghĩa là
+*A. xu hướng quốc tế hóa đời sống kinh tế.
+B. sự phát triển của hệ thống tín dụng.
+C. sự cạnh tranh gay gắt.
+D. khủng hoảng kinh tế trong chủ nghĩa tư bản.
+Gt: Sự phát triển của xu hướng quốc tế hóa đòi hỏi nhà nước phải can thiệp điều tiết bảo vệ quốc gia, hình thành độc quyền nhà nước.
+Câu 35: Một trong những hình thức hình thành sở hữu nhà nước của độc quyền nhà nước trong chủ nghĩa tư bản là
+A. nhận viện trợ của nước ngoài.
+B. đóng góp tự nguyện của các doanh nghiệp tư nhân.
+*C. nhà nước mua cổ phần của các doanh nghiệp tư nhân.
+D. thu hồi tài sản của doanh nghiệp tư nhân.
+Gt: Sở hữu nhà nước hình thành qua việc xây dựng bằng ngân sách, quốc hữu hóa mua lại hoặc nhà nước mua cổ phần xí nghiệp tư nhân.
+Câu 36: Sự ra đời của tư bản tài chính là kết quả của sự hợp nhất giữa
+A. độc quyền công nghiệp và độc quyền thương nghiệp.
+*B. độc quyền ngân hàng với độc quyền công nghiệp.
+C. độc quyền ngân hàng và độc quyền tài chính.
+D. độc quyền thương nghiệp và độc quyền ngân hàng.
+Gt: Tư bản tài chính hình thành do sự xâm nhập, hợp nhất giữa tư bản ngân hàng độc quyền lớn và tư bản của các liên minh độc quyền công nghiệp.
+Câu 37: Từ cuối thế kỷ XX đến nay, cơ chế thống trị của tư bản tài chính được thực hiện thông qua "chế độ tham dự" bổ sung thêm
+A. "chế độ giao nhận".
+*B. "chế độ ủy nhiệm".
+C. sự tham gia của các tổ chức tài chính quốc tế.
+D. sự điều tiết của nhà nước tư sản.
+Gt: Hệ thống thống trị hiện đại của tư bản tài chính mở rộng bằng cách bổ sung thêm "chế độ ủy nhiệm" bên cạnh "chế độ tham dự".
+Câu 38: Sở hữu trong độc quyền nhà nước là sự kết hợp
+A. sở hữu của các doanh nghiệp nhà nước.
+*B. sở hữu nhà nước và sở hữu độc quyền tư nhân.
+C. sở hữu nhà nước và sở hữu tư nhân.
+D. sở hữu của các tổ chức độc quyền quốc tế.
+Gt: Bản chất sở hữu của độc quyền nhà nước chính là sự kết cấu chặt chẽ giữa sở hữu của nhà nước tư sản và sở hữu của độc quyền tư nhân.
+Câu 39: Mục đích cạnh tranh trong nội bộ các tổ chức độc quyền là để
+A. thôn tính nhau.
+B. hỗ trợ nhau.
+C. hợp tác với nhau.
+*D. chiếm tỷ lệ cổ phần khống chế.
+Gt: Trong nội bộ, các thành viên vẫn luôn ngầm cạnh tranh lẫn nhau để giành giật tỷ lệ cổ phần khống chế nhằm thu lợi ích lớn hơn.
+Câu 40: Các tài phiệt thực hiện sự thống trị của mình thông qua
+*A. "chế độ tham dự".
+B. thị trường chứng khoán.
+C. "chế độ ủy quyền".
+D. cơ chế thị trường.
+Gt: Các đầu sỏ tài chính (tài phiệt) thiết lập và duy trì quyền lực khống chế thông qua một hệ thống chân rết gọi là "chế độ tham dự".
+Câu 41: Sự phát triển của hệ thống tín dụng trở thành đòn bẩy thúc đẩy tập trung sản xuất, tạo tiền đề cho sự ra đời của
+A. các tổ chức tài chính.
+B. độc quyền ngân hàng.
+C. độc quyền nhà nước.
+*D. các tổ chức độc quyền.
+Gt: Hệ thống tín dụng và các công ty cổ phần hoạt động như đòn bẩy kinh tế mạnh mẽ thúc đẩy tập trung sản xuất dẫn tới tổ chức độc quyền.
+Câu 42: Giá cả độc quyền gồm có giá cả độc quyền cao và
+A. giá cả độc quyền trung bình.
+B. giá cả sản xuất.
+*C. giá cả độc quyền thấp.
+D. giá cả thị trường.
+Gt: Giá cả độc quyền bao quát hai trạng thái: giá cả độc quyền cao khi bán ra và giá cả độc quyền thấp khi thu mua nguyên liệu đầu vào.
+Câu 43: Một trong những đặc điểm của độc quyền trong chủ nghĩa tư bản là
+A. sự hình thành, phát triển sở hữu nhà nước.
+*B. sức mạnh của các tổ chức độc quyền do tư bản tài chính và hệ thống tài phiệt chi phối.
+C. sự điều tiết kinh tế của nhà nước tư sản.
+D. sự kết hợp về nhân sự giữa tổ chức độc quyền và nhà nước.
+Gt: Một trong năm đặc điểm lớn của độc quyền tư bản là quyền lực chi phối thuộc về tư bản tài chính và hệ thống tài phiệt.
+Câu 44: Lao động của công nhân làm việc trong các xí nghiệp độc quyền là một trong những nguồn gốc của
+*A. lợi nhuận độc quyền cao.
+B. giá trị thặng dư siêu ngạch.
+C. giá trị thặng dư.
+D. lợi nhuận siêu ngạch.
+Gt: Thực chất nguồn gốc sâu xa của lợi nhuận độc quyền cao đầu tiên xuất phát từ chính lao động thặng dư của công nhân ở xí nghiệp độc quyền.
+Câu 45: Các tổ chức độc quyền có quy mô tích tụ và tập trung tư bản lớn là một trong những đặc điểm của
+A. độc quyền doanh nghiệp.
+*B. độc quyền trong chủ nghĩa tư bản.
+C. độc quyền nhà nước trong chủ nghĩa tư bản.
+D. độc quyền tự nhiên.
+Gt: Quy mô tích tụ và tập trung tư bản khổng lồ là dấu hiệu nhận biết đặc trưng của độc quyền thuộc giai đoạn chủ nghĩa tư bản độc quyền.
+Câu 46: Cạnh tranh gay gắt làm cho các doanh nghiệp bị phá sản hoặc suy yếu. Để tiếp tục phát triển, các doanh nghiệp còn tồn tại phải tăng cường tích tụ, tập trung sản xuất, liên kết với nhau thành các doanh nghiệp với quy mô ngày càng lớn hơn là một trong những nguyên nhân hình thành
+A. giá cả độc quyền.
+*B. độc quyền.
+C. lợi nhuận độc quyền.
+D. độc quyền nhà nước.
+Gt: Quá trình cạnh tranh khốc liệt đào thải doanh nghiệp nhỏ, bắt buộc doanh nghiệp mạnh liên kết lại quy mô lớn, từ đó sinh ra độc quyền.
+Câu 47: Kết quả hoạt động của các tập đoàn tài chính quốc tế trong chủ nghĩa tư bản hiện đại dẫn tới sự ra đời của các
+*A. trung tâm tài chính của thế giới.
+B. ngân hàng quốc tế.
+C. công ty xuyên quốc gia.
+D. nhà tài phiệt quốc tế.
+Gt: Do hoạt động đan xen toàn cầu của các tập đoàn tài chính quốc tế dẫn đến hình thành các trung tâm tài chính lớn toàn cầu.
+Câu 48: Lý luận về độc quyền trong nền kinh tế thị trường là nghiên cứu của
+A. C. Mác và Ph. Ăngghen.
+B. Ph. Ăngghen.
+*C. V.I. Lênin.
+D. C. Mác.
+Gt: V.I. Lênin là người phát triển và hoàn thiện lý luận toàn diện, khoa học về chủ nghĩa tư bản độc quyền và độc quyền nhà nước.
+Câu 49: Trong những thập kỷ gần đây, xuất khẩu tư bản chủ yếu theo hướng
+A. các nước kém phát triển xuất khẩu qua lại lẫn nhau.
+*B. các nước tư bản phát triển xuất khẩu qua lại lẫn nhau.
+C. nước tư bản phát triển xuất khẩu sang các nước kém phát triển và sang một số nước tư bản phát triển.
+D. nước tư bản phát triển xuất khẩu sang các nước kém phát triển.
+Gt: Hiện nay đại bộ phận dòng vốn xuất khẩu tư bản lại chảy luân chuyển qua lại giữa chính các quốc gia tư bản phát triển với nhau.
+Câu 50: Một trong những đặc điểm của độc quyền trong chủ nghĩa tư bản là
+A. sự hình thành, phát triển sở hữu nhà nước.
+*B. cạnh tranh để phân chia thị trường thế giới là tất yếu giữa các tập đoàn độc quyền.
+C. sự điều tiết kinh tế của nhà nước tư sản.
+D. sự kết hợp về nhân sự giữa tổ chức độc quyền và nhà nước.
+Gt: Sự cạnh tranh phân chia và tái phân chia thị trường thế giới là tất yếu khách quan giữa các liên minh độc quyền.
+Câu 51: Sự phát triển của trình độ dân trí và quy luật cạnh tranh trong xã hội tư bản ngày nay dẫn tới sự thay đổi về
+A. hoạt động xuất khẩu tư bản của nhà nước.
+B. chính sách giáo dục của nhà nước.
+*C. quan hệ nhân sự trong bộ máy chính quyền nhà nước.
+D. cạnh tranh kinh tế giữa nhà nước và độc quyền tư nhân.
+Gt: Trình độ xã hội và tính cạnh tranh cao làm thay đổi cơ chế lựa chọn, tạo biến đổi lớn trong quan hệ nhân sự bộ máy chính quyền tư sản.
+Câu 52: Các tổ chức độc quyền định ra giá cả độc quyền nhằm thu được
+A. lợi nhuận độc quyền tương đối.
 B. lợi nhuận siêu ngạch.
-C. giá trị hàng hóa.
-*D. giá trị thặng dư.
-Gt: Nguồn gốc duy nhất của tích lũy là giá trị thặng dư (Trang 105).
-
-Câu 29: Xí nghiệp A chi phí 100 triệu, c/v = 3/2. Chi phí tư bản bất biến là:
-A. 40.000.000 đồng.
-*B. 60.000.000 đồng.
-C. 50.000.000 đồng.
-D. 30.000.000 đồng.
-Gt: v = 40 triệu (từ câu 22), suy ra c = 100 - 40 = 60 triệu đồng.
-
-Câu 30: Tích lũy tư bản là tư bản hóa:
-A. giá trị trao đổi.
-B. giá trị sử dụng.
-C. giá trị.
-*D. giá trị thặng dư.
-Gt: Sự chuyển hóa một phần m thành tư bản gọi là tích lũy (Trang 105).
-
-Câu 31: Quy mô tư bản cá biệt tăng lên thông qua tích tụ và:
-A. nhập khẩu tư bản.
-*B. tập trung tư bản.
-C. xuất khẩu đầu tư.
-D. tiết kiệm tư bản.
-Gt: Quy mô tư bản cá biệt tăng qua tích tụ và tập trung tư bản (Trang 108).
-
-Câu 32: Mối quan hệ tỷ lệ giữa số lượng tư liệu sản xuất và số lượng sức lao động là:
-A. cấu tạo hữu cơ của tư bản.
-*B. cấu tạo kỹ thuật của tư bản.
-C. cấu tạo giá trị sử dụng của tư bản.
-D. cấu tạo giá trị của tư bản.
-Gt: Đây là định nghĩa cấu tạo kỹ thuật (Trang 107).
-
-Câu 33: Cấu tạo giá trị được quyết định bởi cấu tạo kỹ thuật và phản ánh sự biến đổi của cấu tạo kỹ thuật là:
-*A. cấu tạo hữu cơ của tư bản.
-B. cấu tạo vô hình của tư bản.
-C. cấu tạo hữu hình của tư bản.
-D. cấu tạo hiện vật của tư bản.
-Gt: Định nghĩa cấu tạo hữu cơ của tư bản (Trang 107).
-
-Câu 34: Xí nghiệp A đầu tư 200 triệu, c/v = 4/1, m' = 100%, m dành cho tiêu dùng 50%. Vậy lượng m tư bản hóa là:
-A. 35.000.000 đồng.
-B. 30.000.000 đồng.
-*C. 20.000.000 đồng.
-D. 25.000.000 đồng.
-Gt: m = 40 triệu. Phần tư bản hóa là 100% - 50% = 50%. Lượng tích lũy = 20 triệu.
-
-Câu 35: Xí nghiệp A chi phí 100 triệu, chi mua tư liệu sản xuất 70 triệu. Cấu tạo hữu cơ là:
-A. 3/2.
-*B. 7/3.
-C. 3/1.
-D. 4/1.
-Gt: c = 70 triệu, v = 100 - 70 = 30 triệu. c/v = 70/30 = 7/3.
-
-Câu 36: Tích tụ tư bản khác tập trung tư bản ở điểm làm tăng quy mô:
-*A. tư bản xã hội.
-B. tư bản sản xuất.
-C. tư bản cá biệt.
-D. tư bản tiền tệ.
-Gt: Tích tụ làm tăng quy mô tư bản xã hội, còn tập trung thì không (Trang 108).
-
-Câu 37: Xí nghiệp A có thời gian chu chuyển một vòng là 6 tháng. Tốc độ chu chuyển tư bản là:
-A. 4 vòng/năm.
-B. 3 vòng/năm.
-C. 1 vòng/năm.
-*D. 2 vòng/năm.
-Gt: n = 12/6 = 2 vòng/năm.
-
-Câu 38: Xí nghiệp A đầu tư 10 tỷ đồng, c = 4v, M = 1 tỷ. Tỷ suất giá trị thặng dư là:
-*A. 50%.
-B. 200%.
-C. 150%.
-D. 100%.
-Gt: v = 2 tỷ. m' = (1/2) x 100% = 50%.
-
-Câu 39: Xí nghiệp A đầu tư 200 triệu, c/v = 4/1, m' = 100%, m tích lũy 20 triệu. Tỷ suất tích lũy là:
-*A. 50%.
-B. 100%.
-C. 200%.
-D. 150%.
-Gt: m = 40 triệu. Tỷ suất tích lũy = (20/40) x 100% = 50%.
-
-Câu 40: Xí nghiệp A chi phí 100 triệu, trả lương 40 triệu. Cấu tạo hữu cơ là:
-*A. 3/2.
-B. 3/1.
-C. 7/3.
-D. 4/1.
-Gt: v = 40 triệu, c = 60 triệu. c/v = 60/40 = 3/2.
-
-=== PHẦN 2: GIÁ TRỊ THẶNG DƯ TRONG NỀN KINH TẾ THỊ TRƯỜNG (PHẦN 3) ===
-
-Câu 41: C. Mác ký hiệu tỷ suất lợi nhuận là
-A. P
-B. V
-*C. p'
-D. m
-Gt: Ký hiệu của tỷ suất lợi nhuận là p' (Trang 113).
-
-Câu 42: Các hình thức cơ bản của địa tô là
-*A. địa tô chênh lệch, địa tô tuyệt đối
-B. địa tô chênh lệch II, địa tô tuyệt đối
-C. địa tô chênh lệch I, địa tô chênh lệch II
-D. địa tô chênh lệch I, địa tô tuyệt đối
-Gt: Địa tô gồm 2 hình thức cơ bản là địa tô chênh lệch và địa tô tuyệt đối (Trang 120, 121).
-
-Câu 43: Phần giá trị thặng dư còn lại sau khi đã khấu trừ đi phần lợi nhuận bình quân mà các nhà tư bản kinh doanh nông nghiệp phải trả cho địa chủ là
-A. tỷ suất lợi nhuận
-B. lợi tức
-*C. địa tô
-D. tỷ suất lợi nhuận bình quân
-Gt: Địa tô là phần giá trị thặng dư còn lại sau khi khấu trừ lợi nhuận bình quân trả cho địa chủ (Trang 120).
-
-Câu 44: Cạnh tranh giữa các ngành là cơ chế cho sự hình thành của
-A. tỷ suất lợi nhuận bình quân
-B. tỷ suất lợi nhuận
-*C. lợi nhuận bình quân
-D. lợi nhuận thương nghiệp
-Gt: Cạnh tranh giữa các ngành là cơ chế dẫn đến sự hình thành lợi nhuận bình quân (Trang 114).
-
-Câu 45: Ông A vay ông B số tiền 100.000.000 đồng với tỷ suất lợi tức 3% một tháng. Vậy lợi tức ông A trả cho ông B một tháng là bao nhiêu?
-*A. 3.000.000 đồng
-B. 6.000.000 đồng
-C. 5.000.000 đồng
-D. 4.000.000 đồng
-Gt: Lợi tức (z) = Số tiền vay x Tỷ suất lợi tức = 100.000.000 x 3% = 3.000.000 đồng.
-
-Câu 46: C. Mác ký hiệu lợi nhuận là
-A. V
-B. M
-C. C
-*D. p
-Gt: Ký hiệu của lợi nhuận là p (Trang 111).
-
-Câu 47: C. Mác ký hiệu địa tô là
-A. P
-B. z
-*C. R
-D. M
-Gt: Ký hiệu của địa tô là R (Trang 120).
-
-Câu 48: Khi hàng hóa bán bằng chi phí sản xuất thì
-A. lợi nhuận cao
-*B. không có lợi nhuận
-C. lợi nhuận thấp
-D. lợi nhuận bằng chi phí sản xuất
-Gt: Trong trường hợp bán hàng hoá với giá cả đúng bằng chi phí sản xuất là không có lợi nhuận (Trang 112).
-
-Câu 49: Lợi nhuận bình quân được hình thành do cạnh tranh
-A. trong nội bộ ngành
-B. không lành mạnh
-*C. giữa các ngành
-D. trong nội bộ doanh nghiệp
-Gt: Cạnh tranh giữa các ngành tất yếu dẫn tới hình thành lợi nhuận bình quân (Trang 116).
-
-Câu 50: Khi hàng hóa bán thấp hơn giá trị nhưng cao hơn chi phí sản xuất thì
-A. không có lợi nhuận
-*B. có lợi nhuận
-C. lợi nhuận bằng chi phí sản xuất
-D. lợi nhuận bằng giá trị thặng dư
-Gt: Bán hàng hoá thấp hơn giá trị và cao hơn chi phí sản xuất cũng thu được lợi nhuận (Trang 112).
-
-Câu 51: Công thức vận động của tư bản cho vay là
-A. T-H-T'
-*B. T-T'
-C. H-T-H'
-D. H-T
-Gt: Tư bản cho vay vận động theo công thức T-T' (Trang 119).
-
-Câu 52: Tỷ lệ phần trăm giữa lợi nhuận và toàn bộ giá trị của tư bản ứng trước là
-A. tỷ suất lợi tức
-B. tỷ suất lợi nhuận bình quân
-*C. tỷ suất lợi nhuận
-D. tỷ suất giá trị thặng dư
-Gt: Tỷ suất lợi nhuận là tỷ lệ phần trăm giữa lợi nhuận và toàn bộ giá trị tư bản ứng trước (Trang 113).
-
-Câu 53: Một phần giá trị thặng dư mà tư bản sản xuất trả cho nhà tư bản thương nghiệp là
-*A. lợi nhuận thương nghiệp
-B. lợi tức
-C. địa tô
-D. lợi nhuận bình quân
-Gt: Nguồn gốc của lợi nhuận thương nghiệp là một phần giá trị thặng dư từ sản xuất trả cho thương nghiệp (Trang 117).
-
-Câu 54: Giá mảnh đất 100 m2 tăng từ 500 triệu lên 800 triệu, lãi suất vay giảm từ 5% xuống 4%. Địa tô thay đổi thế nào?
-*A. Từ 25.000.000 đồng tăng lên 32.000.000 đồng
-B. Từ 25.000.000 đồng tăng lên 30.000.000 đồng
-C. Từ 32.000.000 đồng giảm xuống 25.000.000 đồng
-D. Từ 30.000.000 đồng giảm xuống 25.000.000 đồng
-Gt: Địa tô = Giá cả đất đai x Lãi suất vay. Lúc đầu: 500tr x 5% = 25tr; Lúc sau: 800tr x 4% = 32tr.
-
-Câu 55: Khi hàng hóa bán đúng giá trị thì lợi nhuận
-A. nhỏ hơn giá trị thặng dư
-B. lớn hơn giá trị thặng dư
-C. bằng giá trị
-*D. bằng giá trị thặng dư
-Gt: Khi giá cả bằng đúng giá trị, nhà tư bản thực hiện được toàn bộ giá trị thặng dư dưới hình thái lợi nhuận (p = m).
-
-Câu 56: Ông A vay 100.000.000 đồng, sau 1 tháng phải trả 103.000.000 đồng. Tỷ suất lợi tức là bao nhiêu?
-A. 4%
-B. 2%
-*C. 3%
-D. 1%
-Gt: Tiền lợi tức = 3tr. Tỷ suất lợi tức (z') = (3tr / 100tr) x 100% = 3%.
-
-Câu 57: C. Mác ký hiệu lợi tức là
-A. M
-B. V
-C. P
-*D. z
-Gt: Ký hiệu của lợi tức là z.
-
-Câu 58: Giá cả sản xuất bằng chi phí sản xuất cộng
-A. giá trị thặng dư
-*B. lợi nhuận bình quân
-C. tỷ suất lợi nhuận bình quân
-D. lợi nhuận
-Gt: Công thức: Giá cả sản xuất (GCSX) = k + p (Trang 116).
-
-Câu 59: Có 3 ngành sản xuất: I (900C+100V), II (3100C+900V), III (8000C+2000V), m' = 100%. Tỷ suất lợi nhuận bình quân là
-A. 15%
-B. 10%
-*C. 20%
-D. 25%
-Gt: Tổng m = tổng v = 3000. Tổng tư bản (c+v) = 15000. p' = (3000 / 15000) x 100% = 20%.
-
-Câu 60: Đặc điểm cơ bản của tư bản cho vay là quyền sử dụng
-A. gắn liền quyền thừa kế
-B. tách khỏi quyền quản lý
-C. gắn liền quyền sở hữu
-*D. tách khỏi quyền sở hữu
-Gt: Tư bản cho vay có đặc điểm là quyền sử dụng tách khỏi quyền sở hữu (Trang 118, 119).
-
-Câu 61: Xí nghiệp A đầu tư 400.000.000 đồng, c/v = 3/2, m' = 50%. Lợi nhuận (cung = cầu) là bao nhiêu?
-*A. 80.000.000 đồng
-B. 20.000.000 đồng
-C. 50.000.000 đồng
-D. 40.000.000 đồng
-Gt: v = 160tr. m = 50% x 160tr = 80tr. Khi cung = cầu, p = m = 80.000.000 đồng.
-
-Câu 62: Địa tô thu được trên mảnh đất cho thuê, không kể độ màu mỡ tự nhiên thuận lợi hay do thâm canh là
-A. địa tô chênh lệch I
-B. địa tô tương đối
-*C. địa tô tuyệt đối
-D. địa tô chênh lệch II
-Gt: Địa tô tuyệt đối thu được trên mảnh đất cho thuê bất kể chất lượng đất (Trang 121).
-
-Câu 63: Địa tô thu được trên những loại ruộng đất tốt, độ màu mỡ cao và điều kiện tự nhiên thuận lợi là
-*A. địa tô chênh lệch I
-B. địa tô tuyệt đối
-C. địa tô chênh lệch II
-D. địa tô tương đối
-Gt: Địa tô chênh lệch I thu được do điều kiện tự nhiên thuận lợi và đất màu mỡ (Trang 120).
-
-Câu 64: C. Mác ký hiệu lợi nhuận bình quân là
-A. P
-B. P'
-*C. p (có gạch ngang đầu)
-D. m
-Gt: Ký hiệu của lợi nhuận bình quân là p có gạch ngang trên đầu (Trang 115).
-
-Câu 65: 3 ngành A, B, C đầu tư cùng 100 triệu, c/v lần lượt 4/1, 3/2, 7/3, m' = 100%. Lợi nhuận bình quân từng ngành là
-A. 80.000.000 đồng
-B. 40.000.000 đồng
-C. 20.000.000 đồng
-*D. 30.000.000 đồng
-Gt: Tổng m = 90tr. Tổng tư bản = 300tr. p' = 30%. Lợi nhuận bình quân = 30% x 100tr = 30 triệu đồng.
-
-Câu 66: Xí nghiệp A đầu tư 800.000.000 đồng, lợi nhuận 8.000.000 đồng. Tỷ suất lợi nhuận là
-A. 0,1%
-B. 10%
-*C. 1%
-D. 2%
-Gt: p' = (8tr / 800tr) x 100% = 1%.
-
-Câu 67: Kết quả cạnh tranh giữa các ngành hình thành
-A. giá cả thị trường
-*B. lợi nhuận bình quân
-C. giá cả sản xuất
-D. giá trị thị trường
-Gt: Cạnh tranh giữa các ngành tất yếu dẫn tới hình thành lợi nhuận bình quân (Trang 116).
-
-Câu 68: Xí nghiệp giày da có tổng giá trị hàng hóa 650 triệu, m thu được 100 triệu. Chi phí sản xuất là bao nhiêu?
-*A. 550.000.000 đồng
-B. 300.000.000 đồng
-C. 450.000.000 đồng
-D. 500.000.000 đồng
-Gt: Chi phí sản xuất k = G - m = 650tr - 100tr = 550.000.000 đồng.
-
-Câu 69: Lợi nhuận thương nghiệp là số chênh lệch giữa
-*A. giá bán và giá mua hàng hóa
-B. giá cả và giá trị hàng hóa
-C. giá trị và chi phí sản xuất
-D. giá cả và chi phí sản xuất
-Gt: Lợi nhuận thương nghiệp là số chênh lệch giữa giá bán và giá mua (Trang 117).
-
-Câu 70: C. Mác ký hiệu tỷ suất lợi nhuận bình quân là
-*A. p' (có gạch ngang đầu)
-B. P
-C. P'
-D. M
-Gt: Ký hiệu của tỷ suất lợi nhuận bình quân là p' có gạch ngang trên đầu (Trang 115).
-
-Câu 71: C. Mác ký hiệu tỷ suất lợi tức là
-A. m
-*B. z'
-C. P
-D. z
-Gt: Ký hiệu của tỷ suất lợi tức là z' (Trang 119).
-
-Câu 72: Chi phí sản xuất (k) bao gồm
-A. m và v
-B. c và m
-*C. c và v
-D. c, v và m
-Gt: Chi phí sản xuất bao gồm tư bản bất biến (c) và tư bản khả biến (v) (Trang 111).
-
-Câu 73: Tỷ suất lợi tức là tỷ lệ phần trăm giữa
-A. lợi tức và giá trị thặng dư
-B. lợi nhuận bình quân và giá trị thặng dư
-*C. lợi tức và tư bản cho vay
-D. giá trị thặng dư và tư bản cho vay
-Gt: Tỷ suất lợi tức là tỷ lệ phần trăm giữa lợi tức và tư bản cho vay (Trang 119).
-
-Câu 74: Địa tô thu được trên những mảnh đất do đầu tư thâm canh và làm tăng độ màu mỡ là
-A. địa tô tương đối
-*B. địa tô chênh lệch II
-C. địa tô tuyệt đối
-D. địa tô chênh lệch I
-Gt: Địa tô chênh lệch II thu được do thâm canh làm tăng độ màu mỡ (Trang 120).
-
-Câu 75: Phần giá trị bù lại giá cả tư liệu sản xuất và sức lao động đã sử dụng là
-A. chi phí chu chuyển tư bản
-B. chi phí tuần hoàn tư bản
-C. chi phí tư bản bất biến
-*D. chi phí sản xuất tư bản chủ nghĩa
-Gt: Đây là định nghĩa chi phí sản xuất tư bản chủ nghĩa (Trang 111).
-
-Câu 76: Có 3 ngành A, B, C đầu tư cùng 100 triệu, c/v lần lượt 4/1, 3/2, 7/3, m' = 100%. Tỷ suất lợi nhuận bình quân bằng bao nhiêu?
-A. 20%
-*B. 30%
-C. 25%
-D. 10%
-Gt: p' = (90tr / 300tr) x 100% = 30%.
-
-Câu 77: Điểm giống nhau giữa địa tô chênh lệch và địa tô tuyệt đối là đều có nguồn gốc từ
-*A. giá trị thặng dư
-B. giá trị sử dụng
-C. giá trị trao đổi
-D. giá trị
-Gt: Các hình thức địa tô đều có chung nguồn gốc là giá trị thặng dư (Trang 120).
-
-Câu 38: Xí nghiệp A đầu tư 800 triệu, lợi nhuận 8 triệu, chu chuyển 6 tháng/vòng. Tỷ suất lợi nhuận trong năm là
-A. 0,2%
-B. 0,1%
-C. 1%
-*D. 2%
-Gt: 1 năm có 2 vòng. Tổng lợi nhuận năm là 16tr. p' = (16tr / 800tr) x 100% = 2%.
-
-Câu 79: Về bản chất lợi nhuận và giá trị thặng dư đều là
-A. lao động của người lao động làm thuê
-B. lao động cụ thể của người làm thuê
-C. lao động phức tạp của người làm thuê
-*D. lao động không công của người lao động làm thuê
-Gt: Cả hai đều có nguồn gốc duy nhất là lao động không công của công nhân.
-
-Câu 80: Một phần lợi nhuận bình quân mà người đi vay trả cho người cho vay vì sử dụng lượng tiền nhàn rỗi là
-A. lợi nhuận bình quân
-*B. lợi tức
-C. địa tô
-D. lợi nhuận thương nghiệp
-Gt: Đây là định nghĩa về lợi tức (Trang 118).
+*C. lợi nhuận độc quyền cao.
+D. lợi nhuận bình quân.
+Gt: Việc áp đặt mức giá độc quyền mua/bán giúp tổ chức thu lợi nhuận độc quyền vượt mức lợi nhuận bình quân thông thường.
+Câu 53: Do chiếm được địa vị độc quyền, các tổ chức độc quyền áp đặt
+A. giá cả hàng hóa.
+B. giá cả thị trường.
+*C. giá cả độc quyền.
+D. giá cả sản xuất.
+Gt: Có ưu thế tuyệt đối thống trị sản xuất tiêu thụ, doanh nghiệp độc quyền tự áp đặt mức giá riêng gọi là giá cả độc quyền.
+Câu 54: Một trong những tác động tích cực của độc quyền đối với nền kinh tế là
+*A. thúc đẩy nền kinh tế phát triển theo hướng sản xuất lớn hiện đại.
+B. bảo vệ lợi ích người tiêu dùng.
+C. giảm bớt sự cạnh tranh, tạo điều kiện cho doanh nghiệp phát triển.
+D. giảm sự phân hóa giàu nghèo.
+Gt: Tác động tích cực là tạo ra sức mạnh kinh tế lớn thúc đẩy cơ cấu kinh tế phát triển lên quy mô sản xuất hiện đại hóa.
+Câu 55: Độc quyền nhà nước trong chủ nghĩa tư bản là hình thức vận động mới của
+A. lực lượng sản xuất.
+*B. quan hệ sản xuất tư bản chủ nghĩa.
+C. chủ nghĩa tư bản cạnh tranh tự do.
+D. nền kinh tế thị trường.
+Gt: Độc quyền nhà nước xuất hiện phản ánh một nấc thang phát triển mới của chính quan hệ sản xuất tư bản chủ nghĩa thích ứng lực lượng sản xuất lớn.
+Câu 56: Hình thức đầu tư thông qua việc cho vay để thu lợi tức là
+A. đầu tư nhà nước.
+B. đầu tư trực tiếp.
+C. đầu tư tư nhân.
+*D. đầu tư gián tiếp.
+Gt: Khái niệm đầu tư gián tiếp chỉ hoạt động xuất khẩu vốn ra nước ngoài theo dạng cho vay lấy lãi, mua trái phiếu chứng khoán sinh lợi.
+Câu 57: Cơ chế điều tiết kinh tế độc quyền nhà nước là sự dung hợp của những cơ chế nào sau đây?
+A. Thị trường và độc quyền tư nhân.
+*B. Thị trường, độc quyền tư nhân và điều tiết của nhà nước.
+C. Độc quyền tư nhân và độc quyền nhà nước.
+D. Thị trường, độc quyền nhà nước và điều tiết của nhà nước.
+Gt: Cơ chế vận hành tổng hợp thời kỳ độc quyền nhà nước là sự dung hợp cả 3 yếu tố: thị trường, độc quyền tư nhân và sự can thiệp của nhà nước.
+Câu 58: Mục đích của xuất khẩu tư bản là để thu được giá trị thặng dư và
+A. giải quyết lượng "tư bản thừa" trong nước.
+*B. các nguồn lợi nhuận khác ở nước nhập khẩu tư bản.
+C. giải quyết lượng hàng hóa thừa trong nước.
+D. hỗ trợ nguồn lực cho các nước nhập khẩu tư bản phát triển.
+Gt: Bản chất xuất khẩu tư bản hướng tới thu giá trị thặng dư cùng các nguồn lợi nhuận khác tại địa bàn nước tiếp nhận đầu tư.
+Câu 59: Về mặt lịch sử, các hình thức tổ chức độc quyền cơ bản phát triển từ thấp đến cao theo thứ tự
+*A. Cartel Syndicate Trust Consortium.
+B. Cartel Trust Syndicate Consortium.
+C. Syndicate Trust Cartel Consortium.
+D. Trust Cartel Syndicate Consortium.
+Gt: Tiến trình phát triển lịch sử các mô hình độc quyền trải qua các mức liên kết chặt chẽ tăng dần: Cartel -> Syndicate -> Trust -> Consortium.
+Câu 60: Độc quyền mua nguyên liệu đầu vào, độc quyền phương tiện vận tải, tín dụng... là một số biện pháp cạnh tranh mà tổ chức độc quyền thường áp dụng đối với các doanh nghiệp
+*A. ngoài độc quyền.
+B. ngoài nhà nước.
+C. độc quyền tư nhân.
+D. độc quyền nhà nước.
+Gt: Các tổ chức độc quyền dùng sức mạnh bao vây, ép buộc chèn ép xí nghiệp ngoài độc quyền nhằm tiêu diệt hoặc thâu tóm họ.
 `
         },
         {
             name: "Câu 341-370",
             content: `
-
-
-
 Câu 1: "Nền kinh tế vận hành theo các quy luật của thị trường, đồng thời góp phần hướng tới từng bước xác lập một xã hội mà ở đó dân giàu, nước mạnh, dân chủ, công bằng, văn minh có sự điều tiết của Nhà nước do Đảng cộng sản Việt Nam lãnh đạo" là khái niệm về:
 A. kinh tế thị trường tư bản chủ nghĩa.
 B. kinh tế thị trường có sự quản lý của nhà nước.
@@ -2685,8 +2548,6 @@ Gt: Đây là tổng hợp các lý do chính được nêu trong giáo trình (
         {
             name: "Câu 371-400",
             content: `
-
-
 Câu 1: Về mặt lịch sử, cho đến nay, loài người đã và đang trải qua bao nhiêu cuộc cách mạng công nghiệp?
 *A. 4
 B. 5
@@ -3185,8 +3046,6 @@ Gt: Sự tách biệt về sở hữu đòi hỏi việc trao đổi sản phẩ
         {
             name: "Bổ sung 2023-2024",
             content: `
-
-
 Câu 1: Tới thế kỷ XVIII, kinh tế chính trị chính thức trở thành môn học với các phạm trù, khái niệm chuyên ngành với sự xuất hiện hệ thống lý luận của nhà kinh tế học
 *A. A. Smith.
 B. D. Ricardo.
@@ -3511,294 +3370,6 @@ Gt: Con người là chủ thể sáng tạo, việc phát triển nguồn nhân
         {
             name: "Bổ sung 2024-2025",
             content: `
-
-
-Câu 1: Nhà kinh tế học nào sau đây là đại biểu tiêu biểu của Chủ nghĩa trọng thương?
-*A. Thomas Mun.
-B. Boisguillebert.
-C. F. Quesney.
-D. Turgot.
-Gt: Thomas Mun là đại biểu tiêu biểu của Chủ nghĩa trọng thương (Xem trang 13, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 2: Nhà kinh tế học nào sau đây là đại biểu tiêu biểu của Chủ nghĩa trọng thương?
-A. Boisguillebert.
-B. F. Quesney.
-C. Turgot.
-*D. Willian Stafford.
-Gt: Willian Stafford là đại biểu tiêu biểu của Chủ nghĩa trọng thương (Xem trang 13, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 3: Kinh tế chính trị cổ điển Anh được hình thành, phát triển từ cuối thế kỷ XVIII đến nửa đầu thế kỷ XIX và kết thúc ở hệ thống lý luận của:
-A. William Petty.
-B. A. Smith.
-*C. David Ricardo.
-D. Montchretien.
-Gt: Kinh tế chính trị cổ điển Anh kết thúc ở hệ thống lý luận có nhiều giá trị khoa học của David Ricardo (Xem trang 14, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 4: Quy luật kinh tế tồn tại khách quan, không phụ thuộc vào ý chí của con người. Con người có thể:
-A. thủ tiêu quy luật kinh tế.
-*B. nhận thức và vận dụng quy luật kinh tế.
-C. thay đổi quy luật kinh tế.
-D. điều chỉnh hoặc xoá bỏ quy luật kinh tế.
-Gt: Con người không thể thủ tiêu nhưng có thể nhận thức và vận dụng quy luật kinh tế để phục vụ lợi ích của mình (Xem trang 26, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 5: Chính sách kinh tế tác động vào các quan hệ lợi ích và những sự tác động đó mang tính chất nào sau đây?
-*A. Chủ quan.
-B. Khách quan.
-C. Mâu thuẫn.
-D. Đối lập.
-Gt: Chính sách kinh tế mang tính chủ quan (Xem trang 25, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 6: Việc người lao động hình thành được năng lực, kỹ năng vận dụng các quy luật kinh tế vào thực tiễn là nói đến chức năng nào của Kinh tế chính trị Mác - Lênin?
-A. Nhận thức.
-B. Tư tưởng.
-C. Phương pháp luận.
-*D. Thực tiễn.
-Gt: Đây là biểu hiện của chức năng thực tiễn (Xem trang 30, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 7: Năng lực sản xuất của người lao động, được tính bằng số lượng sản phẩm sản xuất ra trong một đơn vị thời gian được gọi là:
-A. cường độ lao động.
-B. lực lượng lao động.
-*C. năng suất lao động.
-D. đối tượng lao động.
-Gt: Năng suất lao động tính bằng số lượng sản phẩm ra trong một đơn vị thời gian (Xem trang 43, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 8: Năng lực sản xuất của người lao động, được tính bằng số lượng thời gian hao phí để sản xuất ra một đơn vị sản phẩm được gọi là:
-A. cường độ lao động.
-*B. năng suất lao động.
-C. lực lượng lao động.
-D. đối tượng lao động.
-Gt: Năng suất lao động cũng được tính bằng số lượng thời gian hao phí để sản xuất ra một đơn vị sản phẩm (Xem trang 43, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 9: Mức độ khẩn trương, tích cực của hoạt động lao động trong sản xuất được gọi là:
-*A. cường độ lao động.
-B. năng suất lao động.
-C. lực lượng lao động.
-D. đối tượng lao động.
-Gt: Cường độ lao động là mức độ khẩn trương, tích cực của hoạt động lao động (Xem trang 44, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 10: Lao động cụ thể và lao động trừu tượng là tính hai mặt của lao động:
-A. tư nhân.
-*B. sản xuất hàng hóa.
-C. xã hội cần thiết.
-D. cá biệt.
-Gt: Lao động của người sản xuất hàng hoá có tính hai mặt: mặt cụ thể và mặt trừu tượng (Xem trang 40, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 11: Giá cả hàng hóa là hình thức biểu hiện bằng tiền của:
-*A. giá trị hàng hóa.
-B. giá trị sử dụng của hàng hóa.
-C. giá trị trao đổi.
-D. giá trị thị trường.
-Gt: Giá cả là hình thức biểu hiện bằng tiền của giá trị hàng hoá (Xem trang 49, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 12: Việc đưa số lượng tiền cần thiết cho lưu thông phải thống nhất với lưu thông hàng hóa là yêu cầu của quy luật:
-A. lưu thông hàng hóa.
-*B. lưu thông tiền tệ.
-C. giá trị.
-D. cung - cầu.
-Gt: Đây là yêu cầu của quy luật lưu thông tiền tệ (Xem trang 71, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 13: Thị trường đóng vai trò quyết định trong việc phân bố các nguồn lực xã hội thông qua hoạt động của các thị trường bộ phận là đặc trưng của:
-A. cơ cấu kinh tế.
-B. thể chế kinh tế.
-*C. kinh tế thị trường.
-D. kinh tế tự nhiên.
-Gt: Đây là đặc trưng phổ biến của nền kinh tế thị trường (Xem trang 62, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 14: Giá cả được hình thành theo nguyên tắc thị trường là một trong những đặc trưng chung của:
-*A. kinh tế thị trường.
-B. kinh tế tự nhiên.
-C. thể chế kinh tế.
-D. cơ cấu kinh tế.
-Gt: Trong kinh tế thị trường, giá cả hình thành theo nguyên tắc thị trường (Xem trang 62, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 15: Giá trị hàng hóa là nội dung, là cơ sở của:
-A. giá trị sử dụng.
-*B. giá trị trao đổi.
-C. phân phối.
-D. tiêu dùng.
-Gt: Giá trị là nội dung, là cơ sở của trao đổi (Xem trang 39, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 16: Thực hiện quản trị phát triển nền kinh tế là vai trò của:
-A. người tiêu dùng.
-B. người sản xuất.
-C. các chủ thể trung gian.
-*D. nhà nước.
-Gt: Nhà nước thực hiện quản trị phát triển nền kinh tế thông qua tạo lập môi trường kinh tế (Xem trang 80, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 17: Lý luận giá trị thặng dư của C. Mác được trình bày cô đọng nhất trong tác phẩm nào sau đây?
-A. Chuyên luận về kinh tế chính trị.
-*B. Bộ Tư bản.
-C. Tuyên ngôn của đảng cộng sản.
-D. Phê phán cương lĩnh Gôta.
-Gt: Được trình bày cô đọng nhất trong tác phẩm Tư bản (Xem trang 85, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 18: Tiền ứng ra ban đầu với mục đích thu được giá trị thặng dư trở thành:
-A. hàng hoá.
-B. giá trị sử dụng.
-*C. tư bản.
-D. giá trị trao đổi.
-Gt: Số tiền ứng ra nhằm thu giá trị thặng dư trở thành tư bản (Xem trang 85, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 19: Điểm khác cơ bản giữa hai hình thức vận động của tiền trong sản xuất hàng hoá giản đơn và sản xuất hàng hoá tư bản chủ nghĩa là:
-*A. mục đích của quá trình lưu thông.
-B. điểm bắt đầu và kết thúc.
-C. giới hạn của quá trình lưu thông.
-D. trình tự của quá trình lưu thông.
-Gt: Điểm khác nhau cơ bản thể hiện ở mục đích của quá trình lưu thông (Xem trang 85, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 20: Một trong các bộ phận hợp thành giá trị của hàng hoá sức lao động là:
-A. phí tốn lao động.
-B. chi phí hàng hoá.
-C. chi phí sản xuất.
-*D. phí tốn đào tạo người lao động.
-Gt: Giá trị hàng hoá sức lao động bao gồm phí tốn đào tạo người lao động (Xem trang 87, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 21: Xí nghiệp A có lượng tư bản đầu tư 100.000.000 đồng, cấu tạo hữu cơ 4/1. Vậy chi phí sức lao động là bao nhiêu?
-A. 40.000.000 đồng.
-B. 10.000.000 đồng.
-*C. 20.000.000 đồng.
-D. 80.000.000 đồng.
-Gt: c+v=100tr, c/v=4/1 => v=20tr. Tư bản khả biến (v) là chi phí sức lao động.
-
-Câu 22: Việc làm tăng chênh lệch thu nhập giữa nhà tư bản và người lao động làm thuê là hệ quả của:
-*A. tích luỹ tư bản.
-B. tích luỹ tiêu dùng.
-C. lưu thông hàng hoá.
-D. lưu thông tiền tệ.
-Gt: Đây là hệ quả của quá trình tích lũy tư bản (Xem trang 108, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 23: Một trong những nhân tố chủ yếu ảnh hưởng đến quy mô tích lũy tư bản là:
-*A. trình độ khai thác sức lao động.
-B. tiêu dùng.
-C. phân phối.
-D. bản chất của lao động.
-Gt: Trình độ khai thác sức lao động ảnh hưởng đến quy mô tích lũy (Xem trang 106, 107, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 24: Xí nghiệp A có chi phí tư bản 100.000.000 đồng, cấu tạo hữu cơ 3/2. Vậy chi phí tư liệu sản xuất là bao nhiêu?
-A. 40.000.000 đồng.
-*B. 60.000.000 đồng.
-C. 30.000.000 đồng.
-D. 50.000.000 đồng.
-Gt: c+v=100tr, c/v=3/2 => v=40tr, c=60tr. Tư bản bất biến (c) là chi phí tư liệu sản xuất.
-
-Câu 25: Mục tiêu, động cơ, động lực của hoạt động sản xuất, kinh doanh trong nền kinh tế thị trường là:
-A. giá cả.
-*B. lợi nhuận.
-C. thoả mãn nhu cầu xã hội.
-D. thoả mãn nhu cầu cá nhân.
-Gt: Lợi nhuận là mục tiêu và động lực của hoạt động sản xuất kinh doanh (Xem trang 112, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 26: Một trong những phạm trù thể hiện lợi ích kinh tế của nhà tư bản trong nền kinh tế thị trường tư bản chủ nghĩa là:
-A. trao đổi hàng hoá.
-B. giá trị hàng hoá.
-*C. tỷ suất lợi nhuận.
-D. giá trị sử dụng.
-Gt: Tỷ suất lợi nhuận thể hiện lợi ích kinh tế của nhà tư bản (Xem trang 113, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 27: Một trong những cơ sở khoa học để giải quyết các quan hệ đất đai là lý luận địa tô của:
-*A. C. Mác.
-B. V.I. Lênin.
-C. A. Montchretien.
-D. Thomas Mun.
-Gt: Lý luận địa tô của C. Mác là cơ sở khoa học để giải quyết quan hệ đất đai (Xem trang 121, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 28: Mảnh đất 100m2, địa tô 60 triệu đồng, lãi suất ngân hàng 5%. Vậy giá cả mảnh đất là bao nhiêu?
-*A. 1.200.000.000 đồng.
-B. 1.080.000.000 đồng.
-C. 1.300.000.000 đồng.
-D. 1.480.000.000 đồng.
-Gt: Giá cả đất đai = Địa tô / Lãi suất = 60.000.000 / 5% = 1.200.000.000 đồng.
-
-Câu 29: Giá trị thặng dư của các nhà tư bản vừa và nhỏ bị mất đi do thua thiệt trong cạnh tranh là nguồn gốc của:
-A. độc quyền cao.
-*B. lợi nhuận độc quyền.
-C. bình quân.
-D. siêu ngạch.
-Gt: Đây là một trong những nguồn gốc của lợi nhuận độc quyền (Xem trang 127, 128, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 30: Độc quyền nhà nước trong chủ nghĩa tư bản hình thành nhằm phục vụ lợi ích của:
-A. xã hội.
-B. người lao động.
-*C. độc quyền tư nhân.
-D. tập thể.
-Gt: Hình thành nhằm phục vụ lợi ích của các tổ chức độc quyền tư nhân (Xem trang 131, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 31: Độc quyền tạo được sức mạnh kinh tế góp phần thúc đẩy nền kinh tế phát triển theo hướng:
-A. tự do cạnh tranh.
-*B. sản xuất lớn hiện đại.
-C. kinh tế tự nhiên.
-D. sản xuất tự cấp tự túc.
-Gt: Độc quyền góp phần thúc đẩy sản xuất lớn hiện đại (Xem trang 133, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 32: Sự phát triển của lực lượng sản xuất thúc đẩy trình độ độc quyền lên trạng thái cao hơn là độc quyền:
-A. công nghiệp.
-B. tư nhân.
-C. ngân hàng.
-*D. nhà nước.
-Gt: Lực lượng sản xuất phát triển thúc đẩy lên độc quyền nhà nước (Xem trang 129, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 33: Sở hữu nhà nước được hình thành dưới hình thức xây dựng doanh nghiệp nhà nước bằng vốn của:
-A. nước ngoài.
-B. doanh nghiệp tư nhân.
-C. doanh nghiệp độc quyền.
-*D. ngân sách.
-Gt: Được hình thành bằng vốn của ngân sách (Xem trang 147, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 34: Sức mạnh và phạm vi bành trướng của các công ty xuyên quốc gia thúc đẩy việc hình thành chủ nghĩa tư bản:
-A. độc quyền nhà nước.
-*B. độc quyền quốc tế.
-C. độc quyền.
-D. tự do cạnh tranh.
-Gt: Bành trướng công ty xuyên quốc gia thúc đẩy hình thành chủ nghĩa tư bản độc quyền quốc tế.
-
-Câu 35: Trong nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam, thị trường giữ vai trò quyết định trong:
-*A. phân bố nguồn lực xã hội.
-B. tạo lập điều kiện cho sản xuất.
-C. phân phối sản phẩm lao động.
-D. tạo ra phương thức thỏa mãn nhu cầu.
-Gt: Thị trường giữ vai trò quyết định trong phân bố nguồn lực xã hội.
-
-Câu 36: Nội dung tiên quyết trong hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là hoàn thiện thể chế:
-*A. về sở hữu, phát triển các thành phần kinh tế và các loại hình doanh nghiệp.
-B. phát triển đồng bộ các yếu tố thị trường.
-C. gắn tăng trưởng kinh tế với bảo đảm phát triển bền vững.
-D. nâng cao năng lực lãnh đạo của Đảng.
-Gt: Nội dung tiên quyết là hoàn thiện thể chế về sở hữu.
-
-Câu 37: Nhân tố nào sau đây KHÔNG ảnh hưởng đến quan hệ lợi ích kinh tế trong nền kinh tế thị trường?
-A. Trình độ phát triển của lực lượng sản xuất.
-*B. Phong tục tập quán, truyền thống văn hóa.
-C. Địa vị của chủ thể trong hệ thống quan hệ sản xuất.
-D. Chính sách phân phối thu nhập của Nhà nước.
-Gt: Các nhân tố ảnh hưởng gồm trình độ LLSX, địa vị chủ thể, chính sách nhà nước và hội nhập (Xem trang 205, 206).
-
-Câu 38: Tạo lập những điều kiện để chuyển đổi từ nền sản xuất lạc hậu sang nền sản xuất tiến bộ là một trong những nội dung của:
-*A. công nghiệp hóa, hiện đại hóa ở Việt Nam.
-B. cách mạng công nghiệp lần thứ tư.
-C. cách mạng công nghiệp lần thứ ba.
-D. phát triển kinh tế tri thức ở Việt Nam.
-Gt: Đây là nội dung của công nghiệp hóa, hiện đại hóa ở Việt Nam (Xem trang 249, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 39: Thực hiện các nhiệm vụ để chuyển đổi nền sản xuất lạc hậu sang nền sản xuất hiện đại là một trong những nội dung của:
-*A. công nghiệp hóa, hiện đại hóa ở Việt Nam.
-B. của cách mạng công nghiệp lần thứ tư.
-C. của cách mạng công nghiệp lần thứ ba.
-D. phát triển kinh tế tri thức ở Việt Nam.
-Gt: Đây là nội dung của công nghiệp hóa, hiện đại hóa ở Việt Nam (Xem trang 249, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-
-Câu 40: Trong bối cảnh hội nhập kinh tế quốc tế, chủ thể nào dẫn dắt tiến trình hội nhập?
-A. Người dân.
-B. Công ty xuyên quốc gia.
-*C. Nhà nước.
-D. Doanh nghiệp có vốn đầu tư nước ngoài.
-Gt: Nhà nước dẫn dắt tiến trình hội nhập và hỗ trợ các chủ thể khác (Xem trang 270, giáo trình Kinh tế chính trị Mác - Lênin, 2021).
-`
-        },
-        {
-            name: "Bổ sung 2025-2026",
-            content: `
-
-
 Câu 1: Thuật ngữ Kinh tế chính trị xuất hiện đầu tiên ở
 A. Châu Á.
 *B. Châu Âu.
@@ -4040,153 +3611,462 @@ C. giai cấp công nhân.
 *D. doanh nghiệp và đội ngũ doanh nhân.
 Gt: Doanh nghiệp và doanh nhân là những chủ thể trực tiếp tham gia sản xuất kinh doanh, là lực lượng nòng cốt đi đầu trong hội nhập kinh tế quốc tế.
 `
+        },
+        {
+            name: "Bổ sung 2025-2026",
+            content: `
+Câu 1: Thuật ngữ Kinh tế chính trị xuất hiện đầu tiên ở
+A. Châu Á.
+*B. Châu Âu.
+C. Châu Mỹ.
+D. Châu Phi.
+
+Gt: Thuật ngữ "Kinh tế chính trị" xuất hiện đầu tiên ở Châu Âu, do Antoine de Montchrestien đặt ra năm 1615 trong tác phẩm "Traité d'économie politique".
+
+Câu 2: Nhà kinh tế học nào sau đây là đại biểu tiêu biểu của Chủ nghĩa trọng thương?
+*A. Gasparo Scaruffi.
+B. D. Ricardo.
+C. W. Petty.
+D. Jacques Turgot.
+
+Gt: Gasparo Scaruffi là đại biểu tiêu biểu của Chủ nghĩa trọng thương. D. Ricardo và W. Petty là đại biểu Kinh tế chính trị cổ điển Anh; Jacques Turgot thuộc Chủ nghĩa trọng nông.
+
+Câu 3: Nhà kinh tế học Antonso Serra là đại biểu tiêu biểu của
+*A. Chủ nghĩa trọng thương.
+B. Chủ nghĩa trọng nông.
+C. Kinh tế chính trị tầm thường.
+D. Kinh tế chính trị cổ điển Anh.
+
+Gt: Antonio Serra (người Ý) là đại biểu tiêu biểu của Chủ nghĩa trọng thương với tác phẩm "Luận về các nguyên nhân làm cho vương quốc Naples có nhiều vàng bạc" (1613).
+
+Câu 4: C. Mác đã kế thừa trực tiếp những giá trị khoa học của học thuyết kinh tế nào sau đây để phát triển lý luận kinh tế chính trị về phương thức sản xuất tư bản chủ nghĩa?
+A. Chủ nghĩa trọng thương.
+B. Chủ nghĩa trọng nông.
+C. Kinh tế chính trị tầm thường.
+*D. Kinh tế chính trị cổ điển Anh.
+
+Gt: C. Mác kế thừa trực tiếp Kinh tế chính trị cổ điển Anh (A. Smith, D. Ricardo) với lý thuyết giá trị - lao động để xây dựng học thuyết kinh tế về PTSX TBCN.
+
+Câu 5: Phát hiện ra các quy luật kinh tế chi phối các quan hệ giữa người với người trong sản xuất và trao đổi, là mục đích nghiên cứu của
+A. Chủ nghĩa trọng thương.
+B. Chủ nghĩa trọng nông.
+C. Kinh tế chính trị cổ điển Anh.
+*D. Kinh tế chính trị Mác - Lênin.
+
+Gt: Kinh tế chính trị Mác - Lênin có mục đích nghiên cứu các quy luật kinh tế chi phối quan hệ giữa người với người trong sản xuất và trao đổi dưới PTSX TBCN và trong thời kỳ quá độ lên CNXH.
+
+Câu 6: Trên cơ sở nhận thức được mở rộng và ngày càng sâu sắc, người lao động hình thành được năng lực, kỹ năng vận dụng các quy luật kinh tế vào thực tiễn hoạt động lao động là chức năng thực tiễn của
+A. Chủ nghĩa trọng thương.
+B. Chủ nghĩa trọng nông.
+C. Kinh tế chính trị cổ điển Anh.
+*D. Kinh tế chính trị Mác - Lênin.
+
+Gt: Chức năng thực tiễn của Kinh tế chính trị Mác - Lênin là giúp người lao động vận dụng quy luật kinh tế vào thực tiễn lao động sản xuất.
+
+Câu 7: Nhiều giá trị sử dụng khác nhau của hàng hoá được con người phát hiện nhờ vào sự phát triển của nền sản xuất và
+A. sự quản lý của nhà nước.
+*B. khoa học, công nghệ.
+C. thể chế chính trị.
+D. cơ chế kinh tế.
+
+Gt: Giá trị sử dụng của hàng hoá ngày càng được phát hiện phong phú hơn nhờ sự phát triển của khoa học, công nghệ, mở ra các công dụng mới của cùng một vật.
+
+Câu 8: Hàng hoá có hai thuộc tính là do lao động của người sản xuất hàng hoá có tính hai mặt là lao động cụ thể và
+A. lao động cá biệt.
+*B. lao động trừu tượng.
+C. lao động tư nhân.
+D. lao động xã hội.
+
+Gt: Lao động sản xuất hàng hoá có tính hai mặt: lao động cụ thể (tạo ra giá trị sử dụng) và lao động trừu tượng (tạo ra giá trị). Đây là phát hiện của C. Mác.
+
+Câu 9: Cơ sở để so sánh, trao đổi các giá trị sử dụng khác nhau là
+*A. lao động trừu tượng.
+B. lao động cụ thể.
+C. lao động tư nhân.
+D. lao động xã hội.
+
+Gt: Lao động trừu tượng (hao phí lao động thuần tuý về mặt sinh lý) là cơ sở để so sánh và trao đổi các hàng hoá có giá trị sử dụng khác nhau.
+
+Câu 10: Việc sản xuất và trao đổi hàng hoá phải được tiến hành trên cơ sở của hao phí lao động xã hội cần thiết là yêu cầu của quy luật
+*A. giá trị.
+B. cung - cầu.
+C. cạnh tranh.
+D. lưu thông tiền tệ.
+
+Gt: Quy luật giá trị yêu cầu sản xuất và trao đổi hàng hoá phải dựa trên cơ sở hao phí lao động xã hội cần thiết, không phải hao phí lao động cá biệt.
+
+Câu 11: Người sản xuất muốn bán được hàng hoá trên thị trường, muốn được xã hội thừa nhận sản phẩm thì lượng giá trị của một hàng hoá cá biệt phải phù hợp với thời gian lao động xã hội cần thiết, là yêu cầu của quy luật
+*A. giá trị.
+B. cung - cầu.
+C. cạnh tranh.
+D. lưu thông tiền tệ.
+
+Gt: Quy luật giá trị đòi hỏi hàng hoá phải được sản xuất với hao phí lao động cá biệt không vượt quá thời gian lao động xã hội cần thiết thì mới được xã hội thừa nhận.
+
+Câu 12: Giá trị hàng hoá là nội dung, là cơ sở của giá trị
+A. sử dụng.
+*B. trao đổi.
+C. thặng dư.
+D. tiêu dùng.
+
+Gt: Giá trị là lao động xã hội của người sản xuất kết tinh trong hàng hoá, là nội dung và cơ sở của giá trị trao đổi. Giá trị trao đổi là hình thức biểu hiện bên ngoài của giá trị.
+
+Câu 13: Việc phát hiện ra tính hai mặt của lao động sản xuất hàng hoá giúp C. Mác luận giải triệt để và khoa học về nguồn gốc, bản chất của
+A. giá cả.
+*B. giá trị.
+C. giá trị sử dụng.
+D. giá trị thị trường.
+
+Gt: Phát hiện tính hai mặt của lao động sản xuất hàng hoá (lao động cụ thể và lao động trừu tượng) là cơ sở để C. Mác luận giải nguồn gốc và bản chất của giá trị hàng hoá.
+
+Câu 14: Quy luật cạnh tranh điều tiết một cách khách quan mối quan hệ ganh đua kinh tế giữa các chủ thể trong
+A. các nền kinh tế.
+*B. sản xuất và trao đổi hàng hoá.
+C. các chế độ kinh tế.
+D. phương thức sản xuất tư bản chủ nghĩa.
+
+Gt: Quy luật cạnh tranh điều tiết khách quan mối quan hệ ganh đua kinh tế giữa các chủ thể trong quá trình sản xuất và trao đổi hàng hoá.
+
+Câu 15: Kết quả cạnh tranh trong nội bộ ngành là hình thành giá trị thị trường của từng
+A. nền kinh tế.
+B. doanh nghiệp.
+*C. loại hàng hoá.
+D. quốc gia.
+
+Gt: Cạnh tranh trong nội bộ ngành dẫn đến hình thành giá trị thị trường của từng loại hàng hoá (mức hao phí lao động xã hội cần thiết trung bình của ngành).
+
+Câu 16: Vai trò của người tiêu dùng là định hướng
+*A. sản xuất.
+B. lưu thông.
+C. phân phối.
+D. tiêu dùng.
+
+Gt: Người tiêu dùng (thông qua nhu cầu và cầu trên thị trường) có vai trò định hướng sản xuất - quyết định doanh nghiệp sản xuất cái gì, số lượng bao nhiêu.
+
+Câu 17: Giá trị sử dụng của hàng hoá sức lao động nhằm thoả mãn nhu cầu của
+*A. người mua.
+B. người bán.
+C. người sản xuất.
+D. nhà nước.
+
+Gt: Sức lao động là hàng hoá đặc biệt. Giá trị sử dụng của nó (khả năng lao động, tạo ra giá trị mới lớn hơn giá trị bản thân nó) nhằm thoả mãn nhu cầu của người mua (nhà tư bản).
+
+Câu 18: Hình thái tư bản đầu tiên trong tuần hoàn của tư bản là
+A. tư bản sản xuất.
+B. tư bản hàng hoá.
+*C. tư bản tiền tệ.
+D. tư bản cho vay.
+
+Gt: Tuần hoàn tư bản bắt đầu bằng tư bản tiền tệ (T), sau đó chuyển thành tư bản sản xuất (SX), rồi tư bản hàng hoá (H'), cuối cùng trở về hình thái tiền tệ (T').
+
+Câu 19: Ba hình thái kế tiếp nhau của tuần hoàn tư bản là tư bản tiền tệ, tư bản sản xuất,
+*A. tư bản hàng hoá.
+B. tư bản tiền tệ.
+C. tư bản sản xuất.
+D. tư bản cho vay.
+
+Gt: Ba hình thái kế tiếp trong tuần hoàn tư bản: tư bản tiền tệ -> tư bản sản xuất -> tư bản hàng hoá, theo công thức T - H - SX - H' - T'.
+
+Câu 20: Chu chuyển tư bản được đo lường bằng thời gian chu chuyển tư bản hoặc
+A. tốc độ tích luỹ tư bản.
+B. thời gian lưu thông.
+C. thời gian sản xuất.
+*D. tốc độ chu chuyển tư bản.
+
+Gt: Chu chuyển tư bản được đo bằng hai đại lượng: thời gian chu chuyển tư bản (tổng thời gian sản xuất + lưu thông) và tốc độ chu chuyển tư bản (số vòng quay trong năm).
+
+Câu 21: Xí nghiệp A có lượng tư bản đầu tư 100.000.000 đồng, cấu tạo hữu cơ của tư bản 4/1. Vậy giá trị cũ là bao nhiêu?
+A. 40.000.000 đồng.
+B. 10.000.000 đồng.
+*C. 80.000.000 đồng.
+D. 20.000.000 đồng.
+
+Gt: CTHC = c/v = 4/1, tổng = 5 phần. Tư bản bất biến c (giá trị cũ) = 4/5 x 100tr = 80tr đồng. Tư bản khả biến v = 1/5 x 100tr = 20tr đồng.
+
+Câu 22: Quá trình tích luỹ tư bản không ngừng làm tăng cấu tạo hữu cơ của
+*A. tư bản.
+B. tiêu dùng.
+C. hàng hoá.
+D. trao đổi.
+
+Gt: Tích luỹ tư bản gắn liền với tiến bộ kỹ thuật, tăng tư bản bất biến (máy móc) nhanh hơn tư bản khả biến (lao động), dẫn đến cấu tạo hữu cơ của tư bản (c/v) không ngừng tăng lên.
+
+Câu 23: Trình độ khai thác sức lao động là một trong những nhân tố chủ yếu ảnh hưởng đến quy mô
+*A. tích luỹ tư bản.
+B. tiêu dùng hàng hoá.
+C. trao đổi.
+D. phân phối.
+
+Gt: Quy mô tích luỹ tư bản phụ thuộc vào khối lượng giá trị thặng dư và tỷ lệ phân chia thành tích luỹ/tiêu dùng. Trình độ khai thác sức lao động (tỷ suất m') quyết định khối lượng m, từ đó ảnh hưởng quy mô tích luỹ.
+
+Câu 24: Xí nghiệp A có chi phí tư bản 100.000.000 đồng, cấu tạo hữu cơ của tư bản 3/2, tỷ suất giá trị thặng dư 30%. Vậy giá trị mới là bao nhiêu?
+A. 42.000.000 đồng.
+*B. 52.000.000 đồng.
+C. 40.000.000 đồng.
+D. 60.000.000 đồng.
+
+Gt: CTHC = c/v = 3/2, tổng = 5 phần. v = 2/5 x 100tr = 40tr. m = m' x v = 30% x 40tr = 12tr. Giá trị mới = v + m = 40tr + 12tr = 52tr đồng.
+
+Câu 25: Theo quan điểm của P.Samuelson, lợi nhuận là phần thu nhập thặng dư tính bằng hiệu quả giữa tổng doanh thu trừ đi
+A. tổng giá trị hàng hoá.
+*B. tổng chi phí.
+C. giá trị hàng hoá.
+D. giá trị tăng thêm.
+
+Gt: Theo P.Samuelson, lợi nhuận = Tổng doanh thu - Tổng chi phí (bao gồm cả chi phí cơ hội). Đây là cách tiếp cận của kinh tế học hiện đại.
+
+Câu 26: Tỷ suất lợi nhuận phản ánh mức doanh lợi
+A. trao đổi hàng hoá.
+B. tiêu dùng hàng hoá.
+*C. đầu tư tư bản.
+D. cho vay tư bản.
+
+Gt: Tỷ suất lợi nhuận (p' = m/K x 100%) phản ánh mức doanh lợi của đầu tư tư bản, cho biết cứ 100 đơn vị tư bản đầu tư thu được bao nhiêu đơn vị lợi nhuận.
+
+Câu 27: Địa tô là một trong những căn cứ để tính toán giá cả ruộng đất khi thực hiện bán
+A. quyền sử dụng đất.
+B. quyền sở hữu đất.
+*C. đất đai.
+D. hàng hoá.
+
+Gt: Giá cả ruộng đất = Địa tô / Tỷ suất lợi tức ngân hàng. Địa tô là căn cứ chính để xác định giá cả đất đai khi mua bán.
+
+Câu 28: Mảnh đất có diện tích 100m2, giá cả mảnh đất 2 tỷ đồng, tỷ suất ngân hàng nhận gửi hiện hành 7%. Vậy địa tô của mảnh đất là bao nhiêu?
+*A. 140.000.000 đồng.
+B. 120.000.000 đồng.
+C. 130.000.000 đồng.
+D. 170.000.000 đồng.
+
+Gt: Địa tô = Giá cả đất x Tỷ suất lợi tức = 2.000.000.000 x 7% = 140.000.000 đồng.
+
+Câu 29: Trong nền kinh tế thị trường, độc quyền có thể được hình thành một cách tự nhiên, cũng có thể được hình thành bởi
+A. điều kiện tự nhiên.
+B. điều kiện xã hội.
+*C. ý chí của nhà nước.
+D. tư bản thương nghiệp.
+
+Gt: Độc quyền hình thành theo hai con đường: tự nhiên (do cạnh tranh, tích tụ tập trung tư bản) hoặc do ý chí của nhà nước (nhà nước cấp phép độc quyền, bảo hộ).
+
+Câu 30: Độc quyền có thể làm tăng năng suất lao động, nâng cao năng lực cạnh tranh của
+*A. tổ chức độc quyền.
+B. tổ chức chính trị.
+C. nhà nước.
+D. tổ chức xã hội.
+
+Gt: Tổ chức độc quyền với ưu thế về quy mô, vốn, công nghệ có thể đầu tư R&D, nâng cao năng suất và năng lực cạnh tranh của chính tổ chức đó trên thị trường quốc tế.
+
+Câu 31: Tổ chức độc quyền có ưu thế tập trung được sức mạnh kinh tế to lớn, nhất là sức mạnh về
+A. đất đai.
+B. thị trường.
+C. xuất khẩu.
+*D. tài chính.
+
+Gt: Tổ chức độc quyền tập trung sức mạnh kinh tế to lớn, đặc biệt là sức mạnh tài chính (vốn, tín dụng, ngân hàng), tạo nền tảng chi phối toàn bộ nền kinh tế.
+
+Câu 32: Sự kết hợp về nhân sự trong độc quyền nhà nước được thực hiện thông qua các đảng phái. Đứng sau các đảng phái là một lực lượng có quyền lực, đó chính là
+A. các cơ quan quản lý nhà nước về kinh tế.
+B. nhà tư bản kếch xù.
+*C. các hội chủ xí nghiệp độc quyền.
+D. nhà tài phiệt.
+
+Gt: Đứng sau các đảng phái chính trị là các hội chủ xí nghiệp độc quyền - lực lượng tài trợ và chi phối hoạt động chính trị nhằm bảo vệ lợi ích của tư bản độc quyền.
+
+Câu 33: Các tổ chức độc quyền công nghiệp tham gia vào công việc của ngân hàng bằng cách
+A. bán tài sản cho các ngân hàng lớn.
+*B. mua cổ phần của các ngân hàng lớn.
+C. bán cổ phần cho các ngân hàng lớn.
+D. cử đại diện tham gia vào cơ quan quản lý nhà nước.
+
+Gt: Tổ chức độc quyền công nghiệp tham gia vào hoạt động ngân hàng bằng cách mua cổ phần của các ngân hàng lớn, từ đó kiểm soát và chi phối hoạt động ngân hàng.
+
+Câu 34: Trong chủ nghĩa tư bản hiện đại, để cùng tồn tại và cùng phân chia quyền lực giữa các thế lực tư bản độc quyền, tại các nước tư bản phát triển nhất, quan hệ nhân sự xuất hiện cơ chế sau đây?
+A. Thỏa hiệp.
+B. Tham dự.
+*C. Ủy nhiệm.
+D. Phân cấp.
+
+Gt: Cơ chế ủy nhiệm (hay ủy quyền) xuất hiện trong CNTB hiện đại, cho phép các thế lực tư bản độc quyền cùng tồn tại và phân chia quyền lực thông qua việc ủy nhiệm đại diện quản lý.
+
+Câu 35: Thành phần kinh tế nào sau đây được xác định là một động lực quan trọng của nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam hiện nay?
+A. Kinh tế nhà nước.
+B. Kinh tế tập thể.
+*C. Kinh tế tư nhân.
+D. Kinh tế có vốn đầu tư nước ngoài.
+
+Gt: Theo Nghị quyết Đại hội XIII của Đảng, kinh tế tư nhân được xác định là một động lực quan trọng của nền kinh tế thị trường định hướng XHCN ở Việt Nam.
+
+Câu 36: Luận giải nào sau đây không đúng về tính tất yếu khách quan của việc phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?
+A. Phát triển kinh tế thị trường định hướng xã hội chủ nghĩa là phù hợp với xu hướng phát triển khách quan của Việt Nam trong bối cảnh thế giới hiện nay.
+B. Do tính ưu việt của kinh tế thị trường trong thúc đẩy phát triển Việt Nam theo định hướng xã hội chủ nghĩa.
+C. Kinh tế thị trường định hướng xã hội chủ nghĩa phù hợp với nguyện vọng, mong muốn của nhân dân Việt Nam.
+*D. Kinh tế thị trường là mục tiêu của chủ nghĩa xã hội.
+
+Gt: Kinh tế thị trường không phải là mục tiêu mà là phương tiện, công cụ để xây dựng CNXH. Mục tiêu của CNXH là "dân giàu, nước mạnh, dân chủ, công bằng, văn minh". Đây là luận giải không đúng.
+
+Câu 37: Nội dung nào sau đây không phản ánh đặc trưng của kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam?
+A. Kinh tế thị trường định hướng xã hội chủ nghĩa hướng tới thực hiện mục tiêu "dân giàu, nước mạnh, dân chủ, công bằng, văn minh".
+B. Kinh tế thị trường định hướng xã hội chủ nghĩa là nền kinh tế có nhiều hình thức sở hữu, nhiều thành phần kinh tế, trong đó kinh tế nhà nước giữ vai trò chủ đạo.
+C. Kinh tế thị trường định hướng xã hội chủ nghĩa gắn tăng trưởng kinh tế với công bằng xã hội.
+*D. Kinh tế thị trường định hướng xã hội chủ nghĩa xây dựng trên nền tảng sở hữu tư nhân về tư liệu sản xuất.
+
+Gt: KTTT định hướng XHCN ở Việt Nam xây dựng trên nền tảng sở hữu toàn dân (đất đai, tài nguyên) và sở hữu nhà nước đóng vai trò chủ đạo, không phải nền tảng sở hữu tư nhân như CNTB. Đây là nội dung không phản ánh đặc trưng.
+
+Câu 38: Mục tiêu của công nghiệp hoá, hiện đại hoá nền kinh tế quốc dân ở Việt Nam là nhằm xây dựng
+A. kinh tế thị trường.
+*B. chủ nghĩa xã hội.
+C. kinh tế tri thức.
+D. đội ngũ tri thức.
+
+Gt: CNH, HĐH ở Việt Nam nhằm mục tiêu tổng quát là xây dựng chủ nghĩa xã hội - tạo nền tảng vật chất kỹ thuật cho chế độ xã hội chủ nghĩa.
+
+Câu 39: Cách mạng công nghiệp lần thứ tư làm thay đổi hệ thống sản xuất, chuyển sản xuất từ
+A. tập trung sang độc quyền.
+B. cạnh tranh sang độc quyền.
+C. phân cấp sang tập trung.
+*D. tập trung sang phân cấp.
+
+Gt: Cách mạng công nghiệp lần thứ tư (với AI, IoT, in 3D...) cho phép sản xuất linh hoạt, phi tập trung hoá, chuyển từ mô hình sản xuất tập trung sang phân cấp (sản xuất phân tán, cá nhân hoá).
+
+Câu 40: Chủ thể làm lực lượng nòng cốt của hội nhập quốc tế là
+A. các cơ quan quản lý nhà nước.
+*B. đội ngũ trí thức.
+C. giai cấp công nhân.
+D. doanh nghiệp và đội ngũ doanh nhân.
+
+Gt: Đội ngũ trí thức là lực lượng nòng cốt trong hội nhập quốc tế, có vai trò tiên phong trong tiếp thu, ứng dụng khoa học công nghệ và tri thức toàn cầu vào phát triển đất nước.
+`
         }
-    ];
+];
 
-    let examQuestions = [];
-    let isSubmitted = false;
-    let timeLeft = 3600;
+let exam=[], submitted=false, timeLeft=3600, timerID=null, answered=0;
 
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 
-    function parseText(text) {
-        const blocks = text.trim().split(/(?=Câu \d+:)/);
-        return blocks.filter(b => b.trim()).map(block => {
-            const lines = block.trim().split('\n');
-            const questionText = lines[0].replace(/Câu \d+:\s*/, '').trim();
-            const options = [];
-            let correctIdx = -1;
-            let explanation = "";
-
-            lines.forEach(line => {
-                const l = line.trim();
-                if (/^[*]?([A-D]\.)/.test(l)) {
-                    if (l.startsWith('*')) correctIdx = options.length;
-                    options.push(l.replace('*', '').replace(/^[A-D]\.\s*/, '').trim());
-                } else if (l.startsWith('Gt:')) {
-                    explanation = l.replace('Gt:', '').trim();
-                }
-            });
-            return { questionText, options, correctIdx, explanation };
+function parse(text, src){
+    return text.trim().split(/(?=Câu \d+:)/).filter(b=>b.trim()).map(block=>{
+        const lines=block.trim().split('\n');
+        const q=lines[0].replace(/Câu \d+:\s*/,'').trim();
+        const opts=[]; let ci=-1, ex='';
+        lines.forEach(l=>{
+            l=l.trim();
+            if(/^[*]?[A-D]\./.test(l)){if(l.startsWith('*'))ci=opts.length;opts.push(l.replace('*','').replace(/^[A-D]\.\s*/,'').trim())}
+            else if(l.startsWith('Gt:'))ex=l.replace('Gt:','').trim();
         });
-    }
+        if(!q||opts.length<2||ci===-1)return null;
+        return{q,opts,ci,ex,src};
+    }).filter(Boolean);
+}
 
-    function generateExam() {
-        const totalQuestions = 60;
-        const perPart = Math.floor(totalQuestions / database.length);
-        let selected = [];
+function getPool(){
+    const v=document.getElementById('sel-src').value;
+    let pool=[];
+    if(v==='all') database.forEach(p=>pool=pool.concat(parse(p.content,p.name)));
+    else{const p=database[+v];pool=parse(p.content,p.name)}
+    return pool;
+}
 
-        database.forEach(part => {
-            let questionsPool = parseText(part.content);
-            shuffle(questionsPool);
-            selected = selected.concat(questionsPool.slice(0, perPart));
-        });
+function updateStat(){
+    const n=getPool().length;
+    document.getElementById('stat-badge').textContent=n+' câu trong NHCH';
+}
 
-        // Bổ sung cho đủ 60 câu nếu chia lẻ
-        if (selected.length < totalQuestions) {
-            let remainingPool = [];
-            database.forEach(p => remainingPool = remainingPool.concat(parseText(p.content)));
-            remainingPool = remainingPool.filter(q => !selected.includes(q));
-            shuffle(remainingPool);
-            selected = selected.concat(remainingPool.slice(0, totalQuestions - selected.length));
-        }
+function generateExam(){
+    const n=Math.min(+document.getElementById('sel-num').value||60, 9999);
+    const mins=+document.getElementById('sel-time').value||60;
+    let pool=getPool(); shuffle(pool);
+    exam=pool.slice(0,Math.min(n,pool.length));
+    submitted=false; answered=0;
+    clearInterval(timerID);
+    timeLeft=mins*60;
+    updateTimerDisp();
+    document.getElementById('timer-wrap').classList.remove('warn');
+    timerID=setInterval(()=>{
+        if(submitted)return;
+        timeLeft--;updateTimerDisp();
+        if(timeLeft<=300)document.getElementById('timer-wrap').classList.add('warn');
+        if(timeLeft<=0)submitExam();
+    },1000);
+    render();
+}
 
-        examQuestions = shuffle(selected);
-        renderExam();
-    }
+function updateTimerDisp(){
+    const m=String(Math.floor(timeLeft/60)).padStart(2,'0');
+    const s=String(timeLeft%60).padStart(2,'0');
+    document.getElementById('timer-disp').textContent=m+':'+s;
+}
 
-    function renderExam() {
-        const container = document.getElementById('questions-container');
-        const nav = document.getElementById('nav-grid');
-        container.innerHTML = ""; nav.innerHTML = "";
+function render(){
+    const qc=document.getElementById('q-container'), ng=document.getElementById('nav-grid');
+    qc.innerHTML=''; ng.innerHTML='';
+    exam.forEach((q,i)=>{
+        const card=document.createElement('div'); card.className='q-card'; card.id='q-'+i;
+        card.innerHTML=`
+            <div class="q-num">Câu ${i+1} / ${exam.length}</div>
+            <div class="q-src"><i class="fa-solid fa-tag"></i> ${q.src}</div>
+            <div style="font-size:1.05rem">${q.q}</div>
+            <div class="opts">${q.opts.map((o,oi)=>`
+                <label class="opt" id="L-${i}-${oi}">
+                    <input type="radio" name="q${i}" value="${oi}" onchange="markAns(${i})">
+                    <div class="opt-l">${String.fromCharCode(65+oi)}</div>
+                    <div class="opt-t">${o}</div>
+                </label>`).join('')}
+            </div>
+            <div class="ex-box" id="ex-${i}"><b><i class="fa-solid fa-lightbulb" style="color:#f59e0b"></i> Giải thích:</b><br>${q.ex||'Không có giải thích.'}</div>`;
+        qc.appendChild(card);
+        const btn=document.createElement('div');
+        btn.className='nav-btn'; btn.id='nav-'+i; btn.textContent=i+1;
+        btn.onclick=()=>card.scrollIntoView({behavior:'smooth',block:'start'});
+        ng.appendChild(btn);
+    });
+    updateProg();
+    if(window.renderMathInElement) renderMathInElement(document.body,{delimiters:[{left:'$',right:'$',display:false}]});
+}
 
-        examQuestions.forEach((q, i) => {
-            const card = document.createElement('div');
-            card.className = 'q-card'; card.id = `q-${i}`;
-            card.innerHTML = `
-                <div class="q-title">Câu ${i + 1}:</div>
-                <div style="font-size:1.05rem; margin-bottom:20px;">${q.questionText}</div>
-                <div class="options-wrapper">
-                    ${q.options.map((opt, oi) => `
-                        <label class="option-item" id="L-${i}-${oi}">
-                            <input type="radio" name="q${i}" value="${oi}" onchange="markAnswered(${i})">
-                            <div class="opt-letter">${String.fromCharCode(65 + oi)}</div>
-                            <div class="opt-text">${opt}</div>
-                        </label>
-                    `).join('')}
-                </div>
-                <div class="explanation-box" id="ex-${i}">
-                    <b><i class="fa-solid fa-lightbulb"></i> Giải thích:</b><br>${q.explanation}
-                </div>
-            `;
-            container.appendChild(card);
+function markAns(i){
+    if(submitted)return;
+    const btn=document.getElementById('nav-'+i);
+    if(!btn.classList.contains('answered')){btn.classList.add('answered');answered++;updateProg()}
+}
 
-            const btn = document.createElement('div');
-            btn.className = 'nav-btn'; btn.id = `nav-${i}`; btn.innerText = i + 1;
-            btn.onclick = () => window.scrollTo({ top: card.offsetTop - 80, behavior: 'smooth' });
-            nav.appendChild(btn);
-        });
-        if (window.renderMathInElement) renderMathInElement(document.body, { delimiters: [{left: "$", right: "$", display: false}] });
-    }
+function updateProg(){
+    const t=exam.length;
+    document.getElementById('prog-text').textContent=answered+' / '+t+' câu đã trả lời';
+    document.getElementById('prog-bar').style.width=(t>0?answered/t*100:0)+'%';
+}
 
-    function markAnswered(i) {
-        if (!isSubmitted) document.getElementById(`nav-${i}`).classList.add('answered');
-    }
+function submitExam(){
+    if(submitted)return;
+    if(!confirm('Bạn có chắc chắn muốn nộp bài?'))return;
+    submitted=true; clearInterval(timerID);
+    let ok=0,bad=0,skip=0;
+    exam.forEach((q,i)=>{
+        const sel=document.querySelector(`input[name="q${i}"]:checked`);
+        document.getElementById('ex-'+i).classList.add('show');
+        document.getElementById('L-'+i+'-'+q.ci).classList.add('ok');
+        const nav=document.getElementById('nav-'+i);
+        if(sel){
+            const v=+sel.value;
+            if(v===q.ci){ok++;nav.className='nav-btn correct'}
+            else{bad++;nav.className='nav-btn wrong';document.getElementById('L-'+i+'-'+v).classList.add('bad')}
+        } else{skip++;nav.className='nav-btn wrong'}
+    });
+    const t=exam.length, score=(ok/t*10).toFixed(1), pct=(ok/t*100).toFixed(0);
+    document.getElementById('final-score').textContent=score;
+    document.getElementById('r-ok').textContent=ok;
+    document.getElementById('r-bad').textContent=bad;
+    document.getElementById('r-skip').textContent=skip;
+    document.getElementById('r-text').textContent='Đúng '+ok+'/'+t+' câu ('+pct+'%)';
+    const color=ok/t>=0.5?'var(--blue)':'var(--bad)';
+    document.getElementById('score-ring').style.background=`conic-gradient(${color} ${pct}%,#e5e7eb ${pct}%)`;
+    document.getElementById('final-score').style.color=color;
+    document.getElementById('modal').classList.add('open');
+}
 
-    function submitExam() {
-        if (isSubmitted || !confirm("Bạn có chắc chắn muốn nộp bài?")) return;
-        isSubmitted = true;
-        clearInterval(timerInterval);
-        
-        let correctCount = 0;
-        examQuestions.forEach((q, i) => {
-            const selected = document.querySelector(`input[name="q${i}"]:checked`);
-            const navBtn = document.getElementById(`nav-${i}`);
-            const exBox = document.getElementById(`ex-${i}`);
-            
-            exBox.classList.add('show');
-            document.getElementById(`L-${i}-${q.correctIdx}`).classList.add('is-correct');
+function closeModal(){document.getElementById('modal').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'})}
+function reloadExam(){document.getElementById('modal').classList.remove('open');generateExam();window.scrollTo({top:0,behavior:'smooth'})}
 
-            if (selected) {
-                const val = parseInt(selected.value);
-                if (val === q.correctIdx) {
-                    correctCount++; navBtn.classList.add('correct');
-                } else {
-                    document.getElementById(`L-${i}-${val}`).classList.add('is-wrong');
-                    navBtn.classList.add('wrong');
-                }
-            } else {
-                navBtn.classList.add('wrong');
-            }
-        });
-
-        const score = ((correctCount / examQuestions.length) * 10).toFixed(1);
-        document.getElementById('final-score').innerText = score;
-        document.getElementById('correct-count-text').innerText = `Đúng ${correctCount}/${examQuestions.length} câu`;
-        document.getElementById('resultModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-        document.getElementById('resultModal').style.display = 'none';
-        window.scrollTo(0, 0);
-    }
-
-    const timerInterval = setInterval(() => {
-        if (isSubmitted) return;
-        timeLeft--;
-        const m = Math.floor(timeLeft / 60);
-        const s = timeLeft % 60;
-        document.getElementById('timer-display').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        if (timeLeft <= 0) submitExam();
-    }, 1000);
-
-    window.onload = generateExam;
+document.getElementById('sel-src').addEventListener('change',updateStat);
+window.onload=()=>{updateStat();generateExam()};
 </script>
 </body>
 </html>
