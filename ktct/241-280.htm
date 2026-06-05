@@ -154,288 +154,252 @@
 <script>
     // Dữ liệu câu hỏi (Có chứa LaTeX $...$)
     const rawData = `
+Câu 1: Giá mảnh đất có diện tích 100 m² ở Bình Định năm 2020 tăng từ 500.000.000 đồng lên 800.000.000 đồng, biết rằng thời kỳ đó lãi suất tiền vay giảm từ 5% xuống 4%. Vậy địa tô thay đổi như thế nào đối với mảnh đất trên?
+*A. Từ 25.000.000 đồng tăng lên 32.000.000 đồng.
+B. Từ 25.000.000 đồng tăng lên 30.000.000 đồng.
+C. Từ 32.000.000 đồng giảm xuống 25.000.000 đồng.
+D. Từ 30.000.000 đồng giảm xuống 25.000.000 đồng.
+Gt: Địa tô ban đầu = 500.000.000 * 5% = 25.000.000 đồng. Địa tô lúc sau = 800.000.000 * 4% = 32.000.000 đồng. Địa tô tăng từ 25.000.000 đồng lên 32.000.000 đồng.
+Câu 2: Có ba ngành sản xuất A, B, C đầu tư một lượng tư bản như nhau là 100.000.000 đồng với cấu tạo hữu cơ của tư bản của từng ngành lần lượt là 4/1, 3/2, 7/3, tỷ suất giá trị thặng dư là 100%. Trong điều kiện cung bằng cầu, tỷ suất lợi nhuận bình quân bằng bao nhiêu?
+A. 10%.
+B. 20%.
+*C. 30%.
+D. 25%.
 
-
-
-Câu 1: Xí nghiệp A có lượng tư bản đầu tư lần thứ nhất 200.000.000 đồng, cấu tạo hữu cơ của tư bản 4/1, tỷ suất giá trị thặng dư 100%, giá trị thặng dư được tư bản hóa 50%. Vậy lượng tư bản đầu tư lần thứ hai là bao nhiêu?
-*A. 220.000.000 đồng.
-B. 225.000.000 đồng.
-C. 235.000.000 đồng.
-D. 230.000.000 đồng.
-Gt: Ta có c=4v, c+v=200tr => v=40tr. m=100%*v=40tr. Lượng tích lũy = 50%*m=20tr. Lượng tư bản lần hai = 200tr + 20tr = 220.000.000 đồng.
-
-Câu 2: Mối quan hệ tỷ lệ giữa số lượng tư liệu sản xuất và số lượng sức lao động là:
-A. cấu tạo giá trị sử dụng của tư bản.
-B. cấu tạo hữu cơ của tư bản.
-*C. cấu tạo kỹ thuật của tư bản.
-D. cấu tạo giá trị của tư bản.
-Gt: Quan sát qua hình thái hiện vật, tỷ lệ giữa số lượng tư liệu sản xuất và số lượng sức lao động được gọi là cấu tạo kỹ thuật (Trang 107).
-
-Câu 3: Sự tăng thêm quy mô của tư bản cá biệt bằng cách tư bản hóa giá trị thặng dư là:
-A. phát triển tư bản.
-B. đầu tư tư bản.
-*C. tích tụ tư bản.
-D. tập trung tư bản.
-Gt: Tích tụ tư bản là sự tăng thêm quy mô tư bản cá biệt bằng cách tư bản hóa giá trị thặng dư (Trang 108).
-
-Câu 4: Trong tái sản xuất giản đơn, toàn bộ giá trị thặng dư đã được nhà tư bản tiêu dùng cho:
-A. tư bản bất biến.
-B. tư bản khả biến.
-C. sản xuất.
-*D. cá nhân.
-Gt: Trong tái sản xuất giản đơn, toàn bộ giá trị thặng dư được nhà tư bản tiêu dùng cho cá nhân (Trang 105).
-
-Câu 5: Xí nghiệp A có thời gian chu chuyển một vòng của tư bản 6 tháng. Vậy tốc độ chu chuyển tư bản là bao nhiêu?
-A. 1 vòng/năm.
-*B. 2 vòng/năm.
-C. 4 vòng/năm.
-D. 3 vòng/năm.
-Gt: Tốc độ chu chuyển n = CH/ch = 12 tháng / 6 tháng = 2 (vòng/năm).
-
-Câu 6: Để tái sản xuất sức lao động cần tiêu dùng: ăn uống 50.000 đồng/ngày, đồ gia dụng 29.200.000 đồng/năm, văn hóa 900.000 đồng/tháng. Vậy giá trị sức lao động trong ngày là bao nhiêu?
-*A. 160.000 đồng.
-B. 170.000 đồng.
-C. 180.000 đồng.
-D. 200.000 đồng.
-Gt: Chi phí một ngày = 50.000 + (29.200.000/365) + (900.000/30) = 50.000 + 80.000 + 30.000 = 160.000 đồng.
-
-Câu 7: Cấu tạo kỹ thuật của tư bản phản ánh mối quan hệ tỷ lệ giữa số lượng tư liệu sản xuất và số lượng:
-A. lao động.
-B. lực lượng sản xuất.
-*C. sức lao động.
-D. quan hệ sản xuất.
-Gt: Theo hình thái hiện vật, cấu tạo kỹ thuật phản ánh tỷ lệ giữa số lượng tư liệu sản xuất và số lượng sức lao động (Trang 107).
-
-Câu 8: Xí nghiệp A có lượng tư bản đầu tư 200.000.000 đồng, cấu tạo hữu cơ 4/1, tỷ suất m' 100%, tỷ suất tích lũy tư bản 80%. Hỏi khối lượng giá trị thặng dư tư bản hóa là bao nhiêu?
-A. 30.000.000 đồng.
-B. 35.000.000 đồng.
-*C. 32.000.000 đồng.
+Gt: Tổng giá trị thặng dư thu được từ ba ngành là 20.000.000 + 40.000.000 + 30.000.000 = 90.000.000 đồng. Tổng tư bản đầu tư của cả ba ngành là 100.000.000 * 3 = 300.000.000 đồng. Tỷ suất lợi nhuận bình quân = (90.000.000 / 300.000.000) * 100% = 30%.
+Câu 3: C. Mác ký hiệu địa tô là.
+A. P.
+B. Z.
+C. M.
+*D. R.
+Gt: Ký hiệu của địa tô trong kinh tế chính trị là R.
+Câu 4: Địa tô mà địa chủ thu được trên những loại ruộng đất tốt, độ màu mỡ cao và điều kiện tự nhiên thuận lợi là.
+A. địa tô tương đối.
+B. địa tô tuyệt đối.
+*C. địa tô chênh lệch I.
+D. địa tô chênh lệch II.
+Gt: Địa tô chênh lệch loại I là địa tô thu được do cho thuê ruộng đất tốt, độ màu mỡ cao và điều kiện tự nhiên thuận lợi.
+Câu 5: Một phần lợi nhuận bình quân mà người đi vay phải trả cho người cho vay vì đã sử dụng lượng tiền nhàn rỗi của người cho vay là.
+*A. lợi tức.
+B. lợi nhuận bình quân.
+C. lợi nhuận thương nghiệp.
+D. địa tô.
+Gt: Lợi tức là một phần lợi nhuận bình quân mà người đi vay trả cho người cho vay vì đã sử dụng lượng tiền nhàn rỗi của họ.
+Câu 6: Cạnh tranh giữa các ngành là cơ chế cho sự hình thành.
+A. tỷ suất lợi nhuận.
+B. lợi nhuận bình quân.
+*C. tỷ suất lợi nhuận bình quân.
+D. lợi nhuận thương nghiệp.
+Gt: Cạnh tranh giữa các ngành là cơ chế trực tiếp cho sự hình thành tỷ suất lợi nhuận bình quân và lợi nhuận bình quân.
+Câu 7: C. Mác ký hiệu tỷ suất lợi tức là.
+A. Z.
+B. m.
+*C. z'.
+D. P.
+Gt: Ký hiệu của tỷ suất lợi tức là z'.
+Câu 8: Lợi nhuận bình quân được hình thành do cạnh tranh.
+A. trong nội bộ doanh nghiệp.
+*C. giữa các ngành.
+B. không lành mạnh.
+D. trong nội bộ ngành.
+Gt: Trong nền kinh tế thị trường, cạnh tranh giữa các ngành tất yếu dẫn tới việc hình thành lợi nhuận bình quân.
+Câu 9: Lợi nhuận thương nghiệp là số chênh lệch giữa.
+A. giá cả và giá trị hàng hóa.
+*B. giá bán và giá mua hàng hóa.
+C. giá cả và chi phí sản xuất.
+D. giá trị và chi phí sản xuất.
+Gt: Lợi nhuận thương nghiệp được xác định bằng số chênh lệch giữa giá bán và giá mua hàng hóa.
+Câu 10: C. Mác ký hiệu tỷ suất lợi nhuận là.
+A. m.
+B. P.
+C. V.
+*D. p'.
+Gt: Ký hiệu của tỷ suất lợi nhuận là p'.
+Câu 11: Xí nghiệp A có lượng tư bản đầu tư 400.000.000 đồng, cấu tạo hữu cơ của tư bản 3/2, tỷ suất giá trị thặng dư 50%. Trong điều kiện cung bằng cầu lợi nhuận của xí nghiệp A là bao nhiêu?
+*A. 80.000.000 đồng.
+B. 40.000.000 đồng.
+C. 50.000.000 đồng.
 D. 20.000.000 đồng.
-Gt: v=40tr, m=40tr. Lượng tư bản hóa = m * tỷ suất tích lũy = 40tr * 80% = 32.000.000 đồng.
+Gt: Từ phương trình cấu tạo hữu cơ, tính được V = 160.000.000 đồng. Tổng giá trị thặng dư M = (50% * 160.000.000) / 100% = 80.000.000 đồng. Trong điều kiện cung bằng cầu, lợi nhuận (P) đúng bằng tổng giá trị thặng dư (M) nên P = 80.000.000 đồng.
+Câu 12: C. Mác ký hiệu lợi nhuận bình quân là.
+A. π.
+*B. p̄.
+C. P.
+D. p.
+Gt: Ký hiệu của lợi nhuận bình quân là p̄ (p có gạch ngang trên đầu).
+Câu 13: Ông A vay ông B số tiền 100.000.000 đồng. Sau 1 tháng ông A phải trả cho ông B 103.000.000 đồng. Vậy ông A vay tiền ông B với tỷ suất lợi tức là bao nhiêu?
+A. 1%.
+B. 2%.
+*C. 3%.
+D. 4%.
+Gt: Số tiền lợi tức là 103.000.000 - 100.000.000 = 3.000.000 đồng. Tỷ suất lợi tức z' = (3.000.000 / 100.000.000) * 100% = 3%.
+Câu 14: Phần giá trị thặng dư còn lại sau khi đã khấu trừ đi phần lợi nhuận bình quân mà các nhà tư bản kinh doanh trên lĩnh vực nông nghiệp phải trả cho địa chủ là.
+A. tỷ suất lợi nhuận.
+C. lợi tức.
+B. tỷ suất lợi nhuận bình quân.
+*D. địa tô.
 
-Câu 9: Tăng cấu tạo hữu cơ tư bản là một trong những hệ quả của:
-A. chu chuyển tư bản.
-*B. tích lũy tư bản.
-C. tuần hoàn tư bản.
-D. tiết kiệm tư bản.
-Gt: Một trong các hệ quả của tích lũy tư bản là làm tăng cấu tạo hữu cơ của tư bản (Trang 107, 108).
+Gt: Địa tô là phần giá trị thặng dư còn lại sau khi đã trừ đi lợi nhuận bình quân mà nhà tư bản nông nghiệp phải trả cho địa chủ.
+Câu 15: Tỷ suất lợi tức là tỷ lệ phần trăm giữa.
+A. giá trị thặng dư và tư bản cho vay.
+*B. lợi tức và tư bản cho vay.
+C. lợi nhuận bình quân và giá trị thặng dư.
+D. lợi tức và giá trị thặng dư.
+Gt: Tỷ suất lợi tức là tỷ lệ phần trăm tính theo mối quan hệ giữa lợi tức và tổng tư bản cho vay.
+Câu 16: Có 3 ngành sản xuất trong đó tư bản đầu tư của ngành I: 900C + 100V; ngành II: 3.100C + 900V; ngành III: 8000C + 2000V; tỷ suất giá trị thặng dư 100%, đơn vị tính tỷ đồng. Trong điều kiện cung bằng cầu, tỷ suất lợi nhuận bình quân là bao nhiêu?
+*A. 20%.
+B. 10%.
+C. 15%.
+D. 25%.
+Gt: Tổng lợi nhuận của 3 ngành thu được là 100 + 900 + 2000 = 3000 tỷ đồng. Tổng tư bản ứng trước của 3 ngành là 1000 + 4000 + 10000 = 15000 tỷ đồng. Tỷ suất lợi nhuận bình quân = (3000 / 15000) * 100% = 20%.
+Câu 17: Xí nghiệp A có lượng tư bản đầu tư 800.000.000 đồng, lợi nhuận thu được 8.000.000 đồng, thời gian một vòng chu chuyển tư bản 6 tháng. Vậy tỷ suất lợi nhuận trong năm của xí nghiệp A là bao nhiêu?
+*A. 2%.
+B. 0,2%.
+C. 1%.
+D. 0,1%.
 
-Câu 10: Tích tụ tư bản và tập trung tư bản giống nhau ở điểm nào sau đây?
-A. Có chung hình thức biểu hiện.
-B. Làm tăng quy mô tư bản xã hội.
-*C. Làm tăng quy mô tư bản cá biệt.
-D. Có chung nguồn gốc tích lũy.
-Gt: Cả tích tụ và tập trung tư bản đều làm tăng quy mô tư bản cá biệt (Trang 108).
-
-Câu 11: Công ty A có 10 người lao động, giá trị sức lao động mỗi tháng của một công nhân 5.000.000 đồng, chi phí tư bản bất biến 90.000.000 đồng, tỷ suất m' 50%. Vậy tổng giá trị hàng hóa là bao nhiêu?
-A. 190.000.000 đồng.
-B. 195.000.000 đồng.
-C. 185.000.000 đồng.
-*D. 165.000.000 đồng.
-Gt: v = 10 * 5tr = 50tr. m = 50% * v = 25tr. Tổng giá trị G = c + v + m = 90tr + 50tr + 25tr = 165.000.000 đồng.
-
-Câu 12: Xí nghiệp A có lượng tư bản đầu tư 10 tỷ đồng, c gấp bốn lần v, khối lượng giá trị thặng dư thu được 1.000.000.000 đồng. Vậy tỷ suất giá trị thặng dư là bao nhiêu?
-A. 150%.
-B. 100%.
-C. 200%.
-*D. 50%.
-Gt: c+v=10 tỷ, c=4v => v=2 tỷ. m'= m/v * 100% = 1 tỷ / 2 tỷ * 100% = 50%.
-
-Câu 13: Nguồn gốc của tư bản tích lũy là:
-A. lợi nhuận bình quân.
-*B. giá trị thặng dư.
-C. lợi nhuận siêu ngạch.
-D. giá trị hàng hóa.
-Gt: Nguồn gốc duy nhất của tích lũy tư bản là giá trị thặng dư (Trang 105).
-
-Câu 14: Công ty A có 10 người lao động, giá trị sức lao động mỗi người 5tr, sản xuất 1000 đơn vị hàng hóa, c = 90tr, m' = 50%. Vậy giá trị của một đơn vị hàng hóa là bao nhiêu?
-A. 195.000 đồng.
-*B. 165.000 đồng.
-C. 185.000 đồng.
-D. 190.000 đồng.
-Gt: Tổng giá trị hàng hóa G = 165tr. Giá trị 1 đơn vị = 165tr / 1000 = 165.000 đồng.
-
-Câu 15: Xí nghiệp A có chi phí tư bản 100.000.000 đồng, trong đó chi phí mua tư liệu sản xuất 70.000.000 đồng. Vậy cấu tạo hữu cơ của tư bản là bao nhiêu?
-A. 3/1.
-B. 4/1.
-C. 3/2.
-*D. 7/3.
-Gt: c=70tr, c+v=100tr => v=30tr. Cấu tạo hữu cơ c/v = 70tr/30tr = 7/3.
-
-Câu 16: Ngày làm việc 8 giờ thì m' = 100%. Sau đó nhà tư bản kéo dài ngày làm việc đến 10 giờ. Vậy tỷ suất m' thay đổi như thế nào nếu giá trị sức lao động không đổi và sử dụng phương pháp nào?
-*A. 150%, sản xuất giá trị thặng dư tuyệt đối.
-B. 300%, sản xuất giá trị thặng dư tương đối.
-C. 300%, sản xuất giá trị thặng dư tuyệt đối.
-D. 150%, sản xuất giá trị thặng dư tương đối.
-Gt: Ban đầu t=4, t'=4. Khi ngày làm 10h, t=4 không đổi, t'=6. m'= 6/4 * 100% = 150%. Kéo dài ngày lao động là phương pháp tuyệt đối.
-
-Câu 17: Xí nghiệp A có lượng tư bản đầu tư 10 tỷ đồng, c gấp bốn lần v, tỷ suất m' 50%. Vậy khối lượng giá trị thặng dư là bao nhiêu?
-*A. 1.000.000.000 đồng.
-B. 700.000.000 đồng.
-C. 500.000.000 đồng.
-D. 900.000.000 đồng.
-Gt: c+v=10 tỷ, c=4v => v=2 tỷ. M = m' * v = 50% * 2 tỷ = 1.000.000.000 đồng.
-
-Câu 18: Tích tụ tư bản là sự tăng thêm quy mô tư bản cá biệt bằng cách tư bản hóa:
-A. giá trị cá biệt.
-B. giá trị sử dụng.
+Gt: Số vòng chu chuyển trong 1 năm là 12 / 6 = 2 vòng. Tổng lợi nhuận cả năm = 8.000.000 * 2 = 16.000.000 đồng. Tỷ suất lợi nhuận năm = (16.000.000 / 800.000.000) * 100% = 2%.
+Câu 18: Khi hàng hóa bán thấp hơn giá trị nhưng cao hơn chi phí sản xuất thì.
+*A. có lợi nhuận.
+B. lợi nhuận bằng giá trị thặng dư.
+C. lợi nhuận bằng chi phí sản xuất.
+D. không có lợi nhuận.
+Gt: Bán hàng hóa thấp hơn giá trị và cao hơn chi phí sản xuất thì nhà tư bản vẫn thu được lợi nhuận, nhưng lợi nhuận này nhỏ hơn giá trị thặng dư.
+Câu 19: Tỷ lệ phần trăm giữa lợi nhuận và toàn bộ giá trị của tư bản ứng trước là.
+A. tỷ suất lợi nhuận bình quân.
+*B. tỷ suất lợi nhuận.
+C. tỷ suất lợi tức.
+D. tỷ suất giá trị thặng dư.
+Gt: Tỷ suất lợi nhuận được định nghĩa là tỷ lệ phần trăm giữa khối lượng lợi nhuận thu được và tổng tư bản ứng trước.
+Câu 20: Khi hàng hóa bán bằng chi phí sản xuất thì.
+A. lợi nhuận thấp.
+B. lợi nhuận cao.
+*C. không có lợi nhuận.
+D. lợi nhuận bằng chi phí sản xuất.
+Gt: Trong trường hợp bán hàng hóa với giá cả đúng bằng chi phí sản xuất thì nhà tư bản không thu được lợi nhuận.
+Câu 21: Chi phí sản xuất (k) bao gồm.
+A. c, v và m (k = c + v + m).
+B. c và m (k = c + m).
+*C. c và v (k = c + v).
+D. m và v (k = m + v).
+Gt: Chi phí sản xuất của hàng hóa bao gồm bộ phận tư bản bất biến (c) và tư bản khả biến (v) bù đắp trong quá trình sản xuất.
+Câu 22: Điểm giống nhau giữa địa tô chênh lệch và địa tô tuyệt đối là đều có nguồn gốc từ.
+A. giá trị.
+B. giá trị trao đổi.
 *C. giá trị thặng dư.
-D. giá trị xã hội.
-Gt: Tích tụ tư bản là sự tăng thêm quy mô tư bản cá biệt bằng cách tư bản hóa giá trị thặng dư (Trang 108).
+D. giá trị sử dụng.
+Gt: Cả địa tô chênh lệch và địa tô tuyệt đối đều là các hình thái biểu hiện của địa tô nói chung, do đó chúng có chung nguồn gốc từ giá trị thặng dư.
+Câu 23: Địa tô mà địa chủ thu được trên những mảnh đất do đầu tư thâm canh và làm tăng độ màu mỡ của đất là.
+A. địa tô tương đối.
+B. địa tô chênh lệch I.
+*C. địa tô chênh lệch II.
+D. địa tô tuyệt đối.
+Gt: Địa tô chênh lệch II là phần địa tô thu được gắn liền with việc đầu tư, thâm canh nâng cao độ màu mỡ nhân tạo của đất.
+Câu 24: Giá cả sản xuất bằng chi phí sản xuất cộng.
+A. tỷ suất lợi nhuận bình quân.
+*B. lợi nhuận bình quân.
+C. giá trị thặng dư.
+D. lợi nhuận.
+Gt: Công thức tính giá cả sản xuất được xác định là bằng chi phí sản xuất cộng với lợi nhuận bình quân (GCSX = k + p̄).
+Câu 25: Phần giá trị của hàng hóa, bù lại giá cả của những tư liệu sản xuất đã tiêu dùng và giá cả của sức lao động đã được sử dụng để sản xuất ra hàng hóa ấy là.
+A. chi phí chu chuyển tư bản.
+*B. chi phí sản xuất tư bản chủ nghĩa.
+C. chi phí tuần hoàn tư bản.
+D. chi phí tư bản bất biến.
 
-Câu 19: Xí nghiệp A đầu tư 100tr, m tư bản hóa 50%, quy mô sau tích lũy là 110tr. Nếu đầu tư 200tr (các tỷ lệ khác không đổi) thì quy mô sau tích lũy là bao nhiêu?
-A. 300.000.000 đồng.
-*B. 220.000.000 đồng.
-C. 250.000.000 đồng.
-D. 200.000.000 đồng.
-Gt: Khi vốn đầu tư ban đầu gấp đôi, các tỷ lệ không đổi thì phần tích lũy và quy mô sau tích lũy cũng gấp đôi (110tr * 2 = 220tr).
+Gt: Chi phí sản xuất tư bản chủ nghĩa là phần giá trị bù đắp lại giá cả TLSX đã tiêu dùng và giá cả sức lao động đã sử dụng.
+Câu 26: Xí nghiệp A có lượng tư bản đầu tư 800.000.000 đồng, lợi nhuận thu được 8.000.000 đồng. Vậy tỷ suất lợi nhuận của xí nghiệp A là bao nhiêu?
+*A. 1%.
+B. 10%.
+C. 2%.
+D. 0,1%.
+Gt: Áp dụng công thức tính tỷ suất lợi nhuận: P' = (8.000.000 / 800.000.000) * 100% = 1%.
+Câu 27: C. Mác ký hiệu lợi nhuận là.
+*A. p.
+B. M.
+C. C.
+D. V.
+Gt: Ký hiệu của lợi nhuận thu được là p.
+Câu 28: C. Mác ký hiệu lợi tức là.
+A. M.
+B. P.
+*C. z.
+D. V.
+Gt: Ký hiệu của lợi tức trong học thuyết kinh tế của Mác là z.
+Câu 29: C. Mác ký hiệu tỷ suất lợi nhuận bình quân là.
+A. P.
+*B. p̄'.
+C. M.
+D. P'.
+Gt: Ký hiệu của tỷ suất lợi nhuận bình quân trong giáo trình là p̄'.
+Câu 30: Công thức vận động của tư bản cho vay là.
+A. T - T.
+B. H - T.
+C. H - T'.
+*D. T - T'.
+Gt: Tư bản cho vay vận động tuần hoàn theo công thức rút gọn nhất là T - T'.
+Câu 31: Một phần giá trị thặng dư mà tư bản sản xuất trả cho nhà tư bản thương nghiệp là.
+A. địa tô.
+B. lợi tức.
+C. lợi nhuận bình quân.
+*D. lợi nhuận thương nghiệp.
+Gt: Lợi nhuận thương nghiệp có nguồn gốc từ một phần giá trị thặng dư tạo ra trong sản xuất do nhà tư bản sản xuất nhượng lại.
+Câu 32: Kết quả cạnh tranh giữa các ngành hình thành.
+A. giá trị thị trường.
+B. giá cả sản xuất.
+C. giá cả thị trường.
+*D. lợi nhuận bình quân.
+Gt: Sự cạnh tranh tự do giữa các ngành kinh tế khác nhau tất yếu dẫn tới việc hình thành lợi nhuận bình quân.
+Câu 33: Khi hàng hóa bán đúng giá trị thì lợi nhuận.
+A. bằng giá trị.
+B. nhỏ hơn giá trị thặng dư.
+C. lớn hơn giá trị thặng dư.
+*D. bằng giá trị thặng dư.
+Gt: Khi giá cả hàng hóa bằng đúng giá trị của nó, nhà tư bản sẽ thực hiện được hoàn toàn giá trị thặng dư dưới dạng lợi nhuận (p = m).
+Câu 34: Địa tô mà địa chủ thu được trên mảnh đất cho thuê, không kể độ màu mỡ tự nhiên thuận lợi hay do thâm canh là.
+*A. địa tô tuyệt đối.
+B. địa tô chênh lệch I.
+C. địa tô tương đối.
+D. địa tô chênh lệch II.
+Gt: Địa tô tuyệt đối là loại địa tô thu được trên mọi mảnh đất cho thuê mà không cần xét đến điều kiện tự nhiên hay trình độ thâm canh.
+Câu 35: Một trong những đặc điểm cơ bản của tư bản cho vay là quyền sử dụng.
+A. tách khỏi quyền quản lý.
+*C. tách khỏi quyền sở hữu.
+B. gắn liền quyền thừa kế.
+D. gắn liền quyền sở hữu.
+Gt: Đặc điểm cơ bản hàng đầu của tư bản cho vay là có sự tách rời giữa quyền sử dụng và quyền sở hữu tư bản.
+Câu 36: Xí nghiệp giày da có tổng giá trị hàng hóa một tháng 650.000.000 đồng, giá trị thặng dư trong tháng thu được 100.000.000 đồng. Vậy chi phí sản xuất của xí nghiệp giày da trong tháng là bao nhiêu?
+A. 450.000.000 đồng.
+B. 500.000.000 đồng.
+*C. 550.000.000 đồng.
+D. 300.000.000 đồng.
 
-Câu 20: Xí nghiệp A có chi phí tư bản 100.000.000 đồng, cấu tạo hữu cơ 3/2. Vậy chi phí tư bản khả biến là bao nhiêu?
-A. 10.000.000 đồng.
-*B. 40.000.000 đồng.
-C. 20.000.000 đồng.
-D. 30.000.000 đồng.
-Gt: c+v=100tr, c/v=3/2 => 1,5v + v = 100tr => v = 40.000.000 đồng.
+Gt: Ta có công thức chi phí sản xuất K = G - M = 650.000.000 - 100.000.000 = 550.000.000 đồng.
+Câu 37: Các hình thức cơ bản của địa tô là.
+A. địa tô chênh lệch I, địa tô chênh lệch II.
+*B. địa tô chênh lệch, địa tô tuyệt đối.
+C. địa tô chênh lệch địa tô tuyệt đối.
+D. địa tô chênh lệch II địa tô tuyệt đối.
+Gt: Địa tô tư bản chủ nghĩa bao gồm hai hình thức cơ bản nhất là địa tô chênh lệch và địa tô tuyệt đối.
+Câu 38: Về bản chất lợi nhuận và giá trị thặng dư đều là.
+*A. lao động không công của người lao động làm thuê.
+B. lao động cụ thể của người lao động làm thuê.
+C. lao động của người lao động làm thuê.
+D. lao động phức tạp của người lao động làm thuê.
+Gt: Cả lợi nhuận và giá trị thặng dư đều có chung bản chất nền tảng là sự kết tinh phần lao động thặng dư không được trả công của công nhân.
+Câu 39: Ông A vay ông B số tiền 100.000.000 đồng với tỷ suất lợi tức 3% một tháng. Vậy lợi tức ông A trả cho ông B một tháng là bao nhiêu?
+A. 4.000.000 đồng.
+B. 6.000.000 đồng.
+C. 5.000.000 đồng.
+*D. 3.000.000 đồng.
+Gt: Số tiền lợi tức được tính bằng: z = 100.000.000 * 3% = 3.000.000 đồng.
+Câu 40: Có ba ngành sản xuất A, B, C đầu tư một lượng tư bản như nhau là 100.000.000 đồng với cấu tạo hữu cơ của tư bản của từng ngành lần lượt là 4/1, 3/2, 7/3 tỷ suất giá trị thặng dư là 100%. Trong điều kiện cung bằng cầu, lợi nhuận bình quân từng ngành thu được bằng bao nhiêu?
+*A. 30.000.000 đồng.
+B. 20.000.000 đồng.
+C. 40.000.000 đồng.
+D. 80.000.000 đồng.
 
-Câu 21: Tích tụ tư bản là kết quả trực tiếp của:
-A. tiết kiệm tư bản.
-B. tập trung tư bản.
-C. phát triển tư bản.
-*D. tích lũy tư bản.
-Gt: Tích tụ tư bản là kết quả trực tiếp của quá trình tích lũy tư bản (Trang 108).
-
-Câu 22: Một trong những hệ quả của tích lũy tư bản là:
-A. tăng chi phí sản xuất.
-B. giảm cấu tạo hữu cơ tư bản.
-C. giảm tích tụ và tập trung tư bản.
-*D. tăng cấu tạo hữu cơ tư bản.
-Gt: Quá trình tích lũy tư bản làm tăng cấu tạo hữu cơ của tư bản (Trang 107, 108).
-
-Câu 23: Sự hợp nhất các tư bản cá biệt vào một chỉnh thể tạo thành một tư bản cá biệt lớn hơn là:
-A. tích lũy tư bản.
-B. phát triển tư bản.
-*C. tập trung tư bản.
-D. tích tụ tư bản.
-Gt: Tập trung tư bản là sự hợp nhất các tư bản cá biệt có sẵn trong xã hội thành một tư bản cá biệt lớn hơn (Trang 108).
-
-Câu 24: Trong quá trình tái sản xuất tư bản chủ nghĩa, quy mô của tư bản cá biệt tăng lên thông qua quá trình tích tụ và:
-A. xuất khẩu đầu tư.
-B. tiết kiệm tư bản.
-C. nhập khẩu tư bản.
-*D. tập trung tư bản.
-Gt: Quy mô tư bản cá biệt tăng lên thông qua hai con đường: tích tụ và tập trung tư bản (Trang 108).
-
-Câu 25: Tập trung tư bản có thể được thực hiện thông qua sáp nhập các:
-*A. tư bản cá biệt với nhau.
-B. tư bản cho vay với nhau.
-C. tư bản công nghiệp với nhau.
-D. tư bản thương nghiệp với nhau.
-Gt: Tập trung tư bản có thể thực hiện thông qua sáp nhập các tư bản cá biệt với nhau (Trang 108).
-
-Câu 26: Nâng cao m', nâng cao năng suất, sử dụng hiệu quả máy móc, đại lượng tư bản ứng trước là những nhân tố ảnh hưởng:
-*A. quy mô tích lũy tư bản.
-B. thời gian chu chuyển tư bản.
-C. tốc độ chu chuyển tư bản.
-D. quy mô tiết kiệm tư bản.
-Gt: Đây là các nhân tố chính ảnh hưởng đến quy mô tích lũy tư bản (Trang 106, 107).
-
-Câu 27: Tích lũy tư bản là tư bản hóa:
-A. giá trị sử dụng.
-B. giá trị.
-*C. giá trị thặng dư.
-D. giá trị trao đổi.
-Gt: Tích lũy tư bản là sự chuyển hóa một phần giá trị thặng dư thành tư bản (Trang 105).
-
-Câu 28: C. Mác ký hiệu cấu tạo hữu cơ của tư bản là:
-A. v/c.
-B. m/v.
-C. v/m.
-*D. c/v.
-Gt: Cấu tạo hữu cơ của tư bản được ký hiệu là c/v (Trang 107).
-
-Câu 29: Xí nghiệp A có chi phí tư bản 100.000.000 đồng, cấu tạo hữu cơ 3/2. Vậy chi phí tư bản bất biến là bao nhiêu?
-A. 50.000.000 đồng.
-*B. 60.000.000 đồng.
-C. 30.000.000 đồng.
-D. 40.000.000 đồng.
-Gt: v=40tr, c+v=100tr => c = 100tr - 40tr = 60.000.000 đồng.
-
-Câu 30: Tích tụ tư bản khác tập trung tư bản ở điểm làm tăng quy mô:
-A. tư bản sản xuất.
-*B. tư bản xã hội.
-C. tư bản tiền tệ.
-D. tư bản cá biệt.
-Gt: Tích tụ tư bản làm tăng quy mô tư bản cá biệt đồng thời làm tăng quy mô tư bản xã hội (Trang 108).
-
-Câu 31: Xí nghiệp A đầu tư 10 tỷ đồng, c=4v, m'=50%, chu chuyển 6 tháng/vòng. Vậy khối lượng giá trị thặng dư có được trong năm là bao nhiêu?
-A. 1 tỷ đồng.
-B. 900.000.000 đồng.
-C. 500.000.000 đồng.
-*D. 2 tỷ đồng.
-Gt: v=2 tỷ, m một vòng = 1 tỷ. Một năm 2 vòng nên tổng M = 2 tỷ đồng.
-
-Câu 32: Cấu tạo giá trị của tư bản phản ánh mối quan hệ tỷ lệ giữa tư bản bất biến và:
-A. tư bản sản xuất.
-B. tư bản tiền tệ.
-*C. tư bản khả biến.
-D. tư bản lưu động.
-Gt: Quan sát qua hình thái giá trị, tỷ lệ giữa tư bản bất biến và tư bản khả biến gọi là cấu tạo giá trị (Trang 107).
-
-Câu 33: Xí nghiệp A đầu tư 200tr, c/v 4/1, m' 100%, tiêu dùng m hết 50%. Vậy lượng giá trị thặng dư tư bản hóa là bao nhiêu?
-*A. 20.000.000 đồng.
-B. 30.000.000 đồng.
-C. 25.000.000 đồng.
-D. 35.000.000 đồng.
-Gt: v=40tr, m=40tr. Lượng tư bản hóa = 50% * m = 20.000.000 đồng.
-
-Câu 34: Tăng chênh lệch giữa thu nhập của nhà tư bản với người lao động là một trong những hệ quả của:
-A. tuần hoàn tư bản.
-*B. tích lũy tư bản.
-C. chu chuyển tư bản.
-D. tiết kiệm tư bản.
-Gt: Một trong các hệ quả của tích lũy tư bản là làm tăng chênh lệch thu nhập giữa các giai cấp (Trang 107, 108).
-
-Câu 35: Xí nghiệp A đầu tư 200tr, c/v 4/1, m' 100%, tích lũy 50%. Nếu m' tăng lên 150% thì lượng m tư bản hóa tăng lên so với trước bao nhiêu?
-A. 35.000.000 đồng.
-*B. 10.000.000 đồng.
-C. 30.000.000 đồng.
-D. 20.000.000 đồng.
-Gt: Ban đầu tích lũy 20tr. Khi m'=150%, m=60tr, tích lũy=30tr. Tăng thêm = 30tr - 20tr = 10.000.000 đồng.
-
-Câu 36: Ngày làm việc 8h, t'=4h. Năng suất lao động ở các ngành tư liệu sinh hoạt tăng làm giá trị hàng hóa giảm 2 lần. m' thay đổi thế nào và thuộc phương pháp nào?
-*A. 300%, sản xuất giá trị thặng dư tương đối.
-B. 200%, sản xuất giá trị thặng dư tương đối.
-C. 300%, sản xuất giá trị thặng dư siêu ngạch.
-D. 300%, sản xuất giá trị thặng dư tuyệt đối.
-Gt: t ban đầu = 4h. Giá trị hàng giảm 2 lần nên t giảm còn 2h. t' mới = 8 - 2 = 6h. m' = 6/2 * 100% = 300%. Đây là phương pháp tương đối.
-
-Câu 37: Xí nghiệp A có chi phí tư bản 100.000.000 đồng, trong đó trả tiền công 40.000.000 đồng. Vậy cấu tạo hữu cơ là bao nhiêu?
-A. 4/1.
-*B. 3/2.
-C. 3/1.
-D. 7/3.
-Gt: v=40tr, c+v=100tr => c=60tr. c/v = 60/40 = 3/2.
-
-Câu 38: Xí nghiệp A đầu tư 200tr, c/v 4/1, m' 100%, lượng m tích lũy 20tr. Vậy tỷ suất tích lũy là bao nhiêu?
-A. 150%.
-B. 100%.
-*C. 50%.
-D. 200%.
-Gt: m=40tr. Tỷ suất tích lũy = Lượng m tư bản hóa / m = 20tr / 40tr = 50%.
-
-Câu 39: Cấu tạo giá trị được quyết định bởi cấu tạo kỹ thuật và phản ánh sự biến đổi của cấu tạo kỹ thuật là:
-A. cấu tạo vô hình của tư bản.
-*B. cấu tạo hữu cơ của tư bản.
-C. cấu tạo hiện vật của tư bản.
-D. cấu tạo hữu hình của tư bản.
-Gt: Cấu tạo hữu cơ là cấu tạo giá trị do cấu tạo kỹ thuật quyết định và phản ánh sự biến đổi của cấu tạo kỹ thuật (Trang 107).
-
-Câu 40: Công ty A có 10 người lao động, giá trị sức lao động mỗi người 5tr, tỷ suất m' 50%. Vậy giá trị mới của mỗi người lao động là bao nhiêu?
-A. 750.000 đồng.
-B. 8.500.000 đồng.
-C. 850.000 đồng.
-*D. 7.500.000 đồng.
-Gt: v mỗi người = 5tr. m mỗi người = 50% * 5tr = 2,5tr. Giá trị mới mỗi người = v + m = 7.500.000 đồng.
+Gt: Tỷ suất lợi nhuận bình quân thu được là 30%. Do đó, lợi nhuận bình quân của từng ngành = 30% * 100.000.000 = 30.000.000 đồng.
 `;
 
     const questions = [];
