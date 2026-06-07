@@ -155,11 +155,11 @@
     // Dữ liệu câu hỏi (Có chứa LaTeX $...$)
     const rawData = `
 Câu 1: Chi phí sản xuất (k) bao gồm
-A. c và m (k = c + m).
-B. m và v (k = m + v).
-*C. c và v (k = c + v).
-D. c, v và m (k = c + v + m).
-Gt: Chi phí sản xuất bao gồm c và v (k = c + v).
+A. c và m (k=c+m)
+B. m và v (k=m+v)
+*C. c và v (k=c+v)
+D. c, v và m (k=c+v+m)
+Gt: Chi phí sản xuất bao gồm c và v (k=c+v).
 Câu 2: Tỷ lệ phần trăm giữa lợi nhuận và toàn bộ giá trị của tư bản ứng trước là
 *A. tỷ suất lợi nhuận.
 B. tỷ suất giá trị thặng dư.
@@ -179,17 +179,17 @@ C. V.
 D. m.
 Gt: Ký hiệu của tỷ suất lợi nhuận là p'.
 Câu 5: C. Mác ký hiệu lợi nhuận bình quân là
-*A. p_bar.
+*A. p_gạch_ngang
+B. P.
+C. p.
+D. m.
+Gt: Ký hiệu của lợi nhuận bình quân là p có gạch ngang trên đầu.
+Câu 6: C. Mác ký hiệu tỷ suất lợi nhuận bình quân là
+*A. p'_gạch_ngang
 B. P.
 C. P'.
-D. m.
-Gt: Ký hiệu của lợi nhuận bình quân là p_bar.
-Câu 6: C. Mác ký hiệu tỷ suất lợi nhuận bình quân là
-*A. p'_bar.
-B. P'.
-C. P.
 D. M.
-Gt: Ký hiệu của tỷ suất lợi nhuận bình quân là p'_bar.
+Gt: Ký hiệu của tỷ suất lợi nhuận bình quân là p' có gạch ngang trên đầu.
 Câu 7: C. Mác ký hiệu lợi tức là
 A. V.
 B. P.
@@ -199,8 +199,8 @@ Gt: Ký hiệu lợi tức là z.
 Câu 8: C. Mác ký hiệu tỷ suất lợi tức là
 *A. z'.
 B. Z.
-C. P'.
-D. m'.
+C. P.
+D. m.
 Gt: Ký hiệu của tỷ suất lợi tức là z'.
 Câu 9: C. Mác ký hiệu địa tô là
 A. P.
@@ -213,7 +213,7 @@ Câu 10: Một phần giá trị thặng dư mà tư bản sản xuất trả ch
 B. lợi tức.
 C. lợi nhuận bình quân.
 D. địa tô.
-Gt: Nguồn gốc của lợi nhuận thương nghiệp là một phần giá trị thặng dư mà tư bản sản xuất trả cho nhà tư bản thương nghiệp.
+Gt: Nguồn gốc của lợi nhuận thương nghiệp là một phần của giá trị thặng dư mà nhà tư bản sản xuất trả cho nhà tư bản thương nghiệp.
 Câu 11: Một phần lợi nhuận bình quân mà người đi vay phải trả cho người cho vay vì đã sử dụng lượng tiền nhàn rỗi của người cho vay là
 A. lợi nhuận thương nghiệp.
 B. địa tô.
@@ -227,10 +227,10 @@ C. tỷ suất lợi nhuận.
 D. tỷ suất lợi nhuận bình quân.
 Gt: Cạnh tranh giữa các ngành là cơ chế cho sự hình thành lợi nhuận bình quân.
 Câu 13: Công thức vận động của tư bản cho vay là
-*A. T - T'.
-B. T - T.
-C. H - T.
-D. H - T'.
+*A. T - T'
+B. T - T
+C. H - T
+D. H - T'
 Gt: Tư bản cho vay vận động theo công thức T - T'.
 Câu 14: Tỷ suất lợi tức là tỷ lệ phần trăm giữa
 A. giá trị thặng dư và tư bản cho vay.
@@ -243,19 +243,19 @@ Câu 15: Phần giá trị thặng dư còn lại sau khi đã khấu trừ đi 
 B. tỷ suất lợi nhuận.
 C. lợi tức.
 D. tỷ suất lợi nhuận bình quân.
-Gt: Địa tô là phần giá trị thặng dư còn lại sau khi khấu trừ đi lợi nhuận bình quân mà nhà tư bản nông nghiệp trả cho địa chủ.
+Gt: Địa tô là phần giá trị thặng dư còn lại sau khi đã khấu trừ đi phần lợi nhuận bình quân nông nghiệp phải trả cho địa chủ.
 Câu 16: Địa tô mà địa chủ thu được trên những loại ruộng đất tốt, độ màu mỡ cao và điều kiện tự nhiên thuận lợi là
 A. địa tô chênh lệch II.
 B. địa tô tuyệt đối.
 C. địa tô tương đối.
 *D. địa tô chênh lệch I.
-Gt: Địa tô chênh lệch I thu được trên ruộng đất tốt, độ màu mỡ cao, điều kiện tự nhiên thuận lợi.
+Gt: Địa tô chênh lệch loại I thu được trên ruộng đất tốt, độ màu mỡ cao, điều kiện tự nhiên thuận lợi.
 Câu 17: Địa tô mà địa chủ thu được trên những mảnh đất do đầu tư thâm canh và làm tăng độ màu mỡ của đất là
 *A. địa tô chênh lệch II.
 B. địa tô tuyệt đối.
 C. địa tô tương đối.
 D. địa tô chênh lệch I.
-Gt: Địa tô chênh lệch II thu được do đầu tư thâm canh làm tăng độ màu mỡ của đất.
+Gt: Địa tô chênh lệch II thu được trên mảnh đất đã được đầu tư, thâm canh làm tăng độ màu mỡ.
 Câu 18: Địa tô mà địa chủ thu được trên mảnh đất cho thuê, không kể độ màu mỡ tự nhiên thuận lợi hay do thâm canh là
 A. địa tô chênh lệch II.
 *B. địa tô tuyệt đối.
@@ -267,55 +267,55 @@ A. chi phí tư bản bất biến.
 B. chi phí tuần hoàn tư bản.
 *C. chi phí sản xuất tư bản chủ nghĩa.
 D. chi phí chu chuyển tư bản.
-Gt: Chi phí sản xuất tư bản chủ nghĩa bù lại giá cả tư liệu sản xuất đã tiêu dùng và giá cả sức lao động.
+Gt: Chi phí sản xuất tư bản chủ nghĩa bù lại giá cả tư liệu sản xuất và sức lao động đã tiêu dùng.
 Câu 20: Các hình thức cơ bản của địa tô là
 A. địa tô chênh lệch I, địa tô tuyệt đối.
 *B. địa tô chênh lệch, địa tô tuyệt đối.
 C. địa tô chênh lệch II, địa tô tuyệt đối.
 D. địa tô chênh lệch I, địa tô chênh lệch II.
-Gt: Địa tô gồm 2 hình thức cơ bản là địa tô chênh lệch và địa tô tuyệt đối.
+Gt: Địa tô gồm hai hình thức cơ bản là địa tô chênh lệch và địa tô tuyệt đối.
 Câu 21: Về bản chất lợi nhuận và giá trị thặng dư đều là
 *A. lao động không công của người lao động làm thuê.
 B. lao động của người lao động làm thuê.
 C. lao động cụ thể của người lao động làm thuê.
 D. lao động phức tạp của người lao động làm thuê.
-Gt: Cả hai đều có nguồn gốc từ lao động không công của người công nhân làm thuê.
+Gt: Cả hai đều có chung nguồn gốc là sự kết tinh lao động không công của người công nhân.
 Câu 22: Khi hàng hóa bán đúng giá trị thì lợi nhuận
 A. nhỏ hơn giá trị thặng dư.
 *B. bằng giá trị thặng dư.
 C. lớn hơn giá trị thặng dư.
 D. bằng giá trị.
-Gt: Khi giá cả bằng đúng giá trị thì lợi nhuận bằng giá trị thặng dư (p = m).
+Gt: Khi giá cả hàng hóa bằng đúng giá trị thì lợi nhuận bằng giá trị thặng dư (p = m).
 Câu 23: Khi hàng hóa bán bằng chi phí sản xuất thì
 A. lợi nhuận thấp.
 B. lợi nhuận cao.
 *C. không có lợi nhuận.
 D. lợi nhuận bằng chi phí sản xuất.
-Gt: Bán hàng hóa bằng chi phí sản xuất thì không có lợi nhuận.
+Gt: Bán hàng hóa với giá cả đúng bằng chi phí sản xuất thì không có lợi nhuận.
 Câu 24: Khi hàng hóa bán thấp hơn giá trị nhưng cao hơn chi phí sản xuất thì
 A. không có lợi nhuận.
 B. lợi nhuận bằng giá trị thặng dư.
 *C. có lợi nhuận.
 D. lợi nhuận bằng chi phí sản xuất.
-Gt: Bán thấp hơn giá trị nhưng cao hơn chi phí sản xuất thì vẫn thu được lợi nhuận nhỏ hơn m.
+Gt: Bán thấp hơn giá trị nhưng cao hơn chi phí sản xuất thì vẫn có lợi nhuận, nhưng p < m.
 Câu 25: Lợi nhuận bình quân được hình thành do cạnh tranh
 *A. giữa các ngành.
 B. trong nội bộ ngành.
 C. trong nội bộ doanh nghiệp.
 D. không lành mạnh.
-Gt: Cạnh tranh giữa các ngành dẫn tới hình thành lợi nhuận bình quân.
+Gt: Cạnh tranh giữa các ngành tất yếu dẫn tới hình thành lợi nhuận bình quân.
 Câu 26: Kết quả cạnh tranh giữa các ngành hình thành
 A. giá trị thị trường.
 *B. lợi nhuận bình quân.
 C. giá cả thị trường.
 D. giá cả sản xuất.
-Gt: Cạnh tranh giữa các ngành dẫn tới sự hình thành lợi nhuận bình quân.
+Gt: Cạnh tranh giữa các ngành dẫn tới hình thành lợi nhuận bình quân và giá cả sản xuất (đáp án gốc chọn lợi nhuận bình quân).
 Câu 27: Giá cả sản xuất bằng chi phí sản xuất cộng
 A. lợi nhuận.
 *B. lợi nhuận bình quân.
 C. giá trị thặng dư.
 D. tỷ suất lợi nhuận bình quân.
-Gt: Giá cả sản xuất = chi phí sản xuất (k) + lợi nhuận bình quân (p_bar).
+Gt: Giá cả sản xuất = chi phí sản xuất (k) + lợi nhuận bình quân (p_gạch).
 Câu 28: Lợi nhuận thương nghiệp là số chênh lệch giữa
 A. giá cả và giá trị hàng hóa.
 B. giá cả và chi phí sản xuất.
@@ -327,16 +327,16 @@ A. giá trị.
 B. giá trị trao đổi.
 *C. giá trị thặng dư.
 D. giá trị sử dụng.
-Gt: Các hình thức địa tô đều là bộ phận của giá trị thặng dư.
+Gt: Các hình thức của địa tô đều có chung nguồn gốc từ giá trị thặng dư.
 Câu 30: Một trong những đặc điểm cơ bản của tư bản cho vay là quyền sử dụng
 *A. tách khỏi quyền sở hữu.
 B. tách khỏi quyền quản lý.
 C. gắn liền quyền sở hữu.
 D. gắn liền quyền thừa kế.
-Gt: Đặc điểm của tư bản cho vay là quyền sử dụng tách rời quyền sở hữu.
-Câu 31: Một xí nghiệp sản xuất giày da trong tháng sản xuất được lượng hàng hóa có tổng giá trị là 650.000.000 đồng, thu được tổng giá trị thặng dư là 100.000.000 đồng. Vậy chi phí sản xuất của xí nghiệp giày da trong tháng là bao nhiêu?
+Gt: Tư bản cho vay có đặc điểm là quyền sử dụng tách khỏi quyền sở hữu.
+Câu 31: Xí nghiệp giày da có tổng giá trị hàng hóa một tháng 650.000.000 đồng, giá trị thặng dư trong tháng thu được 100.000.000 đồng. Vậy chi phí sản xuất của xí nghiệp giày da trong tháng là bao nhiêu?
 *A. 550.000.000 đồng.
-B. 500.000.000 đồng.
+B. 100.000.000 đồng.
 C. 450.000.000 đồng.
 D. 300.000.000 đồng.
 Gt: Chi phí sản xuất K = G - M = 650.000.000 - 100.000.000 = 550.000.000 đồng.
@@ -345,55 +345,55 @@ A. 10%.
 *B. 1%.
 C. 0,1%.
 D. 2%.
-Gt: Tỷ suất lợi nhuận P' = (8.000.000 / 800.000.000) * 100% = 1%.
-Câu 33: Xí nghiệp A có lượng tư bản đầu tư 800.000.000 đồng, lợi nhuận thu được 8.000.000 đồng, thời gian một vòng chu chuyển tư bản là 6 tháng. Vậy tỷ suất lợi nhuận trong năm của xí nghiệp A là bao nhiêu?
+Gt: P' = (P / K) * 100% = (8.000.000 / 800.000.000) * 100% = 1%.
+Câu 33: Xí nghiệp A có lượng tư bản đầu tư 800.000.000 đồng, lợi nhuận thu được 8.000.000 đồng, thời gian một vòng chu chuyển tư bản 6 tháng. Vậy tỷ suất lợi nhuận trong năm của xí nghiệp A là bao nhiêu?
 *A. 2%.
 B. 0,2%.
 C. 0,1%.
 D. 1%.
-Gt: Số vòng chu chuyển trong năm là 12/6 = 2 vòng. Tổng lợi nhuận năm là 8.000.000 * 2 = 16.000.000 đồng. Tỷ suất lợi nhuận năm = (16.000.000 / 800.000.000) * 100% = 2%.
-Câu 34: Xí nghiệp A có lượng tư bản đầu tư 400.000.000 đồng, cấu tạo hữu cơ của tư bản là 3/2, tỷ suất giá trị thặng dư là 50%. Trong điều kiện cung bằng cầu lợi nhuận của xí nghiệp A là bao nhiêu?
+Gt: Số vòng chu chuyển trong năm = 12 / 6 = 2 vòng. Tổng lợi nhuận năm = 8.000.000 * 2 = 16.000.000 đồng. P' năm = (16.000.000 / 800.000.000) * 100% = 2%.
+Câu 34: Xí nghiệp A có lượng tư bản đầu tư 400.000.000 đồng, cấu tạo hữu cơ của tư bản 3/2, tỷ suất giá trị thặng dư 50%. Trong điều kiện cung bằng cầu lợi nhuận của xí nghiệp A là bao nhiêu?
 A. 20.000.000 đồng.
 B. 40.000.000 đồng.
 *C. 80.000.000 đồng.
 D. 50.000.000 đồng.
-Gt: Từ C/V = 3/2 và C+V = 400 triệu => V = 160 triệu. M = V * m' = 160 triệu * 50% = 80 triệu. Vì cung bằng cầu nên P = M = 80.000.000 đồng.
+Gt: C/V = 3/2 và C+V = 400tr => V = 160tr. m' = 50% => M = 80tr. Cung = cầu nên P = M = 80.000.000 đồng.
 Câu 35: Ông A vay ông B số tiền 100.000.000 đồng với tỷ suất lợi tức 3% một tháng. Vậy lợi tức ông A trả cho ông B một tháng là bao nhiêu?
 *A. 3.000.000 đồng.
 B. 4.000.000 đồng.
 C. 5.000.000 đồng.
 D. 6.000.000 đồng.
 Gt: Lợi tức z = 100.000.000 * 3% = 3.000.000 đồng.
-Câu 36: Có 3 ngành sản xuất trong đó tư bản đầu tư của ngành I: 900C + 100V; ngành II: 3100C + 900V; ngành III: 8000C + 2000V; tỷ suất giá trị thặng dư đều là 100% (đơn vị tính: tỷ đồng). Trong điều kiện cung bằng cầu, tỷ suất lợi nhuận bình quân là bao nhiêu?
+Câu 36: Có 3 ngành sản xuất trong đó tư bản đầu tư của ngành I: 900C+100V; ngành II: 3100C+900V; ngành III: 8000C+2000V; tỷ suất giá trị thặng dư 100%; đơn vị tính tỷ đồng. Trong điều kiện cung bằng cầu, tỷ suất lợi nhuận bình quân là bao nhiêu?
 A. 10%.
 B. 25%.
 C. 15%.
 *D. 20%.
-Gt: Tổng P = Tổng V = 100 + 900 + 2000 = 3000. Tổng tư bản = 1000 + 4000 + 10000 = 15000. Tỷ suất lợi nhuận bình quân = (3000 / 15000) * 100% = 20%.
-Câu 37: Có ba ngành sản xuất A, B, C đầu tư một lượng tư bản như nhau là 100.000.000 đồng với cấu tạo hữu cơ của tư bản của từng ngành lần lượt là 4/1, 3/2, 7/3, tỷ suất giá trị thặng dư là 100%. Trong điều kiện cung bằng cầu, lợi nhuận bình quân từng ngành thu được bằng bao nhiêu?
+Gt: Tổng số V = 100+900+2000 = 3000. Do m'=100% nên tổng M = 3000. Tổng tư bản = 1000+4000+10000 = 15000. P'_bình_quân = 3000 / 15000 * 100% = 20%.
+Câu 37: Có ba ngành sản xuất A, B, C đầu tư một lượng tư bản như nhau là 100.000.000 đồng với cấu tạo hữu cơ của tư bản của từng ngành lần lượt là 4/1, 3/2, 7/3; tỷ suất giá trị thặng dư là 100%. Trong điều kiện cung bằng cầu, lợi nhuận bình quân từng ngành thu được bằng bao nhiêu?
 A. 20.000.000 đồng.
 *B. 30.000.000 đồng.
 C. 40.000.000 đồng.
 D. 80.000.000 đồng.
-Gt: Tổng V của 3 ngành lần lượt là 20 triệu, 40 triệu, 30 triệu => Tổng m = 90 triệu. Tỷ suất lợi nhuận bình quân = 90 / 300 = 30%. Lợi nhuận bình quân mỗi ngành = 100 triệu * 30% = 30.000.000 đồng.
-Câu 38: Có ba ngành sản xuất A, B, C đầu tư một lượng tư bản như nhau là 100.000.000 đồng với cấu tạo hữu cơ của tư bản của từng ngành lần lượt là 4/1, 3/2, 7/3, tỷ suất giá trị thặng dư là 100%. Trong điều kiện cung bằng cầu, tỷ suất lợi nhuận bình quân bằng bao nhiêu?
+Gt: Ngành A có V=20tr; B có V=40tr; C có V=30tr. Tổng P = Tổng M = 20+40+30 = 90tr. Tổng tư bản = 300tr => P'_bình_quân = 30%. Lợi nhuận bình quân mỗi ngành = 100tr * 30% = 30.000.000 đồng.
+Câu 38: Có ba ngành sản xuất A, B, C đầu tư một lượng tư bản như nhau là 100.000.000 đồng với cấu tạo hữu cơ của tư bản của từng ngành lần lượt là 4/1, 3/2, 7/3 tỷ suất giá trị thặng dư là 100%. Trong điều kiện cung bằng cầu, tỷ suất lợi nhuận bình quân bằng bao nhiêu?
 A. 10%.
 B. 20%.
 C. 25%.
 *D. 30%.
-Gt: Tổng m = 20 + 40 + 30 = 90 triệu. Tổng tư bản = 300 triệu. Tỷ suất lợi nhuận bình quân = (90 / 300) * 100% = 30%.
+Gt: Tính tương tự câu 37, tỷ suất lợi nhuận bình quân bằng tổng giá trị thặng dư chia cho tổng tư bản ứng trước: 90tr / 300tr * 100% = 30%.
 Câu 39: Ông A vay ông B số tiền 100.000.000 đồng. Sau 1 tháng ông A phải trả cho ông B 103.000.000 đồng. Vậy ông A vay tiền ông B với tỷ suất lợi tức là bao nhiêu?
 A. 1%.
 B. 4%.
 C. 2%.
 *D. 3%.
-Gt: Tiền lợi tức z = 103 - 100 = 3 triệu. Tỷ suất lợi tức z' = (3 / 100) * 100% = 3%.
-Câu 40: Giá mảnh đất có diện tích 100 m2 ở Bình Định năm 2020 tăng từ 500.000.000 đồng lên 800.000.000 đồng, biết rằng thời kỳ đó lãi suất tiền vay giảm từ 5% xuống 4%. Vậy địa tô thay đổi như thế nào đối với mảnh đất trên?
+Gt: Tiền lợi tức z = 103.000.000 - 100.000.000 = 3.000.000 đồng. Tỷ suất lợi tức z' = 3.000.000 / 100.000.000 * 100% = 3%.
+Câu 40: Giá mảnh đất có diện tích 100 m² ở Bình Định năm 2020 tăng từ 500.000.000 đồng lên 800.000.000 đồng, biết rằng thời kỳ đó lãi suất tiền vay giảm từ 5% xuống 4%. Vậy địa tô thay đổi như thế nào đối với mảnh đất trên?
 *A. Từ 25.000.000 đồng tăng lên 32.000.000 đồng.
 B. Từ 25.000.000 đồng tăng lên 30.000.000 đồng.
 C. Từ 32.000.000 đồng giảm xuống 25.000.000 đồng.
 D. Từ 30.000.000 đồng giảm xuống 25.000.000 đồng.
-Gt: Địa tô đầu = 500 triệu * 5% = 25 triệu. Địa tô sau = 800 triệu * 4% = 32 triệu. Địa tô tăng từ 25 triệu lên 32 triệu đồng.
+Gt: Địa tô đầu = 500tr * 5% = 25tr. Địa tô sau = 800tr * 4% = 32tr. Vậy địa tô tăng từ 25.000.000 đồng lên 32.000.000 đồng.
 
 `;
 
