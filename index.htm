@@ -439,7 +439,7 @@
         { label: "Bổ sung Câu 521 – 560", sub: "", num: "B4", file: "521-560" },
     ];
     const dethi = [
-        { label: "Link Luyện Các Câu Tính Toán KTCT", sub: "Luyện tập trên Azota", num: "🧮", url: "https://azota.vn/de-thi/h1a0io" },
+        { label: "Link Luyện Các Câu Tính Toán KTCT", sub: "Luyện tập trên Azota", num: "🧮", href: "cauhoitinhtoan.htm", special: true },
         { label: "Đề thi thử Tổng hợp", sub: "Random – Toàn bộ câu hỏi", num: "🎲", file: "DETHITHU radomDe", special: true },
     ];
 
@@ -448,7 +448,7 @@
         items.forEach(ch => {
             const a = document.createElement('a');
             a.className = 'chapter-item' + (ch.special || ch.url ? ' special' : '');
-            a.href = ch.url ? ch.url : 'ktct/' + ch.file + '.htm';
+            a.href = ch.url ? ch.url : (ch.href ? ch.href : 'ktct/' + ch.file + '.htm');
             if (ch.url) { a.target = '_blank'; a.rel = 'noopener'; }
             a.innerHTML = `
                 <div class="ch-num">${ch.num}</div>
