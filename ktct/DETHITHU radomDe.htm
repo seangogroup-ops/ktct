@@ -44,7 +44,7 @@
         .q-col{flex:1;display:flex;flex-direction:column;gap:20px}
         .q-card{background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
         .q-num{font-weight:700;color:var(--blue);margin-bottom:4px;font-size:.95rem}
-        .q-src{font-size:.72rem;color:#9ca3af;margin-bottom:10px}
+        .q-src{font-size:.72rem;color:#9ca3af;margin-bottom:10px;display:none}
         .opts{display:flex;flex-direction:column;gap:10px;margin-top:15px}
         .opt{display:flex;align-items:center;gap:12px;cursor:pointer}
         .opt input{display:none}
@@ -109,8 +109,8 @@
     <div class="sg">
         <label><i class="fa-solid fa-list-check"></i> Số câu:</label>
         <select id="sel-num">
-            <option value="40">40 câu</option>
-            <option value="60" selected>60 câu</option>
+            <option value="40" selected>40 câu</option>
+            <option value="60">60 câu</option>
             <option value="80">80 câu</option>
             <option value="100">100 câu</option>
             <option value="9999">Tất cả</option>
@@ -3746,11 +3746,19 @@ function updateStat(){
     document.getElementById('stat-badge').textContent=n+' câu trong NHCH';
 }
 
+function shuffleOptions(q){
+    const idx=q.opts.map((_,i)=>i);
+    shuffle(idx);
+    const opts=idx.map(i=>q.opts[i]);
+    const ci=idx.indexOf(q.ci);
+    return{q:q.q, opts, ci, ex:q.ex, src:q.src};
+}
+
 function generateExam(){
     const n=Math.min(+document.getElementById('sel-num').value||60, 9999);
     const mins=+document.getElementById('sel-time').value||60;
     let pool=getPool(); shuffle(pool);
-    exam=pool.slice(0,Math.min(n,pool.length));
+    exam=pool.slice(0,Math.min(n,pool.length)).map(shuffleOptions);
     submitted=false; answered=0;
     clearInterval(timerID);
     timeLeft=mins*60;
